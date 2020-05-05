@@ -1,0 +1,54 @@
+{{define "noti-item"}}
+<a class="_dp-f _tdcrt-n _pdv-12 _pdh-16 _bdbtw-1 _bdcl-gray-2 _pst-rlt"
+:class="{ 'unread' : !n.read }" :href="getLink(n.type, n.postID, n.gap.username)" v-if="!noData" @click="readNoti(n.id, n.read)"
+v-for="n in listNoti">
+    <div class="_pst-rlt _mgr-16 _h-fct">
+        <img class="_bdrd-50pct avatar-bd"
+        :src="n.user.display" style="width: 40px;height: 40px;">
+        <div class="_w-24 _h-24 _bdw-1 _bdcl-white _pst-asl _bdrd-50pct _dp-ilf" style="right: 0;bottom: 0;">
+            <img class="img-fluid _bdrd-50pct"
+            :src="n.gap.display">
+        </div>
+    </div>
+    <div class="_w-100pct">
+        <div class="_dp-f _alit-bl _fw-w" style="line-height: 1.1;" v-if="n.type === 0">
+            <div style="width: 89%;">
+                <span class="fs-13 _fw-600 _cl-gray-10">${n.user.name}</span>
+                <span class="fs-13 _cl-gray-10" v-if="n.count > 0">กับอีก ${n.count} คน</span>
+                <span class="fs-13 _cl-gray-10">ถูกใจ</span>
+
+                <span class="fs-13 _cl-gray-10">“${n.title}”</span>
+                <span class="fs-13 _cl-gray-10">ที่เพจ</span>
+                <span class="fs-13 _fw-600 _cl-gray-10">${n.gap.name}</span>
+            </div>
+        </div>
+        <div class="_dp-f _alit-bl _fw-w" style="line-height: 1.1;" v-else-if="n.type === 1">
+            <div style="width: 89%;">
+                <span class="fs-13 _fw-600 _cl-gray-10">${n.user.name}</span>
+                <span class="fs-13 _cl-gray-10">ให้ความคิดเห็น</span>
+                <span class="fs-13 _cl-gray-10" v-if="n.commentText">“${n.commentText}”</span>
+                <span class="fs-13 _cl-gray-10">ที่ “${n.title}”</span>
+                <span class="fs-13 _cl-gray-10">เพจ</span>
+                <span class="fs-13 _fw-600 _cl-gray-10">${n.gap.name}</span>
+            </div>
+        </div>
+        <div class="_dp-f _alit-bl _fw-w" style="line-height: 1.1;" v-else-if="n.type === 2">
+            <div style="width: 89%;">
+                <span class="fs-13 _fw-600 _cl-gray-10">${n.user.name}</span>
+                <span class="fs-13 _cl-gray-10" v-if="n.count > 0">กับอีก ${n.count} คน</span>
+                <span class="fs-13 _cl-gray-10">ติดตามเพจ</span>
+                <span class="fs-13 _fw-600 _cl-gray-10">${n.gap.name}</span>
+            </div>
+        </div>
+
+        <div class="_dp-f _alit-bl">
+            <div class="fs-12 _cl-gray-6">${n.time}</div>
+        </div>
+    </div>
+    <div class="badge-noti">
+        <i class="fs-13 _cl-gray-9 _mgbt-5 fal fa-heart" v-if="n.type === 0"></i>
+        <i class="fs-13 _cl-gray-9 _mgbt-5 fal fa-comment-alt" v-else-if="n.type === 1"></i>
+        <i class="fs-13 _cl-gray-9 _mgbt-5 fal fa-user-plus" v-else-if="n.type === 2"></i>
+    </div>
+</a>
+{{end}}

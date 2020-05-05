@@ -1,0 +1,65 @@
+{{define "page.title"}}แก้ไขหัวข้อ{{end}}
+
+{{define "app-body"}}
+<div class="container-fluid _cl-gray">
+	<h1 class="_fs-3 _fw-600 _mgbt-20">แก้ไขหัวข้อ</h1>
+
+	<form action="{{route "admin.topic.edit"}}" method="POST" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{{.Topic.ID}}">
+		<div class="form-group">
+			<select class="form-control" name="cat_id" required>
+				<option value="">เลือกหมวดหมู่</option>
+				{{range .Category}}
+					<option value="{{.ID}}" {{if eq .ID $.Topic.CatID}}selected{{end}}>{{.Name}}</option>
+				{{end}}
+			</select>
+		</div>
+		<div class="form-group">
+			<label>ชื่อหัวข้อ</label>
+			<input type="text" class="form-control" name="name" value="{{.Topic.Name}}" required>
+		</div>
+
+		<div class="form-group">
+			<div class="custom-file">
+				<input type="file" name="image" class="custom-file-input" id="customFile" lang="th" accept="image/*">
+				<label class="custom-file-label form-control-sm _dp-ilb" id="btn-customFile" for="customFile">รูปภาพหัวข้อ</label>
+			</div>
+			<small class="form-text text-muted">ขนาดรูปภาพ 300x300 px</small>
+			<p style="color: red;">{{.Flash.Get "Errors"}}</p>
+        </div>
+		<div class="_bdrd-4 _ovf-hd _mgbt-16">
+			<img id="imgShow" class="_dp-b _mgh-at _bdrd-3px" width="400px" src="">
+		</div>
+		<button type="submit" name="action" value="verify" class="btn btn-warning _pdh-40 _mgr-24">Verift Topic</button>
+		<button type="submit" name="action" value="save" class="btn btn-info _pdh-40">บันทึก</button>
+	</form>
+</div>
+{{end}}
+
+{{define "main.script"}}
+<script>
+	function bindFileInputImage(input, img) {
+		if (!input || !img) return
+		input.onchange = () => {
+			const fp = input.files && input.files[0]
+			if (fp) {
+				const reader = new window.FileReader()
+				reader.onload = (e) => {
+					img.src = e.target.result
+				}
+				reader.readAsDataURL(fp)
+			}
+		}
+	}
+	$(document).ready(function () {
+		bindFileInputImage(
+			document.querySelector('#customFile'),
+			document.querySelector('#imgShow')
+		)
+		bindFileInputImage(
+			document.querySelector('#fbFile'),
+			document.querySelector('#imgShowFB')
+		)
+	})
+</script>
+{{end}}

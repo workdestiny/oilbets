@@ -1,0 +1,225 @@
+{{define "main.style"}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.5/cropper.min.css">
+{{end}}
+
+{{define "main.script"}}
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.5/cropper.min.js"></script>
+<script>
+new Vue({
+	el: '#upload',
+	data() {
+		return {
+			cropperInstance: null,
+			type: '',
+			routeDisplay: {{route "ajax.gap.upload.display"}} + {{.Gap.ID}},
+			routeCover: {{route "ajax.gap.upload.cover"}} + {{.Gap.ID}},
+			btnLoading: false,
+			imageSrc: '',
+			option: {
+				aspectRatio: 0,
+				viewMode: 1,
+				dragMode: 'move',
+				responsive: true,
+				cropBoxResizable: false,
+				cropBoxMovable: false,
+				autoCrop: true,
+				autoCropArea: 1.0,
+				scalable: false,
+				toggleDragModeOnDblclick: false
+			},
+			image: {
+				width: 0,
+				height: 0,
+			}
+		}
+	},
+
+	mounted() {
+		$('#upload-image').on('hide.bs.modal', this.closeModal)
+	},
+
+	computed: {
+		title() {
+			if (this.type === 'p') {
+				return 'อัพโหลดรูปโปรไฟล์'
+			}
+			return 'อัพโหลดรูปปก'
+		}
+	},
+
+	methods: {
+		openModal(val) {
+			if (val === 'p') {
+				this.type = 'p'
+				this.option.aspectRatio = 1
+				this.image.width = 300
+				this.image.height = 300
+			} else {
+				this.type = 'c'
+				this.option.aspectRatio = 24 / 5
+				this.image.width = 1920
+				this.image.height = 400
+			}
+			$('#upload-image').modal({
+				keyboard: false,
+				backdrop: 'static'
+			})
+		},
+
+		selectPicture() {
+			this.$refs.formFile.click()
+		},
+
+		setFile(e) {
+			const imageType = ['jpeg', 'jpg', 'png', 'gif', 'bmp']
+			const files = e.target.files || e.dataTransfer.files
+			const URL = window.URL || window.webkitURL
+			if (!files.length) {
+				return
+			}
+			if ($.inArray(files[0].type.split('/')[1], imageType) === -1) {
+				$(this.$refs.formFile).val('')
+				swal('แจ้งเตือน', 'กรุณาเลือกเฉพาะไฟล์รูปภาพ', 'error').catch(swal.noop)
+				return
+			}
+			this.imageSrc = URL.createObjectURL(files[0])
+			$(this.$refs.formFile).val('')
+			this.setUpCropper()
+		},
+
+		setUpCropper() {
+			this.$nextTick(() => {
+				if (this.cropperInstance) {
+					this.cropperInstance.destroy()
+				}
+				this.cropperInstance = new Cropper(document.getElementById('cropper'), this.option)
+				this.cropperInstance.setCropBoxData({
+					width: this.image.width,
+					height: this.image.height
+				})
+			})
+		},
+
+		uploadImage() {
+			if (this.btnLoading || this.imageSrc == '') return
+			this.btnLoading = true
+			let self = this
+			let imageBase64 = this.cropperInstance.getCroppedCanvas({
+				width: this.image.width,
+				height: this.image.height,
+				fillColor: '#fff'
+			}).toBlob(function (blob) {
+				let form = new FormData()
+				form.append("image", blob)
+				if (self.type === 'p') {
+					self.sendFile(self.routeDisplay, form)
+				} else {
+					self.sendFile(self.routeCover, form)
+				}
+			})
+		},
+
+		sendFile(route, data) {
+			return axios({
+					method: 'post',
+					url: route,
+					data: data,
+					config: {
+						withCredentials: true,
+						headers: {'Content-Type': 'multipart/form-data'
+					}
+				}
+			}).then((res) => {
+				this.btnLoading = false
+				location.reload()
+			}).catch((err) => {
+				this.btnLoading = false
+				swal('แจ้งเตือน', 'ไม่สามารถอัพโหลดรูปได้ กรุณาลองอีกครั้ง', 'error').catch(swal.noop)
+				return err
+			})
+		},
+
+		closeModal() {
+			if (this.cropperInstance) {
+				this.cropperInstance.destroy()
+				this.cropperInstance = null
+				this.imageSrc = ""
+			}
+		}
+	}
+}) // end upload
+
+new Vue({
+	el: '#app',
+	data() {
+		return {
+			routeListFollwer: {{route "ajax.gap.list.user.follower"}},
+			gapID: {{.Gap.ID}},
+			followList: "",
+			toggle: false,
+			nextID: new Date(0),
+			noMore: false
+		}
+	},
+
+	mounted() {
+		$('#list-follow').on('hide.bs.modal', function (e) {
+			$('html').css('overflow','')
+			this.toggle = false
+		})
+	},
+
+	methods: {
+		doToggle() {
+			$('#list-follow').modal({
+				keyboard: false
+			})
+			$('html').css('overflow','hidden')
+			this.toggle = true
+			if(this.followList.length > 0) return
+			if(this.toggle === true) {
+				fetch(this.routeListFollwer, {
+					credentials: 'include',
+					method: 'POST',
+					body: JSON.stringify({
+						id: this.gapID,
+						next: this.nextID
+					})
+				}).then((res) => {
+					if (res.ok && res.status == 200) {
+						return res.json()
+					}
+					throw Error(res.statusText)
+				}).then(res => {
+					this.followList = res.user
+					this.nextID = res.next
+					if(!res.isNext) {
+						this.noMore = true
+					}
+				}).catch(err => {
+					return err
+				})
+			}
+		},
+		nextLoadFollower() {
+			axios.post(this.routeListFollwer,{
+				id: this.gapID,
+				next: this.nextID
+			},{
+				withCredentials: true
+			}).then(res => {
+				if (res.status === 200) {
+					this.followList = this.followList.concat(res.data.user)
+					this.nextID = res.data.next
+					if(!res.data.isNext) {
+						this.noMore = true
+					}
+				} else if (res.status === 204) {
+					this.noMore = true
+				}
+			})
+		}
+	}
+}) // Vue instant
+</script>
+{{end}}

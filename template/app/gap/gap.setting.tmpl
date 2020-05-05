@@ -1,0 +1,224 @@
+{{define "page.title"}}ตั้งค่าเพจ {{.Gap.Name}}{{end}}
+
+{{define "app-body"}}
+	<div id="setting" class="container _mgv-30-md">
+		<div class="row">
+			<div class="col-md-12 col-lg-10 offset-lg-1">
+				<div class="row">
+					{{template "gap-sidebar" .}}
+					<div class="col-md-12 col-lg-10 _bgcl-white-2 _pdh-10 _pdv-34">
+						<h2 class="_cl-gray _fw-600 fs-20 _mgbt-20 _mgl-30">
+							<span>ข้อมูลพื้นฐาน</span>
+							<i class="fal fa-pencil-alt fs-14 _cl-gray-12"></i>
+						</h2>
+						<div class="_dp-f _bgcl-white _pd-30 shadow-stat">
+							<div class="_pdr-50-lg _bdrw-1-lg _bdcl-gray-2" style="flex: 1;">
+								<form action="{{route "gap.setting.info"}}" method="POST">
+									<h3 class="fs-16 _fw-600 _cl-gray _mgbt-20">ข้อมูลทั่วไป</h3>
+									<div class="form-group _mgbt-25">
+										<label class="_cl-gray-10 _fw-600 fs-14">ชื่อเพจ <span class="_dp-n-lg _cl-gray-6 fs-13 _fw-400">*สามารถเปลี่ยนชื่อเพจได้อีก 1 ครั้ง หลังจากนั้นการ เปลี่ยนชื่อเพจจะต้องรออีก 60 วัน</span></label>
+										<input type="text" class="form-control {{if .Flash.Has "ErrName"}}is-invalid{{end}}" name="name" v-model="nameGap"
+										{{if eq .Gap.IsChangeName false}}
+										readonly
+										{{end}}
+										@input="InfoChange"
+										>
+										<input type="hidden" name="edit-name" :value="changeNameGap">
+										<input type="hidden" name="id" value="{{.Gap.ID}}">
+										<div class="invalid-feedback">{{.Flash.Get "ErrName"}}</div>
+									</div>
+									<div class="_dp-f _alit-ct _mgbt-20">
+										<div class="_cl-gray-10 _fw-600 fs-14">สร้างเพจ</div>
+										<!-- <div class="_cl-gray-11 fs-14 _mgl-10">5 มีนาคม 2018</div> -->
+										<div class="_cl-gray-11 fs-14 _mgl-10">{{.Gap.CreatedAt | formatDate}}</div>
+									</div>
+									<div class="_dp-f _alit-ct _mgbt-25">
+										<div class="_cl-gray-10 _fw-600 fs-14">ประเภทเพจ</div>
+										{{if .Gap.Topic}}
+											<div class="_cl-gray-11 fs-14 _mgl-10">{{.Gap.Topic}}</div>
+										{{else}}
+											<div class="_cl-gray-11 fs-14 _mgl-10">ไม่ระบุ</div>
+										{{end}}
+									</div>
+									<div class="form-group _mgbt-25">
+										<label class="_cl-gray-10 _fw-600 fs-14">คำอธิบายเพจ</label>
+										<textarea
+										class="form-control {{if .Flash.Has "ErrBio"}}is-invalid{{end}}"
+										name="bio"
+										rows="2"
+										v-model="Bio"
+										@input="InfoChange"></textarea>
+										<div class="invalid-feedback">{{.Flash.Get "ErrBio"}}</div>
+									</div>
+									{{if .Flash.Has "SuccessInfo"}}
+										<div class="alert alert-success fs-12 _pdv-5">
+											{{.Flash.Get "SuccessInfo"}}
+										</div>
+									{{end}}
+									<div class="_dp-f _jtfct-fe _mgv-32" v-if="ctrlInfoChange">
+										<button type="button" class="fs-14 btn btn-outline-transparent _cl-blue-1 _bdrd-5px _mgr-16" @click="reset">ยกเลิก</button>
+										<div id="gtm-link" data-gtm-link="save_general">
+											<button type="submit" class="fs-14 btn sw-btn _bgcl-yellow-5 _fw-600 _cl-white _bdrd-5px">ยืนยัน</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="_dp-n _dp-b-lg _pdl-20" style="flex: 1;">
+								<h3 class="fs-13 _cl-blue-1 _fw-600 _mgbt-55">เงื่อนไขข้อมูล</h3>
+								{{if eq .Gap.IsChangeName true}}
+									<p class="_cl-blue-1 fs-13">
+										สามารถเปลี่ยนชื่อเพจได้อีก 1 ครั้ง หลังจากนั้นการ <br>
+										เปลี่ยนชื่อเพจจะต้องรออีก 60 วัน
+									</p>
+								{{else}}
+									<p class="_cl-blue-1 fs-13">
+										เปลี่ยนชื่อเพจได้อีกครั้งหลัง60วัน
+									</p>
+								{{end}}
+								<p class="_cl-blue-1 fs-13" style="margin-top: 160px;">
+									คำอธิบายเพจใส่ข้อความได้สูงสุด 200 ตัวอักษร
+								</p>
+							</div>
+						</div>
+						<div class="_dp-f _bgcl-white _pd-30 _mgt-20 shadow-stat">
+							<div class="_pdr-50-lg _bdrw-1-lg _bdcl-gray-2" style="flex: 1;">
+								<form ref="formUsername" action="{{route "gap.setting.username"}}" method="POST">
+									<h3 class="fs-16 _fw-600 _cl-gray _mgbt-20">ข้อมูลเพจ</h3>
+									<div class="form-group _mgbt-25">
+										<label class="_cl-gray-10 _fw-600 fs-14">Username gap {{if eq .Gap.Username ""}}
+											<span class="_cl-gray-6 _fw-500">*กรุณาตั้งชื่อ Username gap</span> {{end}}
+											{{if and (.Gap.IsChangeUsername) (ne .Gap.Username "")}}
+													<span class="_cl-gray-6 _fw-500">*สามารถเปลี่ยนชื่อเพจได้อีก 1 ครั้ง</span>
+											{{end}}
+										</label>
+										<input type="text"
+										class="form-control changename {{if .Flash.Has "ErrUsername"}}is-invalid{{end}}
+										{{if eq .Gap.IsChangeUsername false}}_bgcl-gray-2'{{end}}"
+										:class="{ 'is-invalid': userName == '' }"
+										name="username"
+										v-model="userName"
+										@input="usernameChange"
+										{{if eq .Gap.IsChangeUsername false}}
+										readonly
+										{{end}}>
+										<input type="hidden" name="id" value="{{.Gap.ID}}">
+										<input type="hidden" name="edit-username" :value="changeUserName">
+										<div class="invalid-feedback">{{.Flash.Get "ErrUsername"}}</div>
+										<div v-if="userName == ''" class="invalid-feedback">กรุณากรอก Username Gap</div>
+									</div>
+									{{if .Flash.Has "SuccessUsername"}}
+										<div class="alert alert-success fs-12 _pdv-5">
+											{{.Flash.Get "SuccessUsername"}}
+										</div>
+									{{end}}
+									{{if .Gap.IsChangeUsername}}
+									<div class="_dp-f _jtfct-fe _mgv-32" v-if="ctrlUsernameChange">
+										<button type="button" class="fs-14 btn btn-outline-transparent _cl-blue-1 _bdrd-5px _mgr-16" @click="reset">ยกเลิก</button>
+										<div id="gtm-link" data-gtm-link="save_username_gap">
+											<button type="submit" class="fs-14 btn sw-btn _bgcl-yellow-5 _fw-600 _cl-white _bdrd-5px" @click.prevent="editUsername" :disabled="!changeUserName">ยืนยัน</button>
+										</div>
+									</div>
+									{{end}}
+								</form>
+							</div>
+							<div class="_dp-n _dp-b-lg _pdl-20" style="flex: 1;">
+								<p class="_cl-blue-1 fs-13 _mgt-70 _wb-bw">
+									Username gap{{if .Gap.IsChangeUsername}} สามารถเปลี่ยนได้ 1 ครั้ง{{end}}<br>
+									ตัวอย่าง : https://www.mahaporn.com/gap/${userName}
+								</p>
+							</div>
+						</div>
+						<div class="_dp-f _fdrt-cl _fdrt-r-lg _fw-w _mgt-20">
+							<div class="_bgcl-white _pd-30 _mgbt-20 _mgbt-0-lg _mgr-10-lg shadow-stat" style="flex: 1;">
+								<form action="{{route "gap.setting.contact"}}" method="POST">
+									<h3 class="fs-16 _cl-gray _fw-600 _mgbt-20">ข้อมูลการติดต่อ</h3>
+									<div class="form-row">
+										<div class="form-group col-md-6">
+											<label class="_cl-gray-10 _fw-600 fs-14">เบอร์โทรศัพท์</label>
+											<input type="text" class="form-control {{if .Flash.Has "ErrTel"}}is-invalid{{end}}" name="tel"
+											v-model="tel"
+											@input="contactChange">
+											<div class="invalid-feedback">{{.Flash.Get "ErrTel"}}</div>
+										</div>
+										<div class="form-group col-md-6">
+											<label class="_cl-gray-10 _fw-600 fs-14">อีเมลติดต่อ</label>
+											<input type="email" class="form-control {{if .Flash.Has "ErrEmail"}}is-invalid{{end}}" name="email"
+											v-model="email"
+											@input="contactChange">
+											<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="form-group col-12 _mgbt-25">
+											<label class="_cl-gray-10 _fw-600 fs-14">โซเชียลมิเดีย/เว็บไซต์</label>
+											<textarea class="form-control" name="social" @input="contactChange" v-model="social"></textarea>
+										</div>
+									</div>
+									<input type="hidden" name="id" value="{{.Gap.ID}}">
+									{{if .Flash.Has "SuccessContact"}}
+										<div class="alert alert-success fs-12 _pdv-5">
+											{{.Flash.Get "SuccessContact"}}
+										</div>
+									{{end}}
+									<div class="_dp-f _jtfct-fe _mgv-32" v-if="ctrlContactChange">
+										<button type="button" class="fs-14 btn btn-outline-transparent _cl-blue-1 _bdrd-5px _mgr-16" @click="reset">ยกเลิก</button>
+										<div id="gtm-link" data-gtm-link="save_contact">
+											<button type="submit" class="fs-14 btn sw-btn _bgcl-yellow-5 _fw-600 _cl-white _bdrd-5px">ยืนยัน</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="_bgcl-white _pd-20 _mgl-10-lg shadow-stat" style="flex: 1;">
+								<form action="{{route "gap.setting.address"}}" method="POST">
+									<h3 class="fs-16 _cl-gray _fw-600 _mgbt-20">ข้อมูลสถานที่</h3>
+									<div class="form-row">
+										<div class="form-group col-6">
+											<label class="_cl-gray-10 _fw-600 fs-14">จังหวัด</label>
+											<select class="form-control" name="city" v-model="city" @change="addressChange">
+												{{range .Province}}
+												<option value="{{.Name}}" {{if eq $.Gap.City .Name}}selected{{end}}>{{.Name}}</option>
+												{{end}}
+											</select>
+										</div>
+										<div class="form-group col-6">
+											<label class="_cl-gray-10 _fw-600 fs-14">ประเทศ</label>
+											<select class="form-control" v-model="country" name="country"  @change="addressChange">
+												<option value="ไม่ระบุ" {{if eq .Gap.Country "ไม่ระบุ"}}selected{{end}}>ไม่ระบุ</option>
+												<option value="ไทย" {{if eq .Gap.Country "ไทย"}}selected{{end}}>ไทย</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="form-group col-12 _mgbt-25">
+											<label class="_cl-gray-10 _fw-600 fs-14">รายละเอียดเพิ่มเติม</label>
+											<textarea class="form-control {{if .Flash.Has "ErrAddress"}}is-invalid{{end}}" name="address" v-model="address"
+											@input="addressChange"></textarea>
+											<div class="invalid-feedback">{{.Flash.Get "ErrAddress"}}</div>
+										</div>
+									</div>
+									<input type="hidden" name="id" value="{{.Gap.ID}}">
+									{{if .Flash.Has "SuccessAddress"}}
+										<div class="alert alert-success fs-12 _pdv-5">
+											{{.Flash.Get "SuccessAddress"}}
+										</div>
+									{{end}}
+									<div class="_dp-f _jtfct-fe _mgv-32" v-if="ctrlAddressChange">
+										<button type="button" class="fs-14 btn btn-outline-transparent _cl-blue-1 _bdrd-5px _mgr-16" @click="reset">ยกเลิก</button>
+										<div id="gtm-link" data-gtm-link="save_location">
+											<button type="submit" class="fs-14 btn sw-btn _bgcl-yellow-5 _fw-600 _cl-white _bdrd-5px">ยืนยัน</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{{end}}
+
+{{define "main.style"}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.5/cropper.min.css">
+{{end}}

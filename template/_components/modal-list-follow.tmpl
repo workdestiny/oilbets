@@ -1,0 +1,41 @@
+{{define "modal-list-follow"}}
+<div class="modal fade" id="list-follow" tabindex="-1" role="dialog" aria-labelledby="select-gap-label" aria-hidden="true">
+	<div class="modal-dialog list-follow modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body _pdh-10 _pdh-24-md _pdv-35">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="gtm-button" data-gtm-button="gflw_close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="_dp-ilf _mgbt-32">
+					<h2 class="fs-18 _cl-gray-11 _mgbt-0 _fw-600">ผู้ติดตาม {{.Gap.Count.Follower}}</h2>
+				</div>
+				<div class="row _mgbt-42">
+					<div class="col-12 _dp-f _bdcl-gray-2 _bdbtw-1 _pdbt-16 _mgbt-16" v-for="(listfollow, index) in followList">
+						<div class="_dp-f _alit-ct">
+							<div class="_w-30 _h-30 _w-40-md _h-40-md _mgr-10"><img class="img-fluid _bdrd-50pct" :src="listfollow.display"></div>
+							<div class="fs-13 fs-16-md _cl-gray-11">${listfollow.name}</div>
+						</div>
+						<div class="_mgl-at _dp-ilf">
+							<div v-if="!listfollow.gap" class="_mgr-16-md _cl-gray-11">ไม่มีเพจ</div>
+							<a v-for="gap in listfollow.gap" :href="/gap/+gap.username"
+							class="_w-30 _h-30 _w-40-md _h-40-md _mgr-8 _mgr-16-md" :title="gap.name"
+							id="gtm-link" :data-gtm-link="'glw_rcm_' + gap.name">
+								<img class="img-fluid _bdrd-3px" :src="gap.display">
+							</a>
+						</div>
+					</div>
+					<div v-if="followList === ''" class="col-12 _dp-f _bdcl-gray-2 _pdbt-16 _mgbt-16">
+						<h5 class="_cl-gray-11 fs-14">ไม่มีผู้ติดตาม</h5>
+					</div>
+				</div>
+				<div class="_dp-f _jtfct-ct _mgt-32">
+					<div id="gtm-button" v-if="!noMore" data-gtm-button="gflw_see_more">
+						<button class="btn btn-outline-white _pdh-20 _bdcl-gray-9 _cl-gray-9 _cl-gray-10-hover _bgcl-gray-2-hover fs-13 _bdrd-50px" @click="nextLoadFollower">ดูเพิ่มเติม</button>
+					</div>
+					<h5 v-if="noMore" class="_cl-gray-11 fs-14">ไม่มีผู้ติดตามเพิ่มเติม</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{end}}

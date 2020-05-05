@@ -1,0 +1,19 @@
+{{define "page.title"}}Admin Revenue History{{end}}
+
+{{define "app-body"}}
+<div class="container-fluid _cl-gray">
+    <h3 class="_cl-gray _fw-600 fs-20 _mgbt-20">
+        <span>ประวัติใบถอนเงินของครีเอเตอร์</span>
+        <i class="fal fa-hand-holding-usd fs-16 _cl-gray-12"></i>
+    </h3>
+    <div class=" _mgbt-16 _pdbt-10 _bdbtw-1 _bdcl-blue-2">
+        <a class="_pdv-2 _cl-blue-5 _cl-blue-5-hover-hover fs-16 _fw-600 _tdcrt-n"
+        href="{{route "admin.revenue"}}">รายชื่อใบถอนเงิน</a>
+        <a class="_pdv-2 _cl-blue-5 _cl-blue-5-hover-hover fs-16 _fw-600 _tdcrt-n _mgl-42"
+        href="{{route "admin.revenue.history"}}">ประวัติจ่ายเงิน</a>
+    </div>
+</div>
+{{end}}
+
+{{define "main.style"}}
+{{end}}

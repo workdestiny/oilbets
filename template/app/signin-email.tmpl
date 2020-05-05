@@ -1,0 +1,52 @@
+{{define "page.title"}}เข้าสู่ระบบด้วยอีเมล{{end}}
+
+{{define "app-body"}}
+	<div class="container-sign _bg-si">
+		<div class="container _pdh-0 _mgt-70">
+			<div class="row">
+				<div class="col-sm-12 offset-sm-0 col-md-10 offset-md-1 col-lg-5 offset-lg-6 col-xl-5 offset-xl-6 _dp-f _fdrt-cl _alit-ct">
+					<h1 class="_tal-ct fs-24">เข้าสู่ระบบ</h1>
+					<h3 class="_tal-ct fs-14 _mgbt-30 _cl-gray-5">กรอกรายละเอียดด้านล่างเพื่อเข้าสู่ระบบ</h3>
+					<div class="signin_box _pd-30 _pdh-70-lg _pdv-50-lg _pdh-100-lg">
+						<span class="_cl-gray-8">เข้าสู่ระบบด้วยอีเมล:</span>
+						<form class="_mgt-10" method="POST" autocomplete="off">
+							<div class="form-group">
+								<input class="form-control" name="email" type="email" value="" placeholder="อีเมล" required>
+							</div>
+							<div class="form-group">
+								<input class="form-control" name="password" type="password" value="" placeholder="รหัสผ่าน" required>
+								<a class="_tal-r _cl-blue-1 _dp-b" href="{{route "forgot"}}">
+									<span class="_cl-blue-1 fs-12">ลืมรหัสผ่าน ?</span>
+								</a>
+							</div>
+							{{if .Flash.Has "Errors"}}
+							<div class="form-group">
+								<label class="form-check-label _cl-negative">
+									{{.Flash.Get "Errors"}}
+								</label>
+							</div>
+							{{end}}
+							<div id="gtm-link" data-gtm-link="sign_in">
+								<button class="btn sw-btn-primary btn-block btn-lg fs-18" type="submit">เข้าสู่ระบบ</button>
+							</div>
+							<div id="gtm-link" data-gtm-link="back_social">
+								<a class="sign-social fs-14 _tal-ct _dp-b _mgt-25" href="{{route "signin"}}">เข้าสู่ระบบด้วยเครือข่ายสังคม</a>
+							</div>
+						</form>
+					</div>
+					<div class="_tal-ct" id="gtm-link" data-gtm-link="register">
+						<a class="btn btn-outline-white _cl-white _bdcl-gray-6-hover _cl-gray-6-hover _pdh-55 _mgt-35 _bdrd-50px" href="{{route "signup"}}">ลงทะเบียนใหม่</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="word _dp-n _dp-b-lg">
+				<h3 class="fs-20 fs-28-lg fs-36-xl">Let's publish your own idea.</h3>
+				<h4 class="fs-14 fs-18-xl _cl-gray-6">“มาร่วมสร้างสรรค์ไอเดียและเปิดให้ทุกคนได้รู้จักคุณ”</h3>
+			</div>
+		</div>
+
+	</div>
+{{end}}

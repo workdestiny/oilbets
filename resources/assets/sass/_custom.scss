@@ -1,0 +1,233 @@
+$font-family-sans-serif: Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+'Segoe UI Emoji', 'Segoe UI Symbol' !default; //-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+
+$grid-gutter-width: 20px;
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 1080px,
+  xl: 1460px
+);
+
+$spacer: 20px;
+$link-color:                #4a90e2;
+$link-decoration:           none;
+$link-hover-color:          darken(#4a90e2, 15%);
+$link-hover-decoration:     underline;
+
+$sm: 576px;
+$md: 769px;
+$lg: 992px;
+$xl: 1200px;
+
+$breakpoints: (
+	'sm': '(min-width: 576px)',
+	'md': '(min-width: 769px)',
+	'lg': '(min-width: 992px)',
+	'xl': '(min-width: 1200px)'
+);
+
+/* atomic utility */
+/*====================================
+  Main / Branding Color
+======================================*/
+$color-gray: #383838;
+$color-gray-1: #fcfcfc;
+$color-gray-2: #F1F1F1;
+$color-gray-3: #E6E6E6;
+$color-gray-4: #DBDBDB;
+$color-gray-5: #D0D0D0;
+$color-gray-6: #C5C5C5;
+$color-gray-7: #B9B9B9;
+$color-gray-8: #A5A5A5;
+$color-gray-9: #8A8A8A;
+$color-gray-10: #6E6E6E;
+$color-gray-11: #535353;
+$color-gray-12: #1D1D1D;
+
+
+$color-blue-1: #7a90aa;
+$color-blue-2: #586677;
+$color-blue-3: #3d4857;
+$color-blue-4: #222730;
+$color-blue-5: #aec6e0;
+$color-blue-5-hover: #a4b8cf;
+$color-blue-6: #313941;
+$color-blue-7: #32383b;
+
+$color-google: #db3236;
+$color-facebook: #3b5998;
+
+/*====================================
+Semantic Color
+======================================*/
+$color-yellow-main: #232323;
+$color-yellow: #ff7765;
+$color-yellow-1: #ff7b47;
+$color-yellow-2: #ff6659;
+$color-yellow-3: #ff6659;
+$color-yellow-4: #d42020;
+$color-yellow-5: #d32f2f;
+$color-yellow-6: #9a0007;
+$color-yellow-star: #9a0007;
+
+$color-negative: hsl(355, 78%, 56%);
+$color-positive: #6cc40a;
+
+$color-white: #ffffff;
+$color-white-1: #FAFAFA;
+$color-white-2: #f7f7f9;
+$color-white-3: #f7f9f9;
+
+// Color Value for Color, Background Color, Border Color
+$colors: (
+  'crcl': currentColor,
+
+  'gray': $color-gray,
+  'gray-1': $color-gray-1,
+  'gray-2': $color-gray-2,
+  'gray-3': $color-gray-3,
+  'gray-4': $color-gray-4,
+  'gray-5': $color-gray-5,
+  'gray-6': $color-gray-6,
+  'gray-7': $color-gray-7,
+  'gray-8': $color-gray-8,
+  'gray-9': $color-gray-9,
+  'gray-10': $color-gray-10,
+  'gray-11': $color-gray-11,
+  'gray-12': $color-gray-12,
+
+  'yellow-main': $color-yellow-main,
+  'yellow': $color-yellow,
+  'yellow-star': $color-yellow-star,
+  'yellow-1': $color-yellow-1,
+  'yellow-2': $color-yellow-2,
+  'yellow-3': $color-yellow-3,
+  'yellow-4': $color-yellow-4,
+  'yellow-5': $color-yellow-5,
+  'white': $color-white,
+  'white-1': $color-white-1,
+  'white-2': $color-white-2,
+  'blue-1': $color-blue-1,
+  'blue-2': $color-blue-2,
+  'blue-3': $color-blue-3,
+  'blue-4': $color-blue-4,
+  'blue-5': $color-blue-5,
+  'blue-5-hover': $color-blue-5-hover,
+  'blue-6': $color-blue-6,
+  'blue-7': $color-blue-7,
+
+  'negative': $color-negative,
+  'positive': $color-positive,
+
+  'tpr': transparent
+);
+
+$spacings: (
+  '0': 0px,
+  '1': 1px,
+  '2': 2px,
+  '3': 3px,
+  '4': 4px,
+  '5': 5px,
+  '6': 6px,
+  '8': 8px,
+  '10': 10px,
+  '12': 12px,
+  '14': 14px,
+  '15': 15px,
+  '16': 16px,
+  '20': 20px,
+  '24': 24px,
+  '25': 25px,
+  '30': 30px,
+  '32': 32px,
+  '34': 34px,
+  '35': 35px,
+  '38': 38px,
+  '40': 40px,
+  '42': 42px,
+  '45': 45px,
+  '48': 48px,
+  '50': 50px,
+  '55': 55px,
+  '60': 60px,
+  '65': 65px,
+  '70': 70px,
+  '75': 75px,
+  '80': 80px,
+  '90': 90px,
+  '100': 100px,
+  '132': 132px,
+  '200': 200px,
+  '260': 260px,
+  '15pct': 15%,
+  '50pct': 50%,
+  '80pct': 80%,
+  '100pct': 100%,
+  'at': auto
+);
+
+$percentage-value: (
+  '10': 10px,
+  '8': 8px,
+  '15': 15px,
+  '20': 20px,
+  '24': 24px,
+  '22': 22px,
+  '25': 25px,
+  '30': 30px,
+  '37': 37px,
+  '40': 40px,
+  '70': 70px,
+  '95': 95px,
+  '80': 80px,
+  '100': 100px,
+  '200': 200px,
+  '15pct': 15%,
+  '20pct': 20%,
+  '40pct': 40%,
+  '50pct': 50%,
+  '80pct': 80%,
+  '100pct': 100%,
+  'at': auto
+);
+
+$radiuses: (
+  '0px': 0px,
+  '2px': 2px,
+  '3px': 3px,
+  '5px': 5px,
+  '10px': 10px,
+  '50px': 50px,
+  '50pct': 50%,
+  'max': 9999px
+);
+
+._bgcl-white-3 {
+  background-color: $color-white-3 !important;
+}
+
+._bgcl-red {
+  background-color: #f4516c !important;
+}
+
+._bgcl-mint {
+  background-color: #00c5dc !important;
+}
+
+._bgcl-yellow-6 {
+   background-color: $color-yellow-6 !important;
+}
+
+.shadow-stat {
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.09);
+}

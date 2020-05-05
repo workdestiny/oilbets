@@ -1,0 +1,97 @@
+{{define "page.title"}}รายละเอียดการยืนยัน{{end}}
+
+{{define "app-body"}}
+<div class="container _mgt-20-md">
+    <div class="row">
+        <div class="col-md-12 col-lg-10 offset-lg-1">
+            <div class="row">
+                {{template "admin-sidebar" .}}
+                <div class="col-md-12 col-lg-10 _bgcl-white-2">
+                    <div class="_pd-30">
+                        <h3 class="_cl-gray _fw-600 fs-20 _mgbt-20">
+                            <span>รายละเอียดการยืนยัน</span>
+                            <i class="fal fa-user fs-16 _cl-gray-12"></i>
+                        </h3>
+                        <div class="_bgcl-white _cl-gray _pd-30">
+
+                            <h1 class="fs-24">ข้อมูลผู้ยืนยัน</h1>
+                            <div style="text-align: center;">
+                                <img src="{{.UserData.DisplayImage.Normal}}" width="200" height="200" class="rounded">
+                            </div>
+                            <div class="form-row _mgt-15">
+                                <div class="form-group col-md-6">
+                                    <label for="email">ชื่อ</label>
+                                    <input type="text" class="form-control" value="{{.UserData.FirstName}}" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="email">นามสกุล</label>
+                                    <input type="text" class="form-control" value="{{.UserData.LastName}}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">ไอดีผู้ใช้</label>
+                                <input type="text" class="form-control" name="id"  value="{{.UserData.ID}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">อีเมล</label>
+                                <input type="text" class="form-control" value="{{.UserData.Email}}" readonly>
+                                {{if .UserData.IsVerify}}
+                                    <small class="form-text text-muted fs-12">ยืนยันอีเมลแล้ว</small>
+                                {{else}}
+                                    <small class="form-text text-muted fs-12" style="color: crimson;">ยังไม่ได้ยืนยันอีเมล</small>
+                                {{end}}
+                            </div>
+                            <div class="_pd-20 _cl-gray-10">
+                                <div class="_dp-f _fw-w" style="text-align: center;">
+                                    {{range .UserData.Gap}}
+                                    <a class="_dp-b _mgr-10 _mgv-10 u-raised-2 u-raised-5-hover" target="_blank" href="/gap/{{.Username}}">
+                                        <img src="{{.Display}}" width="100" height="100" class="rounded">
+                                    </a>
+                                    {{end}}
+                                </div>
+                            </div>
+                            {{if .UserData.IsVerify}}
+                            <div class="form-row _mgt-15">
+                                <form id="card" class="col-md-6" method="POST" action="{{route "admin.verify.idcard"}}">
+                                    <input type="hidden" name="id" value="{{.UserData.ID}}">
+                                    <div class="form-group">
+                                        <button id="cardBtn" type="submit" class="btn {{if .UserData.IsVerifyIDCard}}_cl-blue-4{{else}}btn-primary{{end}}" {{if .UserData.IsVerifyIDCard}}disabled{{end}}>
+                                        {{if .UserData.IsVerifyIDCard}}
+                                            ยืนยันบัตรประชาชนแล้ว
+                                        {{else}}
+                                            ยืนยันบัตรประชาชน
+                                        {{end}}
+                                        </button>
+                                    </div>
+                                </form>
+                                {{if .UserData.IsVerifyIDCard}}
+                                    <form id="bank" class="col-md-6" method="POST" action="{{route "admin.verify.bookbank"}}">
+                                        <input type="hidden" name="id" value="{{.UserData.ID}}">
+                                        <div class="form-group col-md-6">
+                                            {{if .UserData.IsVerifyBookBank}}
+                                            <button type="submit" class="btn _cl-blue-4" disabled>
+                                                ยืนยันบัญชีธนาคารแล้ว
+                                            </button>
+                                            {{else }}
+                                            <button id="bankBtn" type="submit" class="btn btn-primary">
+                                                ยืนยันบัญชีธนาคาร
+                                            </button>
+                                            {{end}}
+                                        </div>
+                                    </form>
+                                {{end}}
+                            </div>
+                            {{end}}
+
+                        </div>
+
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{define "main.style"}}
+{{end}}

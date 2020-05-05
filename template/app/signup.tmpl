@@ -1,0 +1,62 @@
+{{define "page.title"}}สมัครสมาชิก{{end}}
+
+{{define "app-body"}}
+	<div class="container-sign _bg-si">
+
+		<div class="container _pdh-0">
+			<div class="row">
+				<div class="col-sm-12 offset-sm-0 col-md-10 offset-md-1 col-lg-5 offset-lg-6 col-xl-5 offset-xl-6 _mgt-40 _dp-f _fdrt-cl _alit-ct">
+					<h1 class="_tal-ct fs-24 _mgbt-30">ลงทะเบียนฟรี!</h1>
+					<div class="signin_box _pd-30 _pdh-70-lg _pdv-50-lg _pdh-90-lg">
+						<span class="_cl-gray-8">กรอกข้อมูลด้านล่าง:</span>
+						<form class="_mgt-10" method="POST" autocomplete="off">
+							<div class="form-row">
+								<div class="form-group col-sm-12 col-md-6">
+									<input class="form-control {{if .Flash.Has "ErrName"}}is-invalid{{end}}" name="firstname" value="{{.Flash.Get "FirstName"}}" type="text" placeholder="ชื่อ" required>
+									<div class="invalid-feedback">{{.Flash.Get "ErrName"}}</div>
+								</div>
+								<div class="form-group col-sm-12 col-md-6">
+									<input class="form-control {{if .Flash.Has "ErrLName"}}is-invalid{{end}}" name="lastname" value="{{.Flash.Get "LastName"}}" type="text" placeholder="นามสกุล" required>
+									<div class="invalid-feedback">{{.Flash.Get "ErrLName"}}</div>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-12">
+									<input class="form-control {{if .Flash.Has "ErrEmail"}}is-invalid{{end}}" name="email" value="{{.Flash.Get "Email"}}" type="email" placeholder="อีเมล" required>
+									<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+								</div>
+								<div class="form-group col-12">
+									<input class="form-control {{if .Flash.Has "ErrPassword"}}is-invalid{{end}}" name="password" type="password" placeholder="รหัสผ่าน" required>
+									<div class="invalid-feedback">{{.Flash.Get "ErrPassword"}}</div>
+								</div>
+								<div class="form-group col-12">
+									<input class="form-control {{if .Flash.Has "ErrPassword"}}is-invalid{{end}}" name="repeat-password" type="password" placeholder="ยืนยันรหัสผ่าน" required>
+									<div class="invalid-feedback">{{.Flash.Get "ErrPassword"}}</div>
+								</div>
+								<div class="form-group col-12">
+									<label class="form-check-label condition fs-11">
+										เมื่อคลิก "ลงทะเบียน" ฉันได้อ่านและยอมรับ <a href="{{route "condition"}}" target="_bank">ข้อกำหนดและเงื่อนไข</a> รวมถึง <a href="{{route "privacy"}}" target="_bank">นโยบายความเป็นส่วนตัว</a> แล้ว
+									</label>
+								</div>
+							</div>
+							<div id="gtm-link" data-gtm-link="confirm">
+								<button class="btn sw-btn-primary btn-block btn-lg fs-18" type="submit">ลงทะเบียน</button>
+							</div>
+							<div id="gtm-link" data-gtm-link="back_sign_in">
+								<a class="sign-social fs-14 _tal-ct _dp-b _mgt-25" href="{{route "signin"}}">กลับไปเข้าสู่ระบบ</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="word _dp-n _dp-b-lg">
+				<h3 class="fs-20 fs-28-lg fs-36-xl">ยินดีต้นรับเข้าสู่ mahaporn.com</h3>
+				<h4 class="fs-14 fs-18-xl _cl-gray-6">“มาร่วมเป็นส่วนหนึ่งกับ MahaPorn</h3>
+			</div>
+		</div>
+
+	</div>
+{{end}}

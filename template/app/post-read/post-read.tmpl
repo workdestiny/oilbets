@@ -1,0 +1,313 @@
+{{define "page.title"}}Post Read{{end}}
+
+{{define "app-body"}}
+<div class="col-md-12" style="text-align: center;">
+		<img src="https://storage.googleapis.com/powerwork-bucket/ads/ads70.jpg" class="img-fluid" alt="allmenlifeads">
+</div>
+
+<!-- {{if .IsMobile}}
+<div class="col-md-12" style="text-align: center;">
+	<iframe src="//a.exosrv.com/iframe.php?idzone=3609495&size=468x60" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+</div>
+<div class="col-md-12" style="text-align: center;">
+	<iframe src="//a.exosrv.com/iframe.php?idzone=3609497&size=468x60" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+</div>
+{{ else }}
+<div class="col-md-12" style="text-align: center;">
+	<iframe src="//a.exosrv.com/iframe.php?idzone=3609499&size=728x90" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+</div>
+<div class="col-md-12" style="text-align: center;">
+	<iframe src="//a.exosrv.com/iframe.php?idzone=3609503&size=728x90" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+</div>
+{{end}} -->
+
+	<div class="container">
+		<div class="row post-read _mgt-20-lg" id="app">
+			<div class="col-12 col-lg-9 _dp-f _jtfct-fe _fw-w">
+				<div class="left-wrap _mgbt-50-lg">
+					<div class="shadow">
+						<div class="read-wrap _pd-16 _pd-25-md _pdt-50-lg _pdbt-32-lg _pdh-90-lg">
+							<div class="meta _dp-f _pdbt-30 _mgbt-16 _mgbt-32-lg _pst-rlt" style="border-bottom: solid 1px #d2d7dc;">
+								<a href="{{route "gap"}}{{.Post.Owner.ID}}" class="_tdcrt-n" id="gtm-link" data-gtm-link="gap_avatar">
+									<img class="_bdrd-50pct" src="{{.Post.Owner.Display}}"
+									alt="" width="50px" height="50px">
+								</a>
+								<div class="_dp-f _fdrt-cl _mgl-14" style="flex-grow: 1;">
+									<div class="_dp-ilf-lg _dp-f _fdrt-cl _fdrt-r-lg _fw-w _alit-ct-lg">
+										<div id="gtm-link" data-gtm-link="gap_name">
+											<a href="{{route "gap"}}{{.Post.Owner.ID}}" class="fs-14 fs-18-md _dp-ilf _alit-ct _cl-blue-6 _tdcrt-n">
+												{{.Post.Owner.Name}}
+												{{if .Post.Owner.IsVerify}}
+													<img class="shield _mgl-5" src="/-/images/icon/shield-15.png"
+													srcset="/-/images/icon/shield-15@2x.png 2x" width="15px" height="15px" title="verified">
+												{{end}}
+											</a>
+										</div>
+										{{if and (not .Post.Owner.IsOwner) (not .IsGapOfficial)}}
+										<div class="follow _cs-pt fs-13 _mgt-5 _mgt-0-lg _mgl-14-lg _dp-f _alit-ct _jtfct-ct _w-15pct-md _h-22 acfollow"
+										data-gap-id="{{.Post.Owner.ID}}" id="gtm-button" data-gtm-button="gap_follow">
+											{{if .Post.Owner.IsFollow}}
+												<i class="fal fa-minus _mgr-5 fs-12"></i>
+												<span class="followtext">เลิกติดตาม</span>
+											{{else}}
+												<i class="fal fa-plus _mgr-5 fs-12"></i>
+												<span class="followtext">ติดตาม</span>
+											{{end}}
+										</div>
+										{{end}}
+										<div class="time fs-13 _mgl-at-lg _mgt-8 _mgt-0-lg _cl-gray-9">{{.Post.CreatedAt | formatTime}}</div>
+									</div>
+
+									<div class="_dp-f _dp-ilf-lg _alit-ct _fw-w _fw-nw-lg _mgt-5 _mgt-0-lg">
+										<span class="fs-13 _cl-gray-9 _mgr-20">เข้าชม  {{.Post.Count.View}} ครั้ง</span>
+										<div>
+											<i class="fal fa-map-marker-alt fs-13 _cl-gray-9 _mgr-5"></i>
+											<span class="fs-13 _cl-gray-9 _mgr-20">{{.Post.Province}}</span>
+										</div>
+									</div>
+								</div>
+								{{if or (.Post.Owner.IsOwner) (.User.IsAdmin)}}
+									<a href="{{route "edit.post"}}{{.Post.Slug}}" class="_pst-asl _tdcrt-n fs-14 _cs-pt" style="right: 60px;bottom: 0;">
+										<span class="_cl-blue-1 _fw-600 _tdcrt-udl-hover">แก้ไข</span>
+										<i class="fal fa-pencil-alt fs-12 _cl-gray-11"></i>
+									</a>
+									<a @click="deletePost" class="_pst-asl fs-14 _cs-pt" style="right: 0;bottom: 0;">
+										<span class="_cl-blue-1 _fw-600 _tdcrt-udl-hover">ลบ</span>
+										<i class="fal fa-eraser fs-12 _cl-gray-11"></i>
+									</a>
+									<form class="hide-input" ref="deletePost" action="{{route "delete.post"}}" method="POST">
+										<input name="id" type="hidden" value="{{.Post.ID}}">
+									</form>
+								{{end}}
+							</div>
+
+
+							<div class="content ql-snow">
+								{{if .Post.Title}}
+									<h1 class="fs-26 fs-32-lg _cl-gray _fw-700 _wb-ba _mgbt-0">{{.Post.Title | html}}</h1>
+								{{end}}
+								{{if .Post.Description}}
+									<div class="paragraph-wrap {{if isNewEditor .Post.UpdatedAt}}ck-content{{else}}ql-editor{{end}} _pd-0 _mgr-0 _cl-gray _mgbt-50">
+										{{.Post.Description | html}}
+
+										{{if .Post.Link}}
+											<a class="_cs-pt _tdcrt-n _tdcrt-udl-hover" href="{{.Post.Link}}" target="_bank">{{.Post.Link}}</a>
+										{{end}}
+									</div>
+								{{end}}
+							</div>
+
+							{{if .Post.VdoURL}}
+							<iframe src="{{.Post.VdoURL}}" sandbox="allow-same-origin allow-scripts allow-forms" frameborder=0 width=100% height=400px scrolling=no allowfullscreen="allowfullscreen" ></iframe>
+							{{end}}
+
+							<div style="clear: both;"></div>
+							<h5 class="fs-13 fs-14-lg _cl-gray-11 _mgbt-10 _mgbt-15-lg">แท็ก</h5>
+							<div class="_dp-f">
+								<ul class="_mg-0 _pd-0 _dp-f _fw-w _w-100pct" style="list-style: none;">
+									{{range .Post.TagTopics}}
+										<li class="item-tag fs-13" id="gtm-link" data-gtm-link="tag_{{.Name}}">
+											<a class="_tdcrt-n _cl-gray-10 _cl-gray-11-hover" href="{{route "topic"}}{{.Name}}">{{.Name}}</a>
+										</li>
+									{{end}}
+								</ul>
+							</div>
+							<div class="float-social _mgt-20 _mgt-0-lg _dp-f _jtfct-fe">
+								<div class="_pst-rlt _dp-f _fdrt-cl-lg _alit-ct">
+									<div class="count fs-13 fs-10-lg _cl-gray-9 _mgr-5 _mgr-0-lg _mgbt-5-lg">{{.Post.Count.Like}}</div>
+									<div class="_dp-f _alit-ct _mgr-16 _mgr-0-lg _w-25 _h-25 like _mgbt-14-lg _cs-pt aclike" data-post-id="{{.Post.ID}}" title="ถูกใจ"
+									id="gtm-button" data-gtm-button="like_icon">
+										{{if .Post.IsLike}}
+											<i class="fs-24 fs-22-lg fas fa-heart _cl-yellow-1"></i>
+										{{else}}
+											<i class="fs-24 fs-22-lg fal fa-heart _cl-gray-9"></i>
+										{{end}}
+									</div>
+									<div id="gtm-button" data-gtm-button="comment_icon">
+										<div id="toComment" class="_dp-n _dp-f-lg _alit-ct _w-25 _h-25 _mgr-16 _mgr-0-lg comment _mgbt-14-lg _cs-pt" title="ความคิดเห็น">
+											<i class="fs-24 fs-22-lg fal fa-comment-alt _cl-gray-9"></i>
+										</div>
+									</div>
+									<!-- <div id="gtm-button" data-gtm-button="share_facebook">
+										<div id="fb-share" class="_bdrd-50pct social fb _mgr-16 _mgr-0-lg _mgbt-14-lg _cs-pt" title="share facebook">
+											<i class="fs-14 fab fa-facebook-f"></i>
+										</div>
+									</div> -->
+									<div id="gtm-button" data-gtm-button="share_short_link" @click="getShortUrl">
+										<div id="shortLink" class="_bdrd-50pct social short _mgr-16 _mgr-0-lg _mgbt-14-lg _cs-pt" title="short link">
+                                            <i class="fs-14 fal fa-link"></i>
+										</div>
+                                    </div>
+                                    <div v-cloak :class="{'_dp-f':toggleShortUrl, '_dp-n': !toggleShortUrl}" class="short-link u-raised-1 _pdv-5 _pdh-10 _bdrd-3px">
+                                        <h4 class="fs-14 _cl-gray-10">Short URL</h4>
+                                        <button type="button" class="close _pst-asl _r-10 _t-1" @click="getShortUrl">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <div class="_dp-f _fdrt-cl _fdrt-r-lg _alit-ct _bgcl-gray-3 _pd-10 _bdrd-3px">
+                                            <span id="getUrl" class="_cl-blue-2 _mgr-24">${shortURL}</span>
+                                            <button class="btn btn-info btn-sm _mgl-at _mgt-12 _mgt-0-lg btn-copy" data-clipboard-action="copy" data-clipboard-target="#getUrl">คัดลอก</button>
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+						</div>
+
+						<div id="secComment" class="comment-wrap _bgcl-white-1 _pd-16 _pd-25-md _pdh-90-lg _pdv-32-lg">
+							<h5 v-cloak class="_cl-blue-2 fs-18 _fw-700 _mgbt-15 _mgt-10 _mgt-0-lg">${commentCount} ความคิดเห็น</h5>
+							{{if .User.IsSignin}}
+								<form class="_mgbt-10">
+									<div class="form-group">
+										<textarea class="form-control _pdh-15 _pdv-14 txtcomment" v-model="text" rows="1" style="resize: none;" placeholder="เขียนความคิดเห็น" required></textarea>
+									</div>
+									<div class="_dp-f _jtfct-fe" id="gtm-button" data-gtm-button="cm_send">
+										<button class="btn sw-btn-primary _cl-gray-1 _w-100pct _w-at-md fs-14" :class="{ '-loading': isLoading }" @click.prevent="commentPost()">ส่งความคิดเห็น</button>
+									</div>
+								</form>
+							{{else}}
+								<div class="_mgbt-45">
+									<a href="{{route "signin"}}"
+									class="btn btn-outline-white _bdcl-blue-4 _cl-blue-4 _cl-blue-1-hover _bdcl-blue-1-hover _dp-ilf _alit-ct _pdv-10">
+										<span class="fs-14 _fw-600 _mgr-10">ล็อคอินเพื่อแสดงความคิดเห็น</span>
+										<i class="fs-24 fs-22-lg fal fa-comment-alt" style="margin-top: -5px;"></i>
+									</a>
+								</div>
+							{{end}}
+
+							<div v-cloak class="comment-item _dp-f _pdbt-24 _pdbt-20-lg _mgbt-12 _mgbt-24-lg" v-for="(comment, index) in commentList" :key="index">
+								<a v-if="gapID === comment.owner.id" :href="{{route "gap"}}+comment.owner.id" id="gtm-link" data-gtm-link="cm_avatar">
+								    <img v-cloak class="_bdrd-50pct _f-s0" :src="comment.owner.display">
+								</a>
+								<img v-cloak v-else class="_bdrd-50pct _f-s0" :src="comment.owner.display">
+								<div class="_dp-f _fdrt-cl _mgt-5 _mgt-0-lg _mgl-12 _mgl-15-lg _w-100pct">
+									<div v-cloak class="_dp-f _fdrt-cl _fdrt-r-md _alit-ct-md _mgbt-5">
+										<span v-cloak class="fs-12 _cl-gray-10 _mgr-20">${comment.owner.name}</span>
+										<span v-cloak class="fs-12 _cl-gray-7">${comment.time}</span>
+										<div v-if="isOwner" class="action _pst-rlt-md _mgl-at _cs-pt">
+											<i class="far fa-ellipsis-h fs-18 _cl-gray-8"></i>
+											<ul class="slide _pdv-10 _pdv-0-lg">
+												<li @click="deleteComment(index, comment.id)">ลบ</li>
+												<li v-if="gapID === comment.owner.id" @click="editComment(index, comment.text)">แก้ไข</li>
+											</ul>
+										</div>
+										<div v-if="userID === comment.owner.id" class="action _pst-rlt-md _mgl-at _cs-pt">
+											<i class="far fa-ellipsis-h fs-18 _cl-gray-8"></i>
+											<ul class="slide _pdv-10 _pdv-0-lg">
+												<li @click="deleteComment(index, comment.id)">ลบ</li>
+												<li v-if="userID === comment.owner.id" @click="editComment(index, comment.text)">แก้ไข</li>
+											</ul>
+										</div>
+									</div>
+									<div v-if="isEdit !== index" class="content">
+										<p v-cloak class="_cl-gray-12 _mgbt-0 _wb-bw _wsp-pw fs-14">${comment.text}</p>
+									</div>
+									<form v-cloak v-if="isEdit === index" class="_mgbt-45">
+										<div class="form-group">
+											<textarea v-cloak class="form-control _pdh-15 _pdv-14 txtcomment" v-model="textEdit" rows="4" style="resize: none;" placeholder="เขียนความคิดเห็น" required></textarea>
+										</div>
+										<div class="d-flex _jtfct-fe">
+											<button type="button" class="btn btn-outline-transparent fs-16 _cl-blue-5 _tdcrt-udl-hover _mgr-10" :class="{ '-loading': isLoadingEdit }" @click.prevent="cancelEditComment">ยกเลิก</button>
+											<button type="button" class="btn sw-btn _cl-gray _w-100pct _w-at-md fs-16" :class="{ '-loading': isLoadingEdit }" @click.prevent="submitEditComment(index, comment.id)">ส่ง</button>
+										</div>
+									</form>
+								</div>
+							</div>
+
+							<div class="_dp-f _jtfct-ct _mgt-32">
+								{{if .IsNext}}
+								<button v-if="!noMore" class="btn btn-outline-white _pdh-20 _bdcl-gray-9 _cl-gray-9 _cl-gray-10-hover _bgcl-gray-2-hover fs-13 _bdrd-50px" @click="nextComment('{{.Post.ID}}', nextID)">ดูเพิ่มเติม</button>
+								{{end}}
+								<h5 v-if="noMore" v-cloak class="_cl-gray-11 fs-14" v-if="noMore">ไม่มีคอมเมนต์เพิ่มเติม</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="toTop" class="back-top _pst-asl _dp-f _alit-ct _jtfct-ct _pd-15 _cs-pt">
+					<i class="fas fa-arrow-up"></i>
+				</div>
+            </div>
+            <div class="col-12 col-lg-3 _dp-f _mgv-24 _mgt-0-md">
+                <div class="widget-wrap _mgt-24-md _mgt-0-lg">
+					<!-- post-read 2-->
+						<!-- <ins class="adsbygoogle"
+						style="display:inline-block;width:100%;height:250px"
+						data-ad-client="ca-pub-2083967646466939"
+						data-full-width-responsive="true"
+						data-ad-slot="5424948859"></ins> -->
+					<!-- end post read -->
+                    {{if .TopPost}}
+					<div class="widget-item _pd-16 _pd-25-md _pdh-32-lg _pdv-32-lg _bgcl-white _mgbt-24-md">
+						<h3 class="fs-16 fs-18-md _fw-700 _cl-blue-2 _mgbt-20 _mgbt-24-lg">เรื่องราวอื่นๆของผู้เขียน</h3>
+						<div class="row">
+							{{range .TopPost}}
+								{{template "sidebar-post" .}}
+							{{end}}
+						</div>
+					</div>
+					{{end}}
+
+					<!-- <iframe src="//a.exosrv.com/iframe.php?idzone=3609519&size=250x250" width="250" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe> -->
+
+					<div class="widget-item _pd-16 _pd-25-md _pdh-32-lg _pdv-32-lg _bgcl-white _mgbt-24-md">
+						<h3 class="fs-16 fs-18-md _fw-700 _cl-blue-2 _mgbt-20 _mgbt-24-lg">เพิ่มเติม</h3>
+						<div class="row">
+							{{range .RelateTagTopic}}
+								{{template "sidebar-post" .}}
+							{{end}}
+						</div>
+					</div>
+
+					<!-- <iframe src="//a.exosrv.com/iframe.php?idzone=3609525&size=160x600" width="160" height="600" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe> -->
+
+				</div>
+            </div>
+		</div>
+	</div>
+
+<!-- <div class="col-md-12" style="text-align: center;">
+	<iframe src="//a.exosrv.com/iframe.php?idzone=3609533&size=468x60" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+</div> -->
+
+	<div id="post-container" class="content _mgt-10">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="_dp-f" style="border-bottom: solid 1px rgb(42, 47, 54);">
+						<!-- <div class="filter-post _cs-pt _pd-12" :class="{'active': type === 'article'}" @click="selectType('article')"
+						id="gtm-link" data-gtm-link="tab_dcv_general">
+							<i class="fs-13 _mgr-3 fal fa-edit"></i>
+							<span class="fs-14 fs-16-md fpt">ทั่วไป</span>
+						</div>
+						<div class="filter-post _cs-pt _pd-12" :class="{'active': type === 'gallery'}" @click="selectType('gallery')"
+						id="gtm-link" data-gtm-link="tab_dcv_gallery">
+							<i class="fs-13 _mgr-3 fal fa-images"></i>
+							<span class="fs-14 fs-16-md fpt">แกลลอลี่</span>
+						</div> -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container _mgbt-50" :class="{'_mh-1000': !hasPost && isAjax}">
+			<div class="row content-post _mgt-15 _mgt-32-lg" ref="postList">
+				{{template "post-item"}}
+			</div>
+			<div v-cloak class="_mh-80">
+				<infinite-loading @infinite="infiniteHandler" ref="infiniteLoading" spinner="spiral" :distance="300">
+					<div slot="no-results">
+						<h5 class="_cl-white _tal-ct fs-14">ยังไม่มีคอนเทนต์</h5>
+					</div>
+					<div slot="no-more">
+						<h5 class="_cl-white _tal-ct fs-14">ไม่มีคอนเทนต์เพิ่มเติม</h5>
+					</div>
+				</infinite-loading>
+			</div>
+		</div>
+	</div>
+{{end}}
+
+{{define "main.style"}}
+	{{if isNewEditor .Post.UpdatedAt}}
+		<link rel="stylesheet" href="/-/ckeditor5/styles.css">
+	{{else}}
+		<link rel="stylesheet" href="{{static "/css/quill.snow.css"}}">
+	{{end}}
+{{end}}

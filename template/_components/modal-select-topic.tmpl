@@ -1,0 +1,35 @@
+{{define "modal-select-topic"}}
+<div class="modal fade" id="select-gap" tabindex="-1" role="dialog" aria-labelledby="select-gap-label" aria-hidden="true">
+	<div class="modal-dialog select-gap modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body _pdh-20 _pdh-60-md _pdv-35">
+				<div class="_dp-ilf _mgbt-32">
+					<h2 class="fs-24 _cl-blue-2 _mgbt-0 _fw-600">เราต้องแน่ใจว่าเราค้นหาโพสที่ดีที่สุดสำหรับคุณ</h2>
+					<div class="_dp-f _w-20 _h-20 _mgl-5" style="margin-top:2px">
+						<img class="img-fluid" src="/-/images/icon/icon-like.png" srcset="/-/images/icon/icon-like@2x.png 2x">
+					</div>
+				</div>
+				<h3 class="fs-18 _cl-gray-9 _mgbt-24">เลือก 2 หัวข้อหรือมากกว่า</h3>
+				<div class="row _mgbt-42">
+					<btn-select v-for="(t, index) in listTopic"
+					@on-check="onSelected"
+					@un-check="unSelected"
+					:wording="t.name"
+					:id="t.id" :key="index"></btn-select>
+				</div>
+				<div class="_dp-f _alit-ct">
+					<span class="fs-24 _cl-blue-1">หัวข้อที่เลือก</span>
+					<span class="fs-36 _cl-blue-1 _mgl-16">${count}</span>
+					<button class="btn sw-btn-primary _mgl-at _cl-white _fw-600"
+					:class="{'_bgcl-yellow-5': count > 2}"
+					type="button"
+					@click="submitForm">เรียบร้อย</button>
+				</div>
+				<form ref="formSelect" action="{{route "topic.select"}}" method="POST">
+					<input type="hidden" name="id" :value="toJson">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{{end}}

@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+    restart: always
+    volumes:
+      - /var/app/redis.conf:/usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6379"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

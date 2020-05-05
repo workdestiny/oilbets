@@ -1,0 +1,26 @@
+{{define "gap-sidebar"}}
+{{$class := "_dp-f _fdrt-cl _alit-ct _jtfct-ct _pdv-30 _mgh--10 _cs-pt _cl-gray-7 _cl-white-hover _bgcl-blue-4-hover _tdcrt-n"}}
+{{$active := "_bdlw-2 _bdcl-yellow-4 _bgcl-blue-4 _cl-white"}}
+<div class="col-lg-2 _dp-n _dp-b-lg" style="background-color: #2d3c4c;">
+    <a href="/gap/{{.Gap.GetUsername}}"
+    class="_pdl-20 _pdr-5 _pdv-24 _dp-f _alit-ct _fw-nw _mgh--10 _cl-white _tdcrt-n">
+        <img src="{{.Gap.Display}}" class="img-fluid _bdrd-50pct _w-24 _h-24">
+        <span class="_mgl-5 _tovf-elp" title="{{.Gap.Name}}">{{.Gap.Name}}</span>
+    </a>
+    <hr class="_mg-0 _bdcl-blue-4 _mgh--10">
+    <a href="/gap/{{.Gap.GetUsername}}/setting" class="{{$class}} {{if eq templateName "app/gap.setting"}}{{$active}}{{end}}">
+        <i class="fs-28 fas fa-pen _mgbt-15"></i>
+        <span>ข้อมูลพื้นฐาน</span>
+    </a>
+    <a href="/gap/{{.Gap.GetUsername}}/insights#sec" class="{{$class}} {{if eq templateName "app/gap.insights"}}{{$active}}{{end}}">
+        <i class="fs-32 fal fa-chart-bar _mgbt-15"></i>
+        <span>รายงานข้อมูลสถิติ</span>
+    </a>
+    {{if .User.IsVerifyBookBank}}
+        <a href="/gap/{{.Gap.GetUsername}}/revenue" class="{{$class}} {{if eq templateName "app/gap.revenue"}}{{$active}}{{end}}">
+            <i class="fs-32 fas fa-hand-holding-usd _mgbt-15"></i>
+            <span>สรุปรายได้</span>
+        </a>
+    {{end}}
+</div>
+{{end}}

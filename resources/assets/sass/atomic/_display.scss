@@ -1,0 +1,26 @@
+._dp-b   { display: block !important; }
+._dp-f   { display: flex !important; }
+._dp-ilf { display: inline-flex !important; }
+._dp-n   { display: none !important; }
+
+@include media-breakpoint-up(sm) {
+  ._dp-b-sm   { display: block !important; }
+  ._dp-f-sm   { display: flex !important; }
+  ._dp-ilf-sm { display: inline-flex !important; }
+  ._dp-n-sm   { display: none !important; }
+}
+
+@include media-breakpoint-up(md) {
+  ._dp-b-md   { display: block !important; }
+  ._dp-ilb-md { display: inline-block !important; }
+  ._dp-f-md   { display: flex !important; }
+  ._dp-ilf-md { display: inline-flex !important; }
+  ._dp-n-md   { display: none !important; }
+}
+
+@include media-breakpoint-up(lg) {
+  ._dp-b-lg   { display: block !important; }
+  ._dp-f-lg   { display: flex !important; }
+  ._dp-ilf-lg { display: inline-flex !important; }
+  ._dp-n-lg   { display: none !important; }
+}

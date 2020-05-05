@@ -1,0 +1,42 @@
+{
+	"editor.tabSize": 4,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+    "go.liveErrors": {
+        "enabled": true,
+        "delay": 500
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/vendor/**": true,
+        "**/node_modules/**": true
+    },
+    "[go]": {
+        "editor.insertSpaces": false,
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4
+    },
+    "[makefile]": {
+        "editor.insertSpaces": false,
+        "editor.tabSize": 4
+    },
+    "[javascript]": {
+        "editor.insertSpaces": false,
+        "editor.tabSize": 4
+    },
+    "[html]": {
+        "editor.insertSpaces": false,
+        "editor.tabSize": 4
+    },
+    "[scss]": {
+        "editor.insertSpaces": false,
+        "editor.tabSize": 4
+    },
+    "files.associations": {
+        "*.tmpl": "html"
+    },
+}

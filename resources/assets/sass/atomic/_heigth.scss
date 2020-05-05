@@ -1,0 +1,32 @@
+@each $key, $value in $dimension-value {
+  ._h-#{$key} { height: #{$value} !important; }
+};
+
+@include media-breakpoint-up(sm) {
+  @each $key, $value in $dimension-value {
+    ._h-#{$key}-sm { height: #{$value} !important; }
+  };
+}
+
+@include media-breakpoint-up(md) {
+  @each $key, $value in $dimension-value {
+    ._h-#{$key}-md { height: #{$value} !important; }
+  };
+}
+
+@include media-breakpoint-up(lg) {
+  @each $key, $value in $dimension-value {
+    ._h-#{$key}-lg { height: #{$value} !important; }
+  };
+}
+
+._mh-80 {
+  min-height: 80px;
+}
+._mh-1000 {
+  min-height: 1000px;
+}
+
+._h-fct {
+  height: fit-content !important;
+}

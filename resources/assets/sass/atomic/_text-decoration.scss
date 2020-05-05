@@ -1,0 +1,30 @@
+._tdcrt-none {
+  text-decoration: none;
+}
+._tdcrt-none-hover:hover {
+  text-decoration: none;
+}
+
+._tdcrt-udl  { text-decoration: underline !important; }
+._tdcrt-udl-hover:hover  { text-decoration: underline !important; }
+._tdcrt-ovl  { text-decoration: overline !important; }
+._tdcrt-lt   { text-decoration: line-through !important; }
+._tdcrt-n    { text-decoration: none !important; }
+._tdcrt-n-hover:hover { text-decoration: none !important; }
+
+@include media-breakpoint-up(md) {
+  ._tdcrt-udl-md  { text-decoration: underline !important; }
+  ._tdcrt-udl-hover-md:hover  { text-decoration: underline !important; }
+  ._tdcrt-ovl-md  { text-decoration: overline !important; }
+  ._tdcrt-lt-md   { text-decoration: line-through !important; }
+  ._tdcrt-n-hover-md:hover  { text-decoration: none !important; }
+}
+
+@include media-breakpoint-up(lg) {
+  ._tdcrt-udl-lg  { text-decoration: underline !important; }
+  ._tdcrt-udl-hover-lg:hover  { text-decoration: underline !important; }
+  ._tdcrt-ovl-lg  { text-decoration: overline !important; }
+  ._tdcrt-lt-lg   { text-decoration: line-through !important; }
+  ._tdcrt-n-lg    { text-decoration: none !important; }
+  ._tdcrt-n-hover-lg:hover { text-decoration: none !important; }
+}

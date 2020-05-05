@@ -1,0 +1,44 @@
+.unread {
+  background-color: rgba(230, 246, 255, 0.5);
+}
+
+.badge-noti {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  right: 10px;
+  top: 0;
+  width: 28px;
+  height: 42px;
+  border-radius: 0 0 2px 2px;
+  background-color: rgba(230, 230, 230, 0.3);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.11);
+}
+
+.noti-dropdown {
+  display: none;
+  position: absolute;
+  right: -43px;
+  top: 30px;
+  width: 100vw;
+  height: 450px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  padding-bottom: 30px;
+  overflow: hidden;
+  &.show {
+    display: block;
+  }
+  .noti-list {
+    overflow-y: auto;
+    height: 380px;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .noti-dropdown {
+    right: 0;
+    width: 360px;
+  }
+}

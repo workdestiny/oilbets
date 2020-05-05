@@ -1,0 +1,80 @@
+.signin_box {
+  border-radius: 3px;
+  background-color: #fff;
+  width: 100%;
+  max-width: 500px;
+  .signin-btn {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #969696;
+    &.fb {
+      background-color: #4267B2;
+      border: 0;
+    }
+    &.gg {
+      background-color: #EA4335;
+      border: 0;
+    }
+    .text {
+      font-size: 18px;
+      color: #fff;
+      &.email {
+        color: rgba(0, 0, 0, 0.57);
+      }
+    }
+    .icon-wrap {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 50px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+  .condition {
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.container-sign {
+  .word {
+    position: absolute;
+    margin-left: -30px;
+    bottom: 10%;
+  }
+  .sign-social {
+    color: #6E6E6E;
+    text-decoration: underline;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .container-sign {
+    .word {
+      margin-left: -5px;
+    }
+  }
+  .signin_box .signin-btn {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .container-sign {
+    .word {
+      margin-left: -30px;
+    }
+  }
+}

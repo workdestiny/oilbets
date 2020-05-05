@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  nginx-certs:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: nginx-certs
+    volumes:
+      - /nginx/vhost.d:/etc/nginx/vhost.d
+      - /nginx/html:/usr/share/nginx/html
+      - /nginx/certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: always

@@ -1,0 +1,244 @@
+{{define "page.title"}}แก้ไขคอนเทนต์{{end}}
+
+{{define "app-body"}}
+<div class="container">
+	<div class="row _jtfct-ct">
+		<div id="app" class="col-xl-8 col-md-12 col-sm-12 col-12 _mgt-0 _mgt-20-md _mgbt-55">
+			<div class="create-post-wrap container _bgcl-white _pdt-40 _bdrd-3px">
+
+                <div class="row _jtfct-ct">
+                    <div class="col-md-11">
+                        <div class="row">
+                            <div class="col-12 col-sm-9 col-md-9 col-lg-9">
+                                <div class="action-type-post">
+                                    <div class="btn-type active" id="gtm-button" data-gtm-button="type_post_article">
+                                        <i class="fal fa-pencil-alt fs-26 _cl-gray-11"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3 col-md-3 col-lg-3 _mgt-20 _mgt-0-sm _dp-f _jtfct-fe _alit-ct" id="gtm-button" data-gtm-button="location">
+                                <div v-cloak class="place-wrap" ref="sws_container" @mousedown.prevent="onToggle">
+                                    <i class="fal fa-map-marker-alt fs-20 _cl-gray-8 _cl-gray-11-hover _mgr-5" @click.prevent="sws_button()"></i>
+                                    <span :class="['_cl-gray-11-hover']" @click.prevent="sws_button()" v-show="!searchInput">${displayResult}</span>
+                                    <input class="form-control form-control-sm _pdv-0" style="max-width: 100px;"
+                                    ref="sws_input"
+                                    :class="{'_dp-b': searchInput,'_dp-n': !searchInput}"
+                                    type="text" placeholder="ค้นหา" autofocus
+                                    v-model="searchProvince"
+                                    @keydown.up="onUpKey"
+                                    @keydown.down="onDownKey"
+                                    @keydown.enter="onEnterKey"
+                                    @keydown.esc="onEscKey"
+                                    @blur="onBlur"
+                                    >
+
+                                    <div class="_pst-asl" v-show="searchProvince || searchInput" style="top: 35px; z-index: 1;">
+                                        <ul class="_pdl-0 _mgbt-0 u-raised-2 _bgcl-white" ref="sws_dropdown"
+                                        style="list-style: none; max-height: 170px; overflow-y: scroll;min-width: 130px;">
+                                            <li class="_pdv-5 _pdh-10 fs-14 _cl-gray-7 _cs-pt" style="white-space: normal;" v-show="filteredProvinceList.length === 0">ไม่พบข้อมูล..</li>
+                                            <li class="_pdv-5 _pdh-10 fs-14 _cl-gray-10 _bgcl-gray-1 _bgcl-gray-2-hover _cs-pt"
+                                            :class="{ '_bgcl-gray-2': index === current }"
+                                            v-for="(data, index) in filteredProvinceList"
+                                            :key="index"
+                                            @mousedown.prevent="selected(data)" :title="data.name">${data.name}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="split-line _mgt-15 _mgbt-35">
+                                    _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row _jtfct-ct">
+                    <div class="col-md-11">
+                        <div class="title-wrap">
+                            <input class="form-control _pd-0" name="title"
+                            ref="titleValue"
+                            autocomplete="off"
+                            value="{{.Post.Title | html}}"
+                            placeholder="หัวข้อเฉียบๆ"
+                            @change="checkDraft"
+                            @input="titlePost = $event.target.value">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row _jtfct-ct _mgt-25">
+                    <div class="col-md-11">
+						<div id="editor" class="sw-editor">
+                            {{if .Post.Description}}
+								{{.Post.Description | html}}
+							{{end}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row _jtfct-ct" style="min-height: 41px;">
+                    <div class="col-md-11">
+                        <div v-if="isDraft" class="text-status" :class="{'saving': isDraft}">
+                            <div class="dot">
+                                <i class="fas fa-circle"></i>
+                                <i class="fas fa-circle"></i>
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <div>กำลังบันทึกฉบับร่าง</div>
+                        </div>
+                        <div v-if="isUpload" class="text-status" :class="{'saving': isUpload}">
+                            <div class="dot">
+                                <i class="fas fa-circle"></i>
+                                <i class="fas fa-circle"></i>
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <div>กำลังอัพโหลดรูป</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+			<div class="row _jtfct-ct create-post-wrap">
+                <div class="col-12">
+                    <div class="_dp-f _mgt-20">
+                        <span class="fs-18">เพิ่มแท็ก</span>
+                        <i class="fal fa-tag _cs-df fs-16 _cl-gray-1 _mgl-15" style="transform: rotate(-90deg);margin-top: -5px;"></i>
+                    </div>
+
+                    <div class="_dp-f _alit-ct _mgt-20" id="gtm-button" data-gtm-button="tag_category">
+                        <div class="dropdown _mgr-15">
+                            <button type="button" class="btn btn-sm btn-outline-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                เลือกหมวดหมู่
+                            </button>
+                            <div class="dropdown-menu dd-scroll">
+                                {{range .ListCategory}}
+                                    <a class="dropdown-item _cs-pt" @mousedown.prevent="selectedCategory('{{.ID}}')">{{.Name}}</a>
+                                {{end}}
+                            </div>
+						</div>
+
+						<div class="dropdown" v-if="topicList.length > 0">
+                            <button type="button" class="btn btn-sm btn-outline-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                เลือกสถานที่
+                            </button>
+                            <div class="dropdown-menu dd-scroll">
+								<a class="dropdown-item _cs-pt" v-for="t in topicList" :key="t.id"
+								@mousedown.prevent="selectedTag({ id: t.id, tag: t.name })">${t.name}</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-tag _pst-rlt _mgt-15">
+                        <div class="_dp-ilf _alit-ct _w-100pct _bgcl-white _bdrd-2px _pdh-5">
+                            <div v-cloak class="tag-item fs-13 _pdh-8 _h-22 _bgcl-gray-3 _bdrd-3px _cl-blue-2 _fw-600"
+                            v-for="(tag, index) in tagSelected" :key="index" id="gtm-button" data-gtm-button="delete_tag">
+                                <span>${tag.tag}</span>
+                                <i class="fal fa-times _cs-pt _mgt-2 _mgl-3 _cl-gray-12-hover" @click="deleteTag(index)"></i>
+                            </div>
+                            <input type="text" class="form-control" id="post-tag" :placeholder="placeholderTag"
+                            v-model="searchTag"
+                            @keydown.prevent.up="onUpKeyTag"
+                            @keydown.prevent.down="onDownKeyTag"
+                            @keydown.enter="onEnterKeyTag"
+                            @keydown.esc="onEscKeyTag"
+                            @keydown.8="onDeleteKeyTag"
+                            @blur="onEscKeyTag"
+                            @input="checkTags($event.target.value)">
+                        </div>
+                        <div v-cloak class="_bgcl-white _bdrd-3px _pst-asl" style="z-index: 3;">
+                            <div class="fs-14 _cl-gray-10 _bgcl-gray-2-hover _cs-pt _pdh-10 _pdv-3"
+                            v-for="(tag, index) in tagList"
+                            :class="{ '_bgcl-gray-2': index === currentTag, '_bgcl-white': index !== currentTag}"
+                            :key="tag.id"
+                            @mousedown.prevent="selectedTag({ id: tag.id, tag: tag.name })">${tag.name} (${tag.usedCount})</div>
+                        </div>
+                        <div v-cloak
+                        v-if="noMoreAdd || invalidText"
+                        class="fs-13 _bgcl-gray-1 _cl-gray-10 _pdh-10 _pdv-3 _mgt-15 _bdrd-3px _dp-ilf" role="alert">${tagWarning}</div>
+					</div>
+
+					<div class="row _jtfct-ct">
+							<div class="col-md-9" style="margin-top:15px">
+								<div class="title-wrap">
+									<input class="form-control _pd-0 _cl-blue-3"
+									ref="vdourlValue"
+									name="vdourl" autocomplete="off"
+									value="{{.Post.VdoURL}}"
+									placeholder="(ตัวอย่าง) https://www.xvideos.com/embedframe/53344619"
+									@input="vdourlLink = $event.target.value">
+								</div>
+							</div>
+					</div>
+
+                    <div class="row _mgt-55">
+                        <div class="col-12 col-sm-4 col-md-4 _mgbt-15 _mgbt-0-sm _dp-f _alit-ct">
+                            <a class="_cl-gray-1" href="{{route "help.post"}}">
+                                <i class="fal fa-question-circle fs-18 _cs-pt"></i>
+                                <span class="fs-14 _mgl-5">ช่วยเหลือการสร้างคอนเทนต์</span>
+                            </a>
+                        </div>
+
+                        <div class="col-12 col-sm-4 offset-md-2 col-md-3 _dp-f _jtfct-fe-md _alit-ct">
+                            <div class="dropdown select-gap">
+                                <button type="button" class="btn btn-outline-transparent">
+                                    <img v-cloak class="_bdrd-50pct _mgr-10" :src="gapMain.display">
+                                    <span class="gap-name" v-text="gapMain.name">{{.MainGap.Name}}</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <form ref="formPost" method="POST" action="{{route "edit.post"}}{{.Post.ID}}">
+                            <input type="hidden" name="owner-id" :value="gapMain.id">
+                            <input type="hidden" name="title" :value="titlePost">
+                            <input type="hidden" name="description" :value="descriptionPost">
+                            <input type="hidden" name="type" value="{{.Post.Type}}">
+                            <input type="hidden" name="vdourl" :value="vdourlLink">
+                            <input type="hidden" name="province" :value="provinceIDSelected">
+                            <input type="hidden" name="tag-topic" :value="jsonTagSelected">
+                        </form>
+
+                        <div class="col-12 col-sm-4 col-md-3 _dp-f _alit-ct _jtfct-fe _mgt-20 _mgt-0-sm">
+                            <div id="gtm-link" data-gtm-link="cancel">
+                                <a href="{{route "post.read"}}{{.Post.Slug}}" class="_cl-white _mgr-20 _w-100pct _w-at-md">ยกเลิก</a>
+                            </div>
+                            <div id="gtm-link" data-gtm-link="save">
+                                <button @click.prevent="submitForm"
+                                class="btn sw-btn _bgcl-yellow-5 _fw-600 _cl-white _bdrd-5px _w-100pct _w-at-md"
+                                :class="{'-disabled': isDisable || isUpload, '-loading': isLoading}">บันทึก</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+		</div>
+	</div>
+</div>
+{{end}}
+
+{{define "main.style"}}
+<link rel="stylesheet" href="/-/ckeditor5/styles.css">
+{{end}}
+
+{{define "main.script"}}
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+<script>
+	const config = {
+		province: {{.ProvinceData}},
+		gapList: {{.ListGap}},
+		mainGap: {{.MainGap}},
+		draftTime: {{.Draft.Time}},
+		draftDesc: {{.Draft.Description}},
+		provinceSelectedID: {{.ProvincePost.ID}},
+		provinceName: {{.ProvincePost.Name}},
+		tagTopics: {{.Post.TagTopics}},
+		postDes: {{.Post.Description | html}}
+	}
+</script>
+<script src="/-/ckeditor5/ckeditor.js"></script>
+<script src="{{static "/js/editor-edit.js"}}"></script>
+{{end}}

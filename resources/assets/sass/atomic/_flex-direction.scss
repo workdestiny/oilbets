@@ -1,0 +1,28 @@
+._fdrt-r { flex-direction: row !important; }
+._fdrt-cl { flex-direction: column !important; }
+
+._f-s0 { flex-shrink: 0; }
+
+@include media-breakpoint-up(sm) {
+  ._fdrt-r-sm { flex-direction: row !important; }
+  ._fdrt-cl-sm { flex-direction: column !important; }
+  ._f-s0-sm { flex-shrink: 0; }
+}
+
+@include media-breakpoint-up(md) {
+  ._fdrt-r-md { flex-direction: row !important; }
+  ._fdrt-cl-md { flex-direction: column !important; }
+  ._f-s0-md { flex-shrink: 0; }
+}
+
+@include media-breakpoint-up(lg) {
+  ._fdrt-r-lg { flex-direction: row !important; }
+  ._fdrt-cl-lg { flex-direction: column !important; }
+  ._f-s0-lg { flex-shrink: 0; }
+}
+
+@include media-breakpoint-up(xl) {
+  ._fdrt-r-xl { flex-direction: row !important; }
+  ._fdrt-cl-xl { flex-direction: column !important; }
+  ._f-s0-xl { flex-shrink: 0; }
+}

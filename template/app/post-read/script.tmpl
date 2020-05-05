@@ -1,0 +1,301 @@
+
+{{define "main.script"}}
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+
+<script>
+
+new ClipboardJS('.btn-copy');
+window.fbAsyncInit = function() {
+FB.init({
+	appId            : {{facebookAppID}},
+	autoLogAppEvents : true,
+	xfbml            : true,
+	version          : 'v3.0'
+});
+};
+
+(function(d, s, id){
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) {return;}
+	js = d.createElement(s); js.id = id;
+	js.src = "https://connect.facebook.net/en_US/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+document.addEventListener('DOMContentLoaded', function () {
+    var isFirst = false
+	var elem = $('.float-social')
+    var elemSidebar = $('.widget-wrap')
+	var vpWidth = window.innerWidth
+	var elemHeight = elem.outerHeight()
+	startPo = elem.offset().top
+    startSidebar = elemSidebar.offset().top
+
+    var widgetHeight = 0
+    var postWrapHeight = 0
+
+	$(window).resize(function (event) {
+		vpWidth = window.innerWidth
+	})
+
+	$(window).scroll(function (event) {
+		if (vpWidth < 1112) {
+			elem.css({ 'top': 'auto' })
+            elemSidebar.css({
+                'top': 'auto'
+            })
+			return
+		}
+		var parent = $('.read-wrap')
+		var parentHeight = parent.height()
+		var scroll = $(window).scrollTop()
+
+		if (scroll >= (startPo - 80) && scroll < parentHeight - elemHeight) {
+			elem.css({ 'top': scroll - 5 + 'px' })
+		} else if (scroll > parentHeight - elemHeight) {
+			elem.css({ 'top': parentHeight - elemHeight - 8 + 'px' })
+		} else {
+			elem.css({ 'top': startPo - 85 + 'px' })
+		}
+
+        var widgetWidth = $('.widget-wrap').width($('.widget-wrap').innerWidth())
+        if (!isFirst) {
+            $('.widget-item').each(function() {
+                widgetHeight += $(this).innerHeight()
+            })
+            postWrapHeight = parent.innerHeight()
+            isFirst = true
+        }
+
+        if (scroll >= 1000) {
+            if (postWrapHeight < widgetHeight) return
+            // elemSidebar.css({
+            //     'position': 'fixed',
+            //     'transform' : `translate3d(0px, ${ - 1000 + 'px'}, 0px)`
+            // })
+        } else if (scroll <= 1000) {
+            elemSidebar.css({
+                'position': 'relative',
+                'transform': 'translate3d(0px, 0px, 0px)'
+            })
+        }
+	})
+
+	$("#toComment").click(function() {
+		$('html, body').animate({
+				scrollTop: $("#secComment").offset().top
+		}, 1500)
+	})
+
+	$("#toTop").click(function () {
+		$("html, body").animate({scrollTop: 0}, 1000)
+	})
+})
+</script>
+<script>
+new Vue({
+	el: '#app',
+	data(){
+		return {
+			routeComment: {{route "ajax.comment.post"}},
+			routeNextComment: {{route "ajax.comment.list"}},
+			routeDeleteComment: {{route "ajax.comment.delete"}},
+			routeEditComment: {{route "ajax.comment.edit"}},
+			gapID: {{.Post.Owner.ID}},
+			postID: {{.Post.ID}},
+			isOwner: {{.Post.Owner.IsOwner}},
+			userID: {{.User.ID}},
+			type: 0,
+			text: "",
+			commentCount: {{.Post.Count.Comment}},
+			commentList: {{.ListComment}},
+			isLoading: false,
+			isLoadingDelete: false,
+			isLoadingEdit: false,
+			isEdit: "",
+			textEdit: "",
+			nextID: {{.NextLoad}},
+			noMore: false,
+            toggleShortUrl: false,
+            shortURL: ""
+		}
+	},
+
+	methods: {
+        getShortUrl() {
+            if (this.toggleShortUrl) {
+                this.toggleShortUrl = false
+                return
+            }
+            if (this.shortURL !== "") {
+                this.toggleShortUrl = true
+                return
+            }
+            axios.post(`/ajax/post/shortener/url`, {
+                id: this.postID
+            }).then((res) => {
+                this.shortURL = res.data.url
+                this.toggleShortUrl = true
+            })
+        },
+		deletePost() {
+			let self = this
+			swal({
+				title: "ลบคอนเทนต์",
+				text: "ต้องการลบคอนเทนต์",
+				dangerMode: true,
+				buttons: ["ยกเลิก","ตกลง"]
+			})
+			.then(function (value) {
+				if (value) {
+					self.$refs.deletePost.submit()
+				}
+				return
+			})
+			.catch(swal.noop)
+		},
+		fetchPost(url, data) {
+			return fetch(url, {
+				credentials: 'include',
+				method: 'POST',
+				body: JSON.stringify(data)
+			}).then((res) => {
+				if (res.ok && res.status == 200) {
+					return res.json()
+				}
+				throw Error(res.statusText)
+			})
+		},
+
+		commentPost() {
+			if(this.text.trim() == '') return
+
+			if(this.isLoading) return
+			this.isLoading = true
+
+			if(this.commentList === null){
+				this.commentList = []
+			}
+
+			if(this.isOwner) {
+				this.type = 1
+			}
+			this.fetchPost(this.routeComment, {
+				gapID: this.gapID + "",
+				postID: this.postID + "",
+				type: this.type,
+				text: this.text + ""
+			}).then((res) => {
+				this.text = ''
+				this.isEdit = ''
+				if (this.commentCount == parseInt(this.commentCount, 10)){
+						this.commentCount = parseInt(this.commentCount) + 1
+					}
+				this.commentList.unshift(res)
+				this.isLoading = false
+			}).catch((err) => {
+				this.isLoading = false
+				this.commentList = []
+				return err
+			})
+		},
+		nextComment(id, next) {
+			axios.post(this.routeNextComment,{
+				id: this.postID + "",
+				next: next
+			},{
+				withCredentials: true
+			}).then(res => {
+				if (res.status === 200) {
+					this.commentList = this.commentList.concat(res.data.comment)
+					if(!res.data.isNext){
+						this.noMore = true
+					} else {
+						this.nextID = res.data.next
+					}
+				} else if (res.status === 204) {
+					this.noMore = true
+				}
+			}).catch(err => {
+				return err
+			})
+		},
+
+		deleteComment(index,commentID){
+			if(this.isLoadingDelete) return
+			this.isLoadingDelete = true
+			swal({
+				text: "คุณต้องการลบคอมเมนต์ใช่หรือไม่?",
+				buttons: ["ยกเลิก","ตกลง"],
+			}).then((value) => {
+				if (value) {
+					this.fetchPost(this.routeDeleteComment,{
+						commentID: commentID + "",
+						postID: this.postID + ""
+					}).then(res => {
+						this.commentList.splice(index, 1)
+						if (this.commentCount == parseInt(this.commentCount, 10)){
+							this.commentCount = parseInt(this.commentCount) - 1
+						}
+						this.isLoadingDelete = false
+						return res.commentID
+					}).catch((err) => {
+						this.isLoadingDelete = false
+						return err
+					})
+				} else {
+					this.isLoadingDelete = false
+				}
+			});
+		},
+
+		editComment(index, text){
+			this.isEdit = index
+			this.textEdit = text
+		},
+
+        cancelEditComment(){
+            this.isEdit = ''
+        },
+
+		submitEditComment(index, commentID){
+			if(this.textEdit.trim() == '') return
+
+			if(this.isLoadingEdit) return
+			this.isLoadingEdit = true
+
+			this.fetchPost(this.routeEditComment, {
+				commentID: commentID,
+				text: this.textEdit
+			}).then(res => {
+				this.isEdit = ''
+				this.commentList[index].text = this.textEdit
+				this.isLoadingEdit = false
+			}).catch((err) => {
+				this.isLoadingEdit = false
+				return err
+			})
+		}
+	}
+})
+$('#fb-share').on("click", function (params) {
+	FB.ui({
+		method: 'share',
+		display: 'popup',
+		href: {{.URL}},
+	}, function(response){});
+})
+$('#gg-share').on("click", function (params) {
+	sharelink = "https://plus.google.com/share?url=" + {{.URL}}
+	newwindow = window.open(sharelink,'name','height=400,width=600')
+	if (window.focus) { newwindow.focus() }
+	return false
+})
+</script>
+
+{{end}}

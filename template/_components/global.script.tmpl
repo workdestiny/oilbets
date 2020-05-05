@@ -1,0 +1,127 @@
+{{define "global.script"}}
+<script>
+const isSignin = {{.User.IsSignin}}
+const postNextURL = {{postNextURL templateName}}{{if .ParamID}}+{{.ParamID}}{{end}}
+
+document.addEventListener('DOMContentLoaded', () => {
+	;(function () {
+		document
+			.querySelectorAll('form')
+			.forEach((el) => {
+				el.addEventListener('submit', function (e) {
+					if (this.dataset.submitted) {
+						return e.preventDefault()
+					}
+					this.dataset.submitted = true
+					this.querySelectorAll('button')
+						.forEach((node) => {
+							node.classList.add('-disabled', '-loading')
+						})
+				})
+			})
+	})()
+})
+</script>
+
+	{{if .User.IsSignin}}
+		<script>
+			new Vue({
+				el: '#navVue',
+				data() {
+					return {
+						routeNotiList: {{route "ajax.notification.list"}},
+						routeAjaxReadNoti: {{route "ajax.notification.read"}},
+						routeResetNoti: {{route "ajax.notification.reset"}},
+						routeGap: {{route "gap"}},
+						redPoint: {{.User.IsNotification}},
+						dropdown: '',
+						notiCount: 0,
+						next: new Date(0),
+						listNoti: [],
+						noData: false,
+						noMore: false
+					}
+				},
+
+				mounted() {
+					this.$nextTick(() => {
+						$(document).mouseup(function (e) {
+							// when you paste 'can-click' class on element the hamberger is not close
+							var container = $('.noti-wrap')
+							// if the target of the click isn't the container nor a descendant of the container
+							if (!container.is(e.target) && container.has(e.target).length === 0) {
+								this.dropdown = ''
+							}
+						}.bind(this))
+					})
+				},
+
+				computed: {
+					hasList() {
+						if(this.listNoti === null) return false
+						return this.listNoti.length > 0
+					}
+				},
+
+				methods: {
+					showDropdown(val) {
+						if (this.dropdown !== '') {
+							this.dropdown = ''
+							return
+						}
+						this.dropdown = val
+						if(!this.hasList) {
+						this.getListNoti()
+						}
+					},
+					getListNoti() {
+						if(this.redPoint) {
+							this.resetNoti()
+						}
+						axios.post(this.routeNotiList, {
+							next: this.next
+						},{
+							withCredentials: true
+						}).then(res => {
+						if (res.status === 200) {
+							this.next = res.data.next
+							this.notiCount = res.data.count
+							this.listNoti = this.listNoti.concat(res.data.notification)
+							this.noData = false
+							if(!res.data.isNext) {
+								this.noMore = true
+							}
+						} else if (res.status === 204) {
+							this.listNoti = []
+							this.noData = true
+						}
+						}).catch(err => {
+							this.noData = true
+						})
+					},
+					resetNoti() {
+						axios.post(this.routeResetNoti,{
+							withCredentials: true
+						}).then(() => {
+							this.redPoint = false
+						})
+					},
+					readNoti(notiID, read) {
+						if (read) return
+						axios.post(this.routeAjaxReadNoti, {
+							id: notiID
+						}, {
+							withCredentials: true
+						})
+					},
+					getLink(type, postID, username) {
+						if(type === 0 || type === 1) {
+							return '/post/' + postID
+						}
+						return  this.routeGap + username
+					}
+				}
+			})
+		</script>
+	{{end}}
+{{end}}

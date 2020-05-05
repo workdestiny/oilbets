@@ -1,0 +1,283 @@
+{{define "page.title"}}MahaPorn{{end}}
+
+{{define "app-body"}}
+{{if and .User.IsSignin .NonFollow}}
+	{{template "modal-select-topic"}}
+{{end}}
+
+
+<!-- {{if .IsMobile}}
+<div class="col-md-12" style="text-align: center;">
+	<iframe src="//a.exosrv.com/iframe.php?idzone=3609495&size=468x60" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+</div>
+<div class="col-md-12" style="text-align: center;">
+	<iframe src="//a.exosrv.com/iframe.php?idzone=3609497&size=468x60" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+</div>
+{{ else }}
+<div class="col-md-12" style="text-align: center;">
+	<iframe src="//a.exosrv.com/iframe.php?idzone=3609499&size=728x90" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+</div>
+<div class="col-md-12" style="text-align: center;">
+	<iframe src="//a.exosrv.com/iframe.php?idzone=3609503&size=728x90" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+</div>
+{{end}} -->
+
+{{/*}}
+<!-- <section class="_mgt-24 _mgt-30-md _mgbt-30 _mgbt-75-lg">
+	<div class="container">
+		{{ template"gap-recommend".
+	</div>
+</section>-->
+{{*/}}
+
+<div class="container _mgt-20">
+	{{template "topic-small" .}}
+</div>
+
+{{/*}}
+
+<!-- <section class="_mgbt-32 _mgbt-50-lg">
+	<div class="container">
+		<div class="row _mgbt-16">
+			<div class="col-md-12">
+				<div class="_dp-f">
+					<h4 class="fs-18 fs-24-md _mgbt-0 _tal-ct _cl-gray-1 fpt">
+						<span class="_cl-yellow-main">Tag</span> ฮิตติดเทรนด์
+					</h4>
+					<div class="_mgl-10 _dp-f _alit-ct _fw-nw">
+						<i class="fs-20 fs-28-md fal fa-angle-right"></i>
+						<i class="fs-20 fs-28-md fal fa-angle-right"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		{{template "topic-small" .}}
+	</div>
+</section> -->
+{{*/}}
+
+<div id="post-container" class="content _mgt-20">
+	<!-- <div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="_dp-f" style="border-bottom: solid 1px rgb(42, 47, 54);">
+					<div class="filter-post _cs-pt _pd-12" :class="{'active': type === 'article'}" @click="selectType('article')"
+					id="gtm-link" data-gtm-link="tab_dcv_general">
+						<i class="fs-13 _mgr-3 fal fa-edit"></i>
+						<span class="fs-14 fs-16-md fpt">ทั่วไป</span>
+					</div>
+					<div class="filter-post _cs-pt _pd-12" :class="{'active': type === 'gallery'}" @click="selectType('gallery')"
+					id="gtm-link" data-gtm-link="tab_dcv_gallery">
+						<i class="fs-13 _mgr-3 fal fa-images"></i>
+						<span class="fs-14 fs-16-md fpt">แกลลอลี่</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+	<div class="container _mgbt-50" :class="{'_mh-1000': !hasPost && isAjax}">
+		<div class="row content-post _mgt-15 _mgt-32-lg" ref="postList">
+			{{template "post-item"}}
+		</div>
+		<div v-cloak class="_mh-80">
+			<infinite-loading @infinite="infiniteHandler" ref="infiniteLoading" spinner="spiral" :distance="300">
+				<div slot="no-results">
+					<h5 class="_cl-white _tal-ct fs-14">ยังไม่มีคอนเทนต์</h5>
+				</div>
+				<div slot="no-more">
+					<h5 class="_cl-white _tal-ct fs-14">ไม่มีคอนเทนต์เพิ่มเติม</h5>
+				</div>
+			</infinite-loading>
+		</div>
+	</div>
+</div>
+<div class=" _mgt-20 _mgl-10 _mgr-10">
+	<h1 class="fs-14 fs-14-lg fs-14-xl" style="color:#c0c0c0">คลิปโป๊ xxx คลิปหลุด หนังAV หลุดนักศึกษา</h1>
+	<p class="fs-14 fs-14-lg fs-14-xl" style="color:#c0c0c0">สำหรับสังคมในยุคปัจุบันการใช้สื่อเพื่อความบันเทิงถูกใช้เพื่มมากขึ้นเป็นจำนวนมาก เพื่อหลีกเลี่ยงความเครียดรอบตัวคนส่วนใหญ่จึงเลือกใช่สื่อต่างๆในการเสพความสุข อาธิเช่น  คอนเท้นบรรยาย งานคลิปวีดีโอ ไวรอล ภาพเครื่อนไหว คอนเทนต์ภาพนิ่ง แม้กระทั่ง คลิปโป๊18+ ซึ่งสื่อแนวนี้นั้นเองที่ทำให้ เกิดรายได้สร้างงาน สร้างความสุข มาเป็นเวลานาน ทำให้ผลงาน หนังโป๊xxx คลิปหลุด หนังAV เพื่มขึ้นมากมายในปัจุบัน
+		แต่ถึงจะถูกสร้างมากขึ้นเท่าไหร่หรือจะสร้างเงินมากขนาดไหนแต่ในวัฒนะธรรมของไทยก็ยังถูกมองว่าผิดศิลธรรมอยู่ดี
+		ด้วยเหตุนี้การดูสื่อลามกอนาจาร XXX เหล่านี้ต่อให้จะผิดศิลธรรมมากมายในประเทศไทยขนาดไหนแต่ในต่างประเทศหลายๆประเทศกลับมองว่าเป็นสิ่งที่ปกติและยอมรับได้ในหลายๆประเทศ จึงทำให้การจะเสพสื่อในประเทศไทยต้องหลบซ่อน เข้าไปอยู่ในกลุ่มไลน์ และเว็บไซต์ชื่อดังต่างประเทศ  หากกล่าวว่าเว็บหนังผู้ใหญ่ที่มีคอนเท้นเยอะที่สุดใโลกคือ pornhub คำกล่างนี้คงไม่เวอร์จนเกินไป แต่หากกล่าวว่าเว็บหนังโป๊ ไทยที่มีคอนเทนต์มากที่สุดคงต้องยอมรับว่า mahaporn นั้นคือเว็บที่มี คลิปหลุดไทยมากที่สุดก็ว่าได้เช่นกัน ไม่ว่าจะเป้น คลิปนักศึกษา คลิปทางบ้าน คลิปแอบถ่าย หรือแม้กระทั่งคลิปMLive เราจัดให้อย่างเนืองแน่เต็มอัตราแน่นอน จากประสบการณ์ การท่องเว็บเหล่านี้มายาวนานจึงเข้าใจว่ากลุ่มผู้ชมต้องการอะไร และเราสามารถนำอะไรมาให้ผู้ชมที่รอติดตามอย่างใจจดจ่อได้อย่างรวดเร็วและทันท่วงที่
+		เฟสบุ็คอาจมีแค่ภาพตัวอย่าง แต่ถ้าอยากวาร์ปต้อง mahaporn เราคือแหล่งรวมวาร์ปจาก ทุกที่ไม่ว่าจะเป็น เฟสบุ็ค ไอจี ทวิตเตอร์ วีเค บีโก๊ไลฟ์ ไม่ว่าจะเป็นที่ไหนเว็บเราได้รวบรวมมาใว้ในที่เดียวที่นี้แล้ว mahaporn แหล่งรวมคลิปไทย ครบวงจร เพียงแค่คิดชีวิตก็สดชื่น ไม่ต้องไปเสียเวลาหา ไม่ต้องไปอ้อนวอขอวาร์ปใคร เพียงแค่เปิดเว็บเราคุณก็กลายเป็นคนตามเทรนได้ไม่ยาก อยากจะอวดเพื่อน ชวนเพีอน แนะนำเพื่อน เพื่อเปิดโลกแห่งวาร์ป คุณบอกเพื่อนได้เลยว่า mahaporn เว็บเดียวจบ</p>
+	<h2 class="fs-14 fs-14-lg fs-14-xl" style="color:#c0c0c0">หนังx ไทย ญี่ปุ่่น อเมริกา Porn ฟรีคลิปหลุด</h2>
+	<p class="fs-14 fs-14-lg fs-14-xl" style="color:#c0c0c0">ในทุกวันนี้ หนังโป๊ หรือคำที่คนไทยคุ้นชินกันก็คือ หนังx ไม่ว่าจะเป้น ไทย , ญี่ปุ่น , อเมริกัน , แอฟริกัน ล้วนแล้วแต่ถูกสร้างกันอย่างเปิดเผยแล้วในหลายๆประเทศ อาธิเช่น เว็บ Pornฮับ.com Xแฮมสเตอร์.com หรือ Xวีดีโอ.com โดยเปิดเนื่อหาให้ดูมีทั้งส่วนของเนื่อหาฟรี แล้วเนื่อหาของสมาชิก และยังเป็นตัวที่เชื่อมยงให้เข้าถึงเว็บ Porn ได้มากขึนอีกด้วย
+		และยิ่งมีคอนเทนต์มากในโลกก็ยิ่งทำให้เกิดเว็บแนวรวมหนังโป๊เพื่มมากขึ้นทวีคูนมากขึ้นไปอีก และยังสร้างรายได้ให้กับผู้สร้างเว็บสร้างแอปพริเคชั่น ให้ทีช่องทางการทำเงินอีกด้วย
+		เพราะเว็บไซด์ส่วนใหญ่ก็เปิดให้บริการฟรีและยังสามารถกดดาวโหลดเก็บใว้เพื่อเป้นคอลเลคชั่นได้อีกด้วย
+		และนี้ก็เป็นข่าวดีสำหรับคนที่ชื่นชอบดูหนังผู้ใหญ่ หนังโป๊ คลิปโป๊ xxx คลิปหลุด หนังAV Porn หนัง18+ เพราะทุกวันนี้การเข้าถึงสื่อเหล่านี้สามารถเข้าถึงได้ง่ายมาก แค่เรามีโทรศัพท์ซักเครื่อง คอมพิวเตอร์ แล็ปท็อป แท๊ปเลท หรือ ใดๆ ที่สามารถเชื่อต่อกับอินเตอร์เน็ตได้ ไม่ว่าจะเป็น Edge GPRS Bluetootg Wifi 3G 4G 5G เพียงเท่านี้ทุกคนก็สามารถเข้าถึง คลิปไป๊ได้อย่างง่ายดายแล้ว</p>
+	<h3 class="fs-14 fs-14-lg fs-14-xl" style="color:#c0c0c0">MAHAPORN หนังx หนังAV คลิปหลุดทางบ้าน</h3>
+	<p class="fs-14 fs-14-lg fs-14-xl" style="color:#c0c0c0">และในขณะเดียวกัน ทีมงานก็ได้เลงเห็นว่าการรวบรวม หนังx หนังAV คลิปหลุดทางบ้าน ให้เข้ามาอยู่ในแหล่งเดียว และ ทำให้ผู้คนเข้าถึงง่านน่าจะเป็นสิ่งที่ดี เราจึงสร้างเว็บไซด์ mahaporn ขึ้นเพื่อตอบโจทน์ให้กับผู้ที่ชื่นชอบดูคลิป xxx ทุกคนให้ได้รับคอนเทนต์ที่ดีอย่างต่อเนื่อง โดยการแบ่งหมวดหมู่อย่างชัดเจน เชนช่น College , asian , lesbian , big tits , teen , หลุดนักศึกษา คลิปโป๊ทางบ้าน และอีกมากมาย
+		ไม่ว่ากลุ่มผู้ชมของเว็บไซด์ mahaporn จะชอบอะไรเราในฐานะทีมผู้สร้างจะทำให้ดีที่สุดและจะนำสิ่งที่ ทุกคนต้องการนำมาเสริฟให้ได้มากที่สุด
+		ทั้งนี้สำหรับผู้ที่อยากสนับสนุนเว็บไซด์ของเรา สามารถติดต่อหรือส่งอีเมล เข้ามาทางเว็บ mahaporn ได้โดยตรง ทางทีมงานจะจิตต่อกลับให้เร็วที่สุด เราหวังว่าอนาคต จะมีชุมชนที่แบ่งปั่นกันอย่างมั่นคงกันต่อไปมากๆ</p>
+	<h4 class="fs-14 fs-14-lg fs-14-xl" style="color:#c0c0c0">คลิปหลุด xxx หนัง18+ ฟรีคลิปหลุด หลุดนักศึกษา</h4>
+	<p class="fs-14 fs-14-lg fs-14-xl" style="color:#c0c0c0">ณ ปัจจุบัน มีการทำธุรกิจเว็บไซด์กันมากขึ้น ทำให้เว็บไซด์ส่วนใหญ่เกิดการแข่งขันเพื่อสร้างเว็บไซด์ขึ้นเพื่อเป้นช่องทางเพื่อสร้างรายได้ให้กับเว็บไซด์ของตนเช่นเดียวกับเรา ทางทีมงามจึง สร้างเว็บไซด์ mahaporn ขึ้นมาแต่เว็บไซด์ที่ดี หรือผลงานดีจะไม่สามารถเกิดขึ่นได้เลยถ้าเราทำเว็บไซด์โดยขาดผู้สนับสนุนที่ดี
+		เมื่อทุกอย่างสมบูรณ์ในรูปแบบที่ดี เราสัญญาจะทำให้ดีที่สุดเพื่อคอนเทนต์ที่มีคุณภาพสมกับที่ผู้ชมและผู้สนับสนุนทุกคนรอคอย ให้อย่างดีที่สุด
+		ร่วมเป็นส่วนหนึ่งกับเว็บของเราด้วยการ กดไลท์ กดแชร์ ให้เพื่อนๆของคุณใน โซเชียลมีเดียของท่านได้รับทราบ จะเป็นพระคุณต่อเว็บของเรามากๆ ทางทีมงาน mahaporn ต้องของขอบคุณทุกๆท่านที่มีส่วนร่วมกับเว็บไซด์เราอย่างมาก</p>
+	<h5 class="fs-14 fs-14-lg fs-14-xl" style="color:#c0c0c0">หนังโป๊ คลิปหลุด คลิปโป๊ xxxไทย xxxนักเรียน</h5>
+	<p class="fs-14 fs-14-lg fs-14-xl" style="color:#c0c0c0">เว็บไซต์ส่วนใหญ่ของGoogleที่ทำคลิปแนวคลิปVDOแนว18+หรือ หนังโป๊ ยังคงเป็นที่นิยมในหมู่วัยรุ่นและผู้ใหญ่ของทุกประเป็น และการค้นหาที่มากที่สุดสำหรับประเทศไทยก็ยังคงเป็นคำว่า  xxx คลิปโป๊ ซื่งเป็นที่แพร่หลายในประเทศไทยเป็นจำนวนมาก หากใครที่ชื่นชอบหนังผู้ใหญ่ก็คงเป็นที่รู้จักกันเป็นอย่างดี แต่ก็ยังมีคำอีกมากมายที่กล่าวมา อาธิเช่น คลิปหลุด xxxไทย เป็นต้น
+		หากคุณเป็นบุคลที่ชื่นชอบหนังโป๊ก็ไม่ควรพลาด กับKeywordหล่านี้ที่กล่าวมาข้างต้น คงเป็นไปได้อยากที่จะกล่าวว่า เรื่อง sex นั้นเป็นเรื่องไกลตัวเพราะไม่ว่าจะเป็นเด็กหรือผู้ใหญ่ จะผู้ชายหรือผู้หญิงก็ย่อมมีความต้องการทางเพศด้วยกันทั้งสิ้ง ฉะนั้น การที่บุคลคนหนึ่งที่อาจจะมีความต้องการทางเพศสูงมากๆ ก็อาจจะสามารถทำให้เกิดอารมณ์ทางเพศขึ้นได้ เว็บไซต์ คลิปโป๊ จึงเป็นอีกหนึ่งช่องทางที่สามารถช่วย บำบัดอาการ sex ได้อย่างดี</p>
+	<h6 class="fs-14 fs-14-lg fs-14-xl" style="color:#c0c0c0">xxxไทย คลิปโป๊ หนังโป๊ xxx xxxนักเรียน mahaporn คลิปโป๊ หนังโป๊ นักศึกษา</h6>
+	<p class="fs-14 fs-14-lg fs-14-xl" style="color:#c0c0c0">การเข้าถึงเว็บไซต์ของเรานั้นไม่ยากเพียงท่านค้นหาในกูเกิ้ลคำว่า mahaporn.com หรือsearchคำว่า xxxไทย หรือ xxxนักเรียน ก็ได้หรือง่ายกว่านั้น เพียงแค่พิมพ์คำว่า คลิปโป๊ โป็ ท่านก็สามารถเข้าถึงเว็บไซต์ของเราได้ทันทีเช่นกัน ไม่ว่าคลิปที่ท่านตามหาจะเป็นแบบไหนก็ตาม ถ้าหากอยากจะชมคลิปเต็มที่มีความคมชัดและไม่ถูกตัดต่อ หรือเห็นคลิปจาก เฟสบุ็คมาแต่ไม่ใช้คลิปเต็มถ้าท่านต้องการเว็บไซต์เต็มท่านสามารถค้นหาใน mahaporn ได้ในทันที เรามีให้คุณครบทุกสิ่งที่คุณต้องการแน่นอน
+		ไม่ว่าคุณจะหา โป + โป้ - โป็ หรือคลิปโป๊ เรารับประกันว่า mahaporn.com มีให้คุณเลือกมากมายอย่างครบครันแน่นอน ถ้าคิดว่าคลิปจาก pornhub มีมากเท่าไหร่เราเชื่อว่าเว็บไซต์ของเราก็มีมากมายสำหรับคนไทยเช่นกัน ไม่ว่าจะเป็น คลิปนักศึกษา xxxนักเรียน หรือคลิปโป๊ไทย หากท่านเป้นหนึ่งคนที่ตามหาสิ่งเหล่านี้ เว็บไซต์ของเราคงจะตอบโจทย์ความต้องการของคุณไม่มากก็น้อง</p>
+</div>
+{{end}}
+
+{{define "main.style"}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.3/assets/owl.carousel.min.css">
+{{end}}
+
+{{define "main.script"}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.3/owl.carousel.min.js"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const gap = $('.owl-gap')
+		const topic = $('.owl-topic')
+
+		gap.owlCarousel({
+			nav: false,
+			margin: 12,
+			loop: true,
+			dots: false,
+			autoWidth: true,
+			slideBy: 2,
+			responsive: {
+				768: {
+					items: 3
+				},
+				992: {
+					items: 4
+				},
+				1200: {
+					items: 5
+				}
+			}
+		})
+
+		topic.owlCarousel({
+			loop: false,
+			nav: false,
+			dots: false,
+			margin: 10,
+			autoWidth: true,
+			slideBy: 3,
+			responsive: {
+				768: {
+					items: 4
+				},
+				992: {
+					items: 8
+				},
+				1200: {
+					items: 10
+				}
+			}
+		})
+		// Go to the next item
+		$('.ctrl-carousel.ctrl-gap.next').click(function() {
+			gap.trigger('next.owl.carousel', [300])
+		})
+		// Go to the previous item
+		$('.ctrl-carousel.ctrl-gap.previous').click(function() {
+			gap.trigger('prev.owl.carousel', [300])
+		})
+		// Go to the next item
+		$('.ctrl-carousel.ctrl-topic.next').click(function() {
+			topic.trigger('next.owl.carousel', [300])
+		})
+		// Go to the previous item
+		$('.ctrl-carousel.ctrl-topic.previous').click(function() {
+			topic.trigger('prev.owl.carousel', [300])
+		})
+
+	}) // end
+</script>
+
+
+{{if and .User.IsSignin .NonFollow}}
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		Vue.component('btn-select', {
+			props: ['wording', 'id'],
+			template: `<div class="col-6 col-md-4 _mgbt-24">
+							<button
+							type="button"
+							class="btn btn-select-topic _bdrd-10px _pdh-12 _w-100pct"
+							:class="{'active': checked}"
+							@click="check"
+							:title="wording"
+							>\${wording}</button>
+						</div>`,
+			data() {
+				return {
+					checked: false
+				}
+			},
+			methods: {
+				check() {
+					if (this.checked) {
+						this.$emit('un-check', {
+							id: this.id,
+							name: this.wording
+						})
+					} else {
+						this.$emit('on-check', {
+							id: this.id,
+							name: this.wording
+						})
+					}
+					this.checked = !this.checked
+				}
+			}
+		}) // component
+		new Vue({
+			el: '#select-gap',
+			data() {
+				return {
+					listTopic: {{.ListTopic}},
+					listSelected: []
+				}
+			},
+			mounted() {
+				this.$nextTick(() => {
+					$('#select-gap').modal({
+						backdrop: 'static',
+						keyboard: false
+					})
+					$('html').css('overflow','hidden')
+				})
+			},
+			computed: {
+				count() {
+					return this.listSelected.length
+				},
+				toJson() {
+					return JSON.stringify(this.listSelected)
+				}
+			},
+			methods: {
+				onSelected(value) {
+					this.listSelected.push({
+						id: value.id
+					})
+				},
+				unSelected(value) {
+					let index = this.listSelected.findIndex(x => x.id === value.id)
+					this.listSelected.splice(index, 1)
+				},
+				submitForm() {
+					if (this.count < 2) {
+						swal({
+							title: 'ต้องเลือกอย่างน้อย 2 หัวข้อ'
+						})
+						return
+					}
+					this.$refs.formSelect.submit()
+				}
+			}
+		}) // Vue instant
+	})// end
+
+</script>
+{{end}}
+{{end}}

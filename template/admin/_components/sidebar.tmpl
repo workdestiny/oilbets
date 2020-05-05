@@ -1,0 +1,94 @@
+{{define "admin-sidebar"}}
+<nav id="sidebar" class="sidebar-wrapper toggle">
+    <div class="sidebar-content">
+        <div class="_pd-20">
+            <a class="_tdcrt-n _cl-white _fs-5" href="/">Mahaporn</a>
+        </div>
+        <div class="sidebar-header">
+            <div class="user-pic">
+                <img class="img-responsive img-rounded" src="{{.User.DisplayImage.Normal}}"
+                    alt="User picture">
+            </div>
+            <div class="user-info">
+                <span class="user-name">
+                    <strong>{{.User.FirstName}}</strong>
+                </span>
+                <span class="user-role">Administrator</span>
+                <span class="user-status">
+                    <i class="fa fa-circle"></i>
+                    <span>Online</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="sidebar-menu">
+            <ul>
+                <li class="header-menu">
+                    <span>General</span>
+                </li>
+                <li class="sidebar-dropdown">
+                    <a>
+                        <i class="fas fa-file-certificate"></i>
+                        <span>Category/Topic</span>
+                    </a>
+                    <div class="sidebar-submenu">
+                        <ul>
+                            <li>
+                                <a href="{{route "admin.category"}}">จัดการ category</a>
+                            </li>
+                            <li>
+                                <a href="{{route "admin.topic.seo"}}">จัดการ SEO topic</a>
+                            </li>
+                            <li>
+                                <a href="{{route "admin.topic"}}">แก้ไข topic</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="sidebar-dropdown">
+                    <a>
+                        <i class="far fa-id-card"></i>
+                        <span>Verify</span>
+                    </a>
+                    <div class="sidebar-submenu">
+                        <ul>
+                            <li>
+                                <a href="{{route "admin.verify"}}">ยืนยันตัวตน</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="sidebar-dropdown">
+                    <a>
+                        <i class="fal fa-hand-holding-usd"></i>
+                        <span>Revenue</span>
+                    </a>
+                    <div class="sidebar-submenu">
+                        <ul>
+                            <li><a href="{{route "admin.revenue"}}">ตรวจสอบใบถอนเงิน</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="sidebar-dropdown">
+                    <a>
+                        <i class="fas fa-user"></i>
+                        <span>User</span>
+                    </a>
+                    <div class="sidebar-submenu">
+                        <ul>
+                            <li><a href="{{route "admin.user"}}">ดูข้อมูล User</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="{{route "admin.gap.recommend"}}">
+                        <i class="fas fa-thumbs-up"></i>
+                        <span>Gap Recommend</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- sidebar-menu  -->
+    </div>
+</nav>
+{{end}}

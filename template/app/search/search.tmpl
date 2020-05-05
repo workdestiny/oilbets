@@ -1,0 +1,70 @@
+{{define "page.title"}}ค้นหา{{end}}
+
+{{define "app-body"}}
+<div id="search-overlay" class="search-overlay _mgt-32 _pd-5 active">
+    <div class="row">
+        <div class="container">
+            <div class="btn-close acback _cs-pt _w-30 _h-30 _bdrd-50pct _dp-f _alit-ct _jtfct-ct" id="gtm-button" data-gtm-button="search_close">
+                <i class="fal fa-times _cl-gray-1"></i>
+            </div>
+            <div class="input-search-group _pdh-20 _pdh-0-md">
+                <input class="input-search fs-18 _w-100pct _bdrd-50px"
+                @input="searchChange"
+                autofocus type="text"
+                placeholder="ชื่อเรื่อง โดจินที่กำลังตาหา แนวของเรื่อง"
+                ref="search"
+                v-model="search">
+                <div class="icon">
+                    <i class="fal fa-search _cl-yellow-5 fs-24"></i>
+                    <span class="_dp-n _dp-b-md _mgl-12 _mgt-1">ค้นหา</span>
+                </div>
+			</div>
+			<div v-cloak class="_pdh-20 _mgt-34" v-if="open">
+					<h2 class="fs-16 _cl-gray-4 _mgbt-12">
+						<i class="fas fa-book _cl-yellow-5"></i>
+						<span class="_mgl-4">หัวข้อ</span>
+					</h2>
+					<div class="t-wrap">
+						<span v-for="topic in searchListTopic" id="gtm-link"
+						:data-gtm-link="` search_topic${topic.id} | ${topic.name} | user{{.User.ID}}`">
+							<a :href="{{route "topic"}}+ topic.code" class="t-list">
+								${topic.name}
+							</a>
+						</span>
+						<h5 class="fs-16 _mgbt-0" v-if="searchListTopic === null">ไม่พบหัวข้อที่ค้นหา</h5>
+					</div>
+			</div>
+			<div v-cloak v-if="postList.length > 0" id="search-container" class="content _mgt-32">
+					<div class="container">
+							<div class="row">
+								<div class="col">
+									<div class="_dp-f" style="border-bottom: solid 1px rgb(11, 27, 48);">
+										<div class="filter-post _cs-pt _pd-12 active"
+										id="gtm-link" data-gtm-link="tab_dcv_new">
+											<i class="fs-13 _mgr-3 fas fa-bookmark"></i>
+											<span class="fs-14 fs-16-md fpt">โพสต์ที่เกี่ยวข้อง</span>
+										</div>
+										<!-- <div class="filter-post _cs-pt _pd-12" :class="{'active': type === 'article'}" @click="selectType('article')"
+										id="gtm-link" data-gtm-link="tab_dcv_general">
+											<i class="fs-13 _mgr-3 fal fa-edit"></i>
+											<span class="fs-14 fs-16-md fpt">ทั่วไป</span>
+										</div>
+										<div class="filter-post _cs-pt _pd-12" :class="{'active': type === 'gallery'}" @click="selectType('gallery')"
+										id="gtm-link" data-gtm-link="tab_dcv_gallery">
+											<i class="fs-13 _mgr-3 fal fa-images"></i>
+											<span class="fs-14 fs-16-md fpt">แกลลอลี่</span>
+										</div> -->
+									</div>
+								</div>
+							</div>
+						</div>
+					<div class="container _mgbt-50">
+						<div class="row content-post _mgt-15 _mgt-32-lg" ref="postList">
+							{{template "post-item"}}
+						</div>
+					</div>
+			</div>
+        </div>
+    </div>
+</div>
+{{end}}

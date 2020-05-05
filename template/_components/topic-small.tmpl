@@ -1,0 +1,25 @@
+{{define "topic-small"}}
+<div class="row">
+	<div class="col-md-12">
+		<div class="_pst-rlt">
+			<div class="ctrl-carousel ctrl-topic previous _jtfct-ct _alit-ct">
+				<div class="icon-wrap swing">
+					<i class="fal fa-angle-left _cs-pt fs-40"></i>
+				</div>
+			</div>
+			<div class="owl-carousel owl-topic">
+				{{range .Topics}}
+					<a class="item-topic-sm _wsp-nw _tdcrt-n" href="{{route "topic"}}{{.Name}}">
+						<span class="fs-14 _fw-600">{{.Name}}</span>
+					</a>
+				{{end}}
+			</div>
+			<div class="ctrl-carousel ctrl-topic next _jtfct-ct _alit-ct">
+				<div class="icon-wrap swing">
+					<i class="fal fa-angle-right _cs-pt fs-40"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{end}}

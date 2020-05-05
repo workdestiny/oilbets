@@ -1,0 +1,110 @@
+{{define "insights-overview"}}
+	<div id="stat" class="container _mgv-30-md">
+		<div class="row">
+			<div class="col-md-12 col-lg-10 offset-lg-1">
+				<div class="row">
+					{{template "gap-sidebar" .}}
+					<div class="col-md-12 col-lg-10 _bgcl-white-2 _pdh-10 _pdv-34">
+						<h3 class="_cl-gray _fw-600 fs-20 _mgbt-20 _mgl-30">
+							<span>รายงานข้อมูลสถิติ</span>
+							<i class="fal fa-chart-bar fs-14 _cl-gray-12"></i>
+						</h3>
+						<div class="_mgl-30 _mgbt-20">
+							<a class="_pdv-2 _cl-blue-5 _cl-blue-5-hover-hover fs-16 _fw-600 _tdcrt-n _bdbtw-1 _bdcl-blue-5-hover"
+							href="?section=overview">ภาพรวม</a>
+							<a class="_pdv-2 _cl-blue-5 _cl-blue-5-hover-hover fs-16 _fw-600 _tdcrt-n _mgl-42"
+							href="?section=advance">ข้อมูลเชิงลึก</a>
+						</div>
+
+						<div class="row _mgbt-20">
+							<div class="col-md-12 col-lg-5">
+								<div class="_bgcl-white _pd-30 _h-100pct shadow-stat">
+									<h3 class="fs-16 _mgbt-24 _cl-gray _fw-600">ยอดรวมการเข้าชม</h3>
+									<div class="_bdrd-3px _dp-f _fdrt-cl _jtfct-ct _alit-ct _pdv-70 _h-80pct" style="background-color: #385d7a;">
+										<span class="fs-40 _fw-600 _wb-bw">{{.ViewAll}}</span>
+										<span class="fs-30 _fw-600">เข้าชม</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12 col-lg-7">
+								<div class="_bgcl-white _pd-30 _h-100pct shadow-stat">
+									<h3 class="fs-16 _mgbt-24 _cl-gray _fw-600">สรุปข้อมูลเพจ</h3>
+									<div class="row">
+										<div class="col">
+											<h4 class="_mgbt-24 fs-16 _fw-600 _cl-gray-10">
+												จำนวนเข้าชมคอนเทนต์
+											</h4>
+											<div class="_mgbt-42">
+												<div class="_cl-gray-11 fs-24 _fw-600">{{.ViewPost.GuestView}}</div>
+												<div class="_cl-gray-10 fs-14">ผู้ชมทั่วไป</div>
+											</div>
+											<div class="_mgbt-42">
+												<div class="_cl-gray-11 fs-24 _fw-600">{{.ViewPost.View}}</div>
+												<div class="_cl-gray-10 fs-14">ผู้ชมที่ล็อคอิน</div>
+											</div>
+											<div class="_mgbt-30">
+												<div class="_cl-gray-11 fs-24 _fw-600">{{.ViewPost.All}}</div>
+												<div class="_cl-gray-10 fs-14">ยอดรวม</div>
+											</div>
+										</div>
+										<div class="col">
+											<h4 class="_mgbt-24 fs-16 _fw-600 _cl-gray-10">
+												จำนวนเข้าชมเพจ
+											</h4>
+											<div class="_mgbt-42">
+												<div class="_cl-gray-11 fs-24 _fw-600">{{.ViewGap.GuestView}}</div>
+												<div class="_cl-gray-10 fs-14">ผู้ชมทั่วไป</div>
+											</div>
+											<div class="_mgbt-42">
+												<div class="_cl-gray-11 fs-24 _fw-600">{{.ViewGap.View}}</div>
+												<div class="_cl-gray-10 fs-14">ผู้ชมที่ล็อคอิน</div>
+											</div>
+											<div class="_mgbt-30">
+												<div class="_cl-gray-11 fs-24 _fw-600">{{.ViewGap.All}}</div>
+												<div class="_cl-gray-10 fs-14">ยอดรวม</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col">
+								<div class="_bgcl-white _pd-30 shadow-stat">
+									<h4 class="_mgbt-24 fs-16 _fw-600 _cl-gray">
+										การเข้าชม และการมีส่วนร่วมกับคอนเทนต์
+									</h4>
+									{{template "table-stat" .}}
+									<nav class="_mgt-40" aria-label="Page navigation example">
+										<ul class="pagination">
+											<li class="page-item">
+												<a class="page-link _cl-gray-10 _bdw-0" @click="changePage('back')"aria-label="Previous">
+													<span aria-hidden="true"><i class="fal fa-angle-left"></i></span>
+													<span class="sr-only">Previous</span>
+												</a>
+											</li>
+
+											<li class="page-item" v-for="(p,index) in paginate" :key="index">
+													<a class="page-link _cl-gray-10 _bdw-0" :class="{ '_bgcl-gray-2': index+1 === page }" @click="changePage(index+1)">${index+1}</a>
+											</li>
+
+											<li class="page-item">
+												<a class="page-link _cl-gray-10 _bdw-0" @click="changePage('next')" aria-label="Next">
+													<span aria-hidden="true"><i class="fal fa-angle-right"></i></span>
+													<span class="sr-only">next</span>
+												</a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{{end}}

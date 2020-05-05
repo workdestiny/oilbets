@@ -1,0 +1,41 @@
+{{define "page.title"}}จัดการ SEO Topic{{end}}
+
+{{define "app-body"}}
+    <div class="container-fluid _cl-gray">
+        <h1 class="_fs-3 _fw-600 _mgbt-20">หัวข้อทั้งหมดที่ Verify แล้ว</h1>
+
+        <a class="btn btn-info btn-sm" href="{{route "admin.topic.create"}}">สร้างหัวข้อ</a>
+
+        <div class="row">
+            <div class="col-md-10">
+                <table class="table table-borderless _mgt-20">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">ชื่อหมวดหมู่</th>
+                            <th scope="col">SEO Title</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{range $i, $topic := .Topic}}
+                        <tr>
+                            <td>{{add $i 1}}</td>
+                            <td class="_vtcal-md">{{$topic.Name}}</td>
+                            <td class="_vtcal-md">{{$topic.Title}}</td>
+                            <td class="_vtcal-md">
+                                <a class="btn btn-warning btn-sm" href="{{route "admin.topic.seo.edit" (param "code" $topic.Code) }}">แก้ไข</a>
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td class="_tal-ct _w-80pct" colspan="3">ยังไม่มีหัวข้อ</td>
+                        </tr>
+                    {{end}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+{{end}}

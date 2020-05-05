@@ -1,0 +1,22 @@
+{{define "main.script"}}
+<script>
+    $(document).ready(function() {
+        $('#bankBtn').click(function(e) {
+            e.preventDefault()
+            if (confirm('คุณต้องการเปลี่ยนแปลงสถานะบัญชีธนาคารใช่หรือไม่?')) {
+                $('#bank').submit()
+                return
+            }
+            return
+        })
+        $('#cardBtn').click(function(e){
+            e.preventDefault()
+            if(confirm('คุณต้องการเปลี่ยนแปลงสถานะบัตรประชาชนใช่หรือไม่?')) {
+                $('#card').submit()
+                return
+            }
+            return
+        })
+    })
+</script>
+{{end}}

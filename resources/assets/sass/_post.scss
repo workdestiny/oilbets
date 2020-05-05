@@ -1,0 +1,235 @@
+.content-post {
+  margin-left: -5px;
+  margin-right: -5px;
+  & [class^='col'] {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+}
+
+.post {
+  position: relative;
+  display: block;
+  margin-bottom: 12px;
+  user-select: none;
+  &:hover {
+    text-decoration: none;
+    .counter-view {
+      opacity: 1;
+    }
+  }
+  .counter-view {
+    position: absolute;
+    display: none;
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    top: 15px;
+    left: 18px;
+    height: 30px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(245, 245, 245, 0.88);
+    transition: all 0.2s ease-in-out;
+  }
+  border-radius: 2px;
+  overflow: hidden;
+  background-color: #ffffff;
+  .info-wrap {
+    margin: 15px 15px;
+    .title {
+      margin-bottom: 6px;
+      font-size: 14px;
+      word-wrap: break-word;
+    }
+    .excerp {
+	  display: none;
+      word-wrap: break-word;
+      margin-bottom: 0;
+	  font-size: 12px;
+    }
+  }
+  .info-gap-wrap {
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    margin: 0 10px 5px 10px;
+  }
+  .avatar {
+    width: 18px;
+    height: 18px;
+  }
+  .info-gap-wrap {
+    .gap-name {
+      margin-right: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .stats-wrap {
+      display: inline-flex;
+      align-items: center;
+      font-size: 10px;
+      color: $color-gray-9;
+      .date {
+        margin-right: 8px;
+      }
+    }
+  }
+  .action-wrap {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 0 15px;
+    .action {
+      display: inline-flex;
+      font-size: 10px;
+      color: $color-gray-11;
+      flex-grow: 1;
+      justify-content: center;
+      .count {
+        text-align: center;
+        margin-right: 10px;
+      }
+      .item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.sidebar-post {
+  .img-h {
+    display: block;
+    max-height: 160px;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+  .post-thumb {
+    opacity: 1;
+  }
+  &.sm {
+    display: flex;
+    .post-thumb {
+      margin-right: 14px;
+      .thumb {
+        width: 70px;
+        height: 70px;
+        background-position: 50% 50%;
+        background-size: cover;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .post:hover .counter-view {
+    display: inline-flex;
+  }
+  .post {
+    margin-bottom: 16px;
+    .tag-post-wrap {
+      display: flex;
+    }
+    &.no-img {
+      .info-wrap {
+        margin: 50px 18px 15px 18px;
+      }
+    }
+    .info-wrap {
+      margin: 15px 18px;
+      .title {
+        font-size: 20px;
+      }
+      .excerp {
+		display: block;
+        font-size: 12px;
+      }
+    }
+    .info-gap-wrap {
+      margin: 10px 16px;
+    }
+  }
+  .content-post {
+    height: 100%;
+    margin-left: -10px;
+    margin-right: -10px;
+    & [class^='col'] {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .post {
+    .info-gap-wrap {
+      max-width: calc(100% - 120px);
+      margin: 25px 16px 10px 16px;
+    }
+    .avatar {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .info-wrap {
+	.excerp {
+	  display: block;
+	}
+  }
+  .sidebar-post {
+    &:hover {
+      .post-thumb {
+        opacity: 1;
+      }
+    }
+    .post-thumb {
+      opacity: 0.7;
+      transition: all ease-in-out 0.3s;
+    }
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .post {
+    margin-bottom: 24px;
+    .action-wrap {
+      position: absolute;
+      right: 10px;
+      bottom: 1px;
+      margin: 0;
+      width: 85px;
+      .action {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .view {
+          text-align: left;
+        }
+        .count {
+          margin-right: 0;
+          text-align: right;
+        }
+      }
+    }
+  }
+  .info-wrap {
+	.excerp {
+	  display: block;
+	}
+  }
+  .content-post {
+    & [class^='col'] {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  }
+  .sidebar-post {
+    margin-right: 0;
+  }
+}

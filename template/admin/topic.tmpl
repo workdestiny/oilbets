@@ -1,0 +1,54 @@
+{{define "page.title"}}หัวข้อ{{end}}
+
+{{define "app-body"}}
+    <div class="container-fluid _cl-gray">
+        <h1 class="_fs-3 _fw-600 _mgbt-20">หัวข้อทั้งหมด</h1>
+
+        <a class="btn btn-info btn-sm" href="{{route "admin.topic.create"}}">สร้างหัวข้อ</a>
+
+        <div class="row _mgt-24">
+            <div class="col-md-6">
+                <form action="{{route "admin.topic"}}" method="POST">
+                    <div class="row _alit-ct">
+                        <div class="col-md-9">
+                            <input name="text" type="text" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn sw-btn _cl-white _fw-600">ค้นหา</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <table class="table table-borderless _mgt-20">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">ชื่อหมวดหมู่</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{range $i, $topic := .Topic}}
+                        <tr>
+                            <td>{{add $i 1}}</td>
+                            <td class="_vtcal-md">{{$topic.Name}}</td>
+                            <td class="_vtcal-md">
+                                <a class="btn btn-warning btn-sm" href="{{route "admin.topic.edit" (param "id" .ID) }}">แก้ไข</a>
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td class="_tal-ct _w-80pct" colspan="3">ยังไม่มีหัวข้อ</td>
+                        </tr>
+                    {{end}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+{{end}}

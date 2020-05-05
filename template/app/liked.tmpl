@@ -1,0 +1,39 @@
+{{define "page.title"}}Follow{{end}}
+
+{{define "app-body"}}
+<div id="post-container" class="content _mgt-20 _mgt-40-lg">
+	<div class="container _mgbt-50 _pdh-0-sm _pdh-10-lg" :class="{'_mh-1000': !hasPost && isAjax}">
+		<div class="row">
+			<div class="col">
+				<div class="_dp-f" style="border-bottom: solid 1px rgb(11, 27, 48);">
+					<div class="filter-post _cs-pt _pd-12" :class="{'active': type === ''}" @click="selectType('')">
+						<i class="fs-13 _mgr-3 _cl-yellow-4 fas fa-bookmark"></i>
+						<span class="fs-14 fs-16-md fpt">โพสต์ที่คุณกดถูกใจแล้ว</span>
+					</div>
+					<!-- <div class="filter-post _cs-pt _pd-12" :class="{'active': type === 'article'}" @click="selectType('article')">
+						<i class="fs-13 _mgr-3 fal fa-edit"></i>
+						<span class="fs-14 fs-16-md fpt">ทั่วไป</span>
+					</div>
+					<div class="filter-post _cs-pt _pd-12" :class="{'active': type === 'gallery'}" @click="selectType('gallery')">
+						<i class="fs-13 _mgr-3 fal fa-images"></i>
+						<span class="fs-14 fs-16-md fpt">แกลลอลี่</span>
+					</div> -->
+				</div>
+			</div>
+		</div>
+			<div class="row content-post _mgt-15 _mgt-32-lg" ref="postList">
+				{{template "post-item"}}
+			</div>
+			<div v-cloak class="_mh-80">
+				<infinite-loading @infinite="infiniteHandler" ref="infiniteLoading" spinner="spiral" :distance="300">
+					<div slot="no-results">
+						<h5 class="_cl-white _tal-ct fs-14">คุณยังไม่ได้ถูกใจโพสต์ ลองกดปุ่มถูกใจดูซิ</h5>
+					</div>
+					<div slot="no-more">
+						<h5 class="_cl-white _tal-ct fs-14">ไม่มีคอนเทนต์เพิ่มเติม</h5>
+					</div>
+				</infinite-loading>
+			</div>
+	</div>
+</div>
+{{end}}

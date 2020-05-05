@@ -1,0 +1,255 @@
+.slide-gap-recommend-wrap {
+  position: relative;
+  border-radius: 2px;
+  background-color: transparent;
+}
+
+.ctrl-carousel {
+  position: absolute;
+  display: none;
+  width: 30px;
+  height: 30px;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  box-sizing: border-box;
+  cursor: pointer;
+  &.ctrl-topic {
+    &.next {
+      right: -32px;
+    }
+    &.previous {
+      left: -32px;
+    }
+  }
+  .icon-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &.next {
+    right: 0;
+  }
+  &.previous {
+    left: 0;
+  }
+}
+
+.owl-stage-outer {
+  height: 100%;
+}
+
+.owl-carousel .owl-item {
+  height: auto;
+  img {
+    width: inherit;
+  }
+}
+
+.owl-custom-dot-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box-create-gap {
+  position: relative;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.365);
+  background-image: url("");
+  background-color: rgba(22, 41, 59, 0.89);
+  border: solid 1px #24303c;
+  background-size: cover;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(22, 41, 59, 0.89);
+    z-index: 1;
+  }
+}
+
+.gap-item {
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 1px 2px 3px 0 rgba(0, 0, 0, 0.047);
+  width: 145px;
+  height: 170px;
+  .avatar {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    bottom: -18px;
+    overflow: hidden;
+    border: 2px solid $color-white;
+    background-position: 50%;
+    background-size: cover;
+    left: calc(50% - (50px / 2));
+    z-index: 3;
+  }
+  .cover {
+    height: 60px;
+    background-position: top center;
+    background-size: cover;
+  }
+  .shield {
+    width: 13px;
+    height: 13px;
+    margin-left: 4px;
+  }
+}
+
+.create-gap {
+  border-radius: 2px;
+  overflow: hidden;
+  .banner {
+    width: 306px;
+    background: url('') no-repeat;
+    flex: 1 0;
+    background-size: cover;
+    border-radius: 2px 0 0 2px;
+  }
+  .form {
+    width: 421px;
+  }
+}
+
+.sw-hero-gap {
+  .avatar {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border: 2px solid #283545;
+    overflow: hidden;
+    z-index: 3;
+    bottom: -45px;
+    left: calc(50% - (90px / 2));
+    &:hover .icon-upload {
+      opacity: 1;
+    }
+    .icon-upload {
+      display: flex;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.4);
+      transition: opacity 0.3s ease-in-out;
+    }
+  }
+}
+
+.setting-gap {
+  top: 12px;
+  right: 10px;
+}
+
+.gap-item-sm-wrap {
+  flex: 0 0 100%;
+  .gap-item-sm {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.date-warp {
+  display: flex;
+  flex-flow: row nowrap;
+  min-width: 160px;
+
+
+  .cl-active {
+    background-color: rgba(56, 93, 122, 0.18);
+  }
+  .cl-active-hover:hover {
+    transition: all 0.4s;
+    background-color: rgba(56, 93, 122, 0.18);
+  }
+  .ranges {
+    width: 230px;
+  }
+}
+.date-container {
+  border: 1px dashed #eee;
+  margin: 10px auto;
+  min-height: 160px;
+  .datepicker-container {
+    margin: auto 10px;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .ctrl-carousel {
+    display: none;
+  }
+  .gap-carousel-wrap {
+    height: auto;
+  }
+  .gap-item {
+    width: 169px;
+    height: 165px;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .setting-gap {
+    top: 26px;
+  }
+  .gap-item-sm-wrap {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .owl-item {
+    overflow: hidden;
+  }
+  .gap-carousel-wrap {
+    height: auto;
+  }
+  .gap-item {
+    width: 215px;
+    height: 274px;
+    .avatar {
+      width: 90px;
+      height: 90px;
+      bottom: -35px;
+      left: calc(50% - (90px / 2));
+    }
+    .cover {
+      height: 122px;
+    }
+  }
+  .sw-hero-gap {
+    .avatar {
+      width: 150px;
+      height: 150px;
+      bottom: -75px;
+      left: calc(50% - (150px / 2));
+    }
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .slide-gap-recommend-wrap {
+    margin-left: -34px;
+    margin-right: -34px;
+    border-radius: 2px;
+    padding: 30px 34px 20px 34px;
+    .owl-carousel .owl-item {
+      height: 278px;
+    }
+    .box-create-gap {
+      max-width: 535px;
+    }
+  }
+  .ctrl-carousel {
+    display: flex;
+  }
+}

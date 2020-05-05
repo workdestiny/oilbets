@@ -1,0 +1,37 @@
+{{define "modal-upload-img"}}
+<div id="upload-image" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog list-follow modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body _pdh-10 _pdh-24-md _pdv-35">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+				<div class="_dp-ilf _mgbt-32">
+					<h2 v-cloak class="fs-18 _cl-gray-11 _mgbt-0 _fw-600">${title}</h2>
+                </div>
+
+                <input ref="formFile" type="file" class="hide-input" accept="image/*" @change="setFile">
+                <div class="crop-container _mgbt-20">
+                    <img id="cropper" class="img-fluid" ref="cropper" v-show="imageSrc" :src="imageSrc">
+                </div>
+
+				<div class="_dp-f">
+                    <button class="btn sw-btn _pdh-15 _mgr-15"
+                    :class="{'-disabled -loading': btnLoading}"
+                    @click="selectPicture">
+                        <i class="fs-14 fal fa-camera _mgr-5"></i>
+                        <span>เลือกรูปภาพ</span>
+                    </button>
+                    <button class="btn sw-btn-tp _bgcl-blue-1 _cl-white _pdh-15"
+                    v-if="imageSrc"
+                    :class="{'-disabled -loading': btnLoading}"
+                    @click="uploadImage">
+                        <i class="fs-14 _cl-white fas fa-check _mgr-5"></i>
+                        <span>ใช้รูปภาพนี้</span>
+                    </button>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+{{end}}

@@ -1,0 +1,35 @@
+{{define "page.title"}}ช่วยเหลือการสร้างคอนเทนต์{{end}}
+
+{{define "app-body"}}
+	<div class="container _mgt-10 _mgt-20-md">
+		<div class="row">
+			<div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+				<div class="_bgcl-white _bdrd-2px">
+					<img class="img-fluid _img-ct" src="https://storage.googleapis.com/powerwork-bucket/static/help/post_option_1%402x.jpg">
+					<div class="accordion _mgbt-50" id="accordion">
+						{{range $i, $e := .List}}
+							<div class="card _bdw-0">
+								<div class="card-header">
+									<h5 class="_mgbt-0">
+										<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#t{{$i}}"
+										aria-expanded="false" aria-controls="collapseExample">
+										{{.Title}}
+										</button>
+									</h5>
+								</div>
+
+								<div id="t{{$i}}" class="collapse" data-parent="#accordion">
+									<div class="card-body">
+										{{range .URL}}
+											<img class="img-fluid" src="{{.}}">
+										{{end}}
+									</div>
+								</div>
+							</div>
+						{{end}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{{end}}

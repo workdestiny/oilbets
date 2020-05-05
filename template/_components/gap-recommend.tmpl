@@ -1,0 +1,80 @@
+{{define "gap-recommend"}}
+<div class="row slide-gap">
+	<div class="col-md-12">
+		<div class="_dp-f _alit-ct-md _mgbt-15">
+			<div class="fs-18 fs-24-md _mgr-5 _cl-white fpt"><span class="_cl-yellow-main">เพจของนักท่องเที่ยว</span> ที่น่าสนใจ</div>
+			<div class="_dp-f _alit-ct _fw-nw">
+				<i class="fs-20 fs-28-md fal fa-angle-right"></i>
+				<i class="fs-20 fs-28-md fal fa-angle-right"></i>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="slide-gap-recommend-wrap _dp-f _fdrt-cl align">
+			<div class="ctrl-carousel ctrl-gap previous _jtfct-ct _alit-ct" id="gtm-button" data-gtm-button="grcm_arrow_right">
+				<div class="icon-wrap swing">
+					<i class="fal fa-angle-left _cs-pt fs-40"></i>
+				</div>
+			</div>
+			<div class="owl-carousel owl-gap gap-carousel-wrap">
+			{{range .Gap}}
+				<div class="gap-item">
+					<a href="{{route "gap"}}{{.Username}}" class="_dp-b _pst-rlt">
+						<div id="gtm-link" data-gtm-link="grcm_gap_cover">
+							<div class="cover" style="background-image: url({{.Cover}})"></div>
+						</div>
+						<div id="gtm-link" data-gtm-link="grcm_gap_avatar">
+							<div class="avatar _bdrd-50pct _cs-pt" style="background-image: url({{.Display}})"></div>
+						</div>
+					</a>
+					<a href="{{route "gap"}}{{.Username}}" class="_mgt-24 _mgt-48-md _dp-f _jtfct-ct _alit-ct _tdcrt-n"
+					id="gtm-link" data-gtm-link="grcm_gap_name">
+						<h3 class="fs-12 fs-14-md _cl-gray-11 _mgbt-0 _fw-600" title="{{.Name}}">{{.Name | shortText 15}}</h3>
+						<div class="shield">
+							<img src="/-/images/icon/shield-15.png"
+							srcset="/-/images/icon/shield-15@2x.png 2x" title="verified">
+						</div>
+					</a>
+					<div class="_mgt-3 _mgt-8-md _dp-f _jtfct-ct _alit-ct">
+						<div class="fs-13 _cl-gray-9">ผู้ติดตาม {{.FollowerCount | shortNumber}}</div>
+					</div>
+				{{if $.User.IsSignin}}
+					{{if eq .IsOwner false}}
+						<div class="_mgt-10 _mgt-12-md _dp-f _jtfct-ct _alit-ct" id="gtm-button" data-gtm-button="grcm_follow_gap">
+							<button class="btn _bdrd-50px _h-25 _w-100 _pdv-0 _bdcl-gray-11 _bdcl-gray-7-hover _bgcl-white _dp-ilf _jtfct-ct _alit-ct acfollow"
+							data-gap-id="{{.ID}}">
+								{{if .IsFollow}}
+									<i class="fs-10 far fa-minus _cs-pt _cl-gray-11"></i>
+									<div class="fs-13 _cl-gray-11 _mgl-5 followtext">เลิกติดตาม</div>
+								{{else}}
+									<i class="fs-13 far fa-plus _cs-pt _cl-gray-11"></i>
+									<div class="fs-13 _cl-gray-11 _mgl-5 followtext">ติดตาม</div>
+								{{end}}
+							</button>
+						</div>
+					{{else}}
+						<div class="_mgt-5 _mgt-12-md _dp-f _jtfct-ct _alit-ct" id="gtm-link" data-gtm-link="grcm_gap_visit">
+							<a href="{{route "gap"}}{{.Username}}" class="btn _bdrd-50px _h-25 _w-100 _pdv-0 _bdcl-gray-11 _bdcl-gray-7-hover _bgcl-white _dp-ilf _jtfct-ct _alit-ct">
+								<div class="fs-13 _cl-gray-11 _mgl-5 followtext">เข้าชมเพจ</div>
+							</a>
+						</div>
+					{{end}}
+				{{else}}
+					<div class="_mgt-5 _mgt-12-md _dp-f _jtfct-ct _alit-ct" id="gtm-link" data-gtm-link="grcm_gap_visit">
+						<a href="{{route "gap"}}{{.Username}}" class="btn _bdrd-50px _h-25 _w-100 _pdv-0 _bdcl-gray-11 _bdcl-gray-7-hover _bgcl-white _dp-ilf _jtfct-ct _alit-ct">
+							<div class="fs-13 _cl-gray-11 _mgl-5 followtext">เข้าชมเพจ</div>
+						</a>
+					</div>
+				{{end}}
+				</div>
+			{{end}}
+			</div>
+			<div class="ctrl-carousel ctrl-gap next _jtfct-ct _alit-ct" id="gtm-button" data-gtm-button="grcm_arrow_left">
+				<div class="icon-wrap swing">
+					<i class="fal fa-angle-right _cs-pt fs-40"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{end}}

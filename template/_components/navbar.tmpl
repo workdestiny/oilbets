@@ -1,0 +1,322 @@
+{{define "navbar"}}
+{{if .User.IsSignin}}
+<div id="navVue">
+	<nav id="sw-navbar" class="sw-navbar">
+		<div class="container">
+			<a class="navbar-brand _mgr-15" href="{{route "discover"}}" id="gtm-link" data-gtm-link="nbsi_logo">
+				<img src="https://storage.googleapis.com/powerwork-bucket/static/mahaporn200.png"
+				srcset="https://storage.googleapis.com/powerwork-bucket/static/mahaporn200.png 2x" width="123" height="42" alt="logo-x">
+			</a>
+
+			<div class="dropdown" style="border-left: solid 1px #fcfcfc;">
+				<button class="btn btn-outline-transparent dropdown-toggle _cl-gray-1 fqs" type="button" id="dropdownMenuButton"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 2px 0.75rem;">
+					{{if eq templateName "app/follow"}}
+						Follow
+					{{else if eq templateName "app/public"}}
+						Public
+					{{else if eq templateName "app/liked"}}
+						ถูกใจแล้ว
+					{{else}}
+						หน้าแรก
+					{{end}}
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<div id="gtm-link" data-gtm-link="nbsi_dd_discover">
+						<a class="dropdown-item fqs" href="{{route "discover"}}">หน้าแรก</a>
+					</div>
+					<div id="gtm-link" data-gtm-link="nbsi_dd_like">
+						<a class="dropdown-item fqs" href="{{route "liked"}}">ถูกใจแล้ว</a>
+					</div>
+				</div>
+			</div>
+			{{if .User.IsPost}}
+               {{if .User.HasPage}}
+                <a href="{{route "create.post"}}"
+                class="_pst-asl _dp-f _alit-ct _jtfct-ct _mgh-at _pdh-15 _pdv-6 u-rise-createpost-hover _tdcrt-n _bdrd-5px _bdw-1 _bdcl-yellow"
+                id="gtm-link" data-gtm-link="nbsi_create_post"
+                style="left: calc(50% - 136px / 2);background: rgb(255,255,255);background: linear-gradient(180deg, rgba(255,255,255,1) 74%, rgba(241,240,240,1) 100%);">
+                    <span class="fs-14 _mgr-5">สร้างเรื่องราว</span>
+                    <i class="fas fa-pen fs-14 _cl-gray-10"></i>
+                </a>
+               {{else}}
+                <a href="{{route "create.gap"}}"
+                class="_pst-asl _dp-f _alit-ct _jtfct-ct _mgh-at _pdh-20 _pdv-6 u-rise-createpost-hover _tdcrt-n _bdrd-5px _bdw-1 _bdcl-yellow"
+                id="gtm-link" data-gtm-link="nbsi_create_gap"
+                style="left: calc(50% - 112px / 2);background: rgb(255,255,255);background: linear-gradient(180deg, rgba(255,255,255,1) 74%, rgba(241,240,240,1) 100%);">
+                    <i class="far fa-plus fs-12 _cl-blue-4"></i>
+                    <span class="fs-14 _mgl-5">สร้างเพจ</span>
+                </a>
+			  {{end}}
+			{{end}}
+
+			<div class="right-menu _mgl-at">
+				<div id="gtm-button" data-gtm-button="nbsi_search">
+					<i class="far fa-search fs-18 _mgr-25 _cs-pt _cl-gray-1 acsearch"></i>
+				</div>
+				<div class="_pst-rlt noti-wrap _mgr-15" style="user-select: none;">
+					<div v-cloak class="_pst-asl _bgcl-negative _bdrd-50pct _w-10 _h-10" style="right: -4px;" v-if="redPoint"></div>
+					<div id="gtm-button" data-gtm-button="nbsi_noti">
+						<i class="far fa-bell fs-18 _cs-pt _cl-gray-1" @click="showDropdown('d')"></i>
+					</div>
+					<div class="noti-dropdown _bgcl-white" :class="{'show': dropdown === 'd'}">
+						<div class="_pdh-16 _pdv-8 _h-40">
+							<div v-if="hasList">
+								<i class="fs-14 fas fa-bell _cl-gray-3 _mgr-8" style="transform: rotate(-45deg);"></i>
+								<span class="fs-12 _cl-blue-1">แจ้งเตือนใหม่ ${notiCount} รายการ</span>
+							</div>
+						</div>
+						<div class="noti-list sw-scrollbar">
+							{{template "noti-item" .}}
+							<div class="_dp-f _jtfct-ct _mgv-15" v-if="hasList">
+								<a v-cloak v-if="!noMore"
+								class="_pdh-20 _pdv-4 _bdcl-gray-9 _cl-gray-9 _cl-gray-10-hover _bgcl-gray-2-hover fs-13 _bdrd-50px"
+								@click="getListNoti">ดูเพิ่มเติม</a>
+								<h3 class="fs-13 _cl-gray-8" v-if="noMore">ไม่มีแจ้งเตือนเพิ่มเติม</h3>
+							</div>
+							<div v-cloak v-if="noData" class="_dp-f _fdrt-cl _alit-ct _jtfct-ct _mgt-100">
+								<i class="fs-20 fas fa-bell _cl-gray-2" style="transform: rotate(-45deg);"></i>
+								<h3 class="fs-16 _fw-600 _cl-gray-5 _mgt-10">ไม่มีการแจ้งเตือน</h3>
+							</div>
+							<div v-cloak v-if="!hasList && !noData" class="_dp-f _fdrt-cl _alit-ct _jtfct-ct _mgt-100">
+								<h3 v-cloak class="fs-16 _fw-600 _cl-gray-5 _mgt-10">Loading...</h3>
+							</div>
+						</div>
+						<div id="gtm-link" data-gtm-link="noti_all">
+							<a href="{{route "notification"}}" class="fs-13 _fw-600 _bgcl-gray-2 _cl-blue-3 _h-30 _dp-f _jtfct-ct _alit-ct">
+								แจ้งเตือนทั้งหมด
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="dropdown profile _pdl-5 _cs-pt" style="border-left: solid 1px rgba(151, 151, 151, 0.2);">
+					<button class="btn btn-outline-transparent _dp-ilf _alit-ct _pdr-0" type="button" id="dropdownMenuButton"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 2px 0.75rem;">
+						<div class="name _cl-gray-1 fs-16 fqs">{{.User.FirstName}}</div>
+						<img class="image _bdrd-50pct avatar-bd" src="{{.User.DisplayImage.Mini}}">
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="right: 0 !important;">
+						<div id="gtm-link" data-gtm-link="nbsi_dd_category">
+							<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "category"}}">
+								<i class="far fa-book _mgr-5 _cl-gray-10"></i>
+								หมวดหมู่
+							</a>
+						</div>
+						{{if .User.IsPost}}
+							<div class="dropdown-divider"></div>
+							{{if .User.Gap}}
+								<h6 class="dropdown-header _pdl-15 _cs-df">เพจ</h6>
+								<div class="_pdh-15 _pdv-8 _dp-f _cs-df">
+									{{range .User.Gap}}
+									<div class="_mgr-15">
+										<a class="" href="{{route "gap"}}{{.Username}}" id="gtm-link" data-gtm-link="nbsi_dd_gap_avatar">
+											<img class="_bdrd-50pct _w-30 _h-30 _opct-08-hover avatar-bd"
+											src="{{.Display}}" title="{{.Name}}">
+										</a>
+									</div>
+									{{end}}
+									<a class="_dp-ilf _alit-ct _mgl-at _bgcl-white-hover _tdcrt-n fs-12 _cl-blue-1 _tal-r" href="{{route "account"}}"
+									id="gtm-link" data-gtm-link="nbsi_dd_all_gap">
+										<i class="far fa-ellipsis-h" title="ดูทั้งหมด"></i>
+									</a>
+								</div>
+							{{end}}
+							<div id="gtm-link" data-gtm-link="nbsi_dd_create_gap">
+								<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "create.gap"}}">
+									<i class="far fa-plus fs-14 _cl-gray-11"></i>
+									<span class="_mgl-5">สร้างเพจ</span>
+								</a>
+							</div>
+						{{end}}
+							<div class="dropdown-divider"></div>
+							<div id="gtm-link" data-gtm-link="nbsi_dd_setting_account">
+								<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "account"}}">
+									<i class="far fa-cog _mgr-5 _cl-gray-10"></i>
+									ตั้งค่าบัญชี
+								</a>
+							</div>
+							<div id="gtm-link" data-gtm-link="nbsi_dd_contact">
+								<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "contact"}}" target="_blank">
+									<i class="far fa-users _mgr-5 _cl-gray-10"></i>
+									ติดต่อเรา
+								</a>
+							</div>
+							{{if .User.IsAdmin}}
+							<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "admin"}}">
+								<i class="far fa-tachometer-alt _mgr-5 _cl-gray-10"></i>
+								Dashboard
+							</a>
+							{{end}}
+							<!-- <a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="#">ช่วยเหลือ</a> -->
+							<form class="dropdown-item _pdl-15" action="{{route "signout"}}" method="POST" id="gtm-link" data-gtm-link="nbsi_dd_signout">
+								<button class="btn btn-outline-transparent _pdv-0 _pdh-0 _tal-l tall fs-14" style="border: 0;width: 100%;"
+								type="submit">
+								<i class="far fa-sign-out _mgr-5 _cl-gray-10"></i>
+								ออกจากระบบ
+							</button>
+						</form>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Mobile navbar -->
+	<nav id="sw-navbar-mobile" class="sw-navbar mobile">
+		<div class="container _pdh-0-sm _pdh-10-lg">
+			<div class="dropdown profile _cs-pt _mgr-15">
+				<button class="btn btn-outline-transparent _pdh-0" type="button" id="dropdownMenuButton"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<img class="image _bdrd-50pct avatar-bd" src="{{.User.DisplayImage.Mini}}">
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<div id="gtm-link" data-gtm-link="nbsi_dd_category">
+						<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "category"}}">
+							<i class="far fa-book _mgr-5 _cl-gray-10"></i>
+							หมวดหมู่
+						</a>
+					</div>
+					{{if .User.IsPost}}
+					<div class="dropdown-divider"></div>
+					{{if .User.Gap}}
+						<h6 class="dropdown-header _pdl-15 _cs-df">เพจ</h6>
+						<div class="_pdh-15 _pdv-8 _dp-f _cs-df">
+							{{range .User.Gap}}
+							<div class="_mgr-15">
+								<a class="" href="{{route "gap"}}{{.Username}}" id="gtm-link" data-gtm-link="nbsi_dd_gap_avatar">
+									<img class="_bdrd-50pct _w-30 _h-30 _opct-08-hover avatar-bd"
+									src="{{.Display}}" title="{{.Name}}">
+								</a>
+							</div>
+							{{end}}
+							<a class="_dp-ilf _alit-ct _mgl-at _bgcl-white-hover _tdcrt-n fs-12 _cl-blue-1 _tal-r" href="{{route "account"}}"
+							id="gtm-link" data-gtm-link="nbsi_dd_all_gap">
+								<i class="far fa-ellipsis-h" title="ดูทั้งหมด"></i>
+							</a>
+						</div>
+					{{end}}
+					<div id="gtm-link" data-gtm-link="nbsi_dd_create_gap">
+						<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "create.gap"}}">
+							<i class="far fa-plus fs-14 _cl-gray-11"></i>
+							<span class="_mgl-5">สร้างเพจ</span>
+						</a>
+					</div>
+					{{end}}
+					<div class="dropdown-divider"></div>
+					<div id="gtm-link" data-gtm-link="nbsi_dd_setting_account">
+						<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "account"}}">
+							<i class="far fa-cog _mgr-5 _cl-gray-10"></i>
+							ตั้งค่าบัญชี
+						</a>
+					</div>
+					<div id="gtm-link" data-gtm-link="nbsi_dd_contact">
+						<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "contact"}}" target="_blank">
+							<i class="far fa-users _mgr-5 _cl-gray-10"></i>
+							ติดต่อเรา
+						</a>
+					</div>
+					<!-- <a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="#">ช่วยเหลือ</a> -->
+					<form class="dropdown-item _pdl-15" action="{{route "signout"}}" method="POST">
+						<div id="gtm-link" data-gtm-link="nbsi_dd_signout">
+							<button class="btn btn-outline-transparent _pdv-0 _pdh-0 _tal-l fs-14"
+							style="border: 0;width: 100%;" type="submit">
+							<i class="far fa-sign-out _mgr-5 _cl-gray-10"></i>
+							ออกจากระบบ
+						</button>
+						</div>
+					</form>
+				</ul>
+			</div>
+			<div class="_dp-f _alit-ct" id="gtm-button" data-gtm-button="nbsi_search">
+				<i class="far fa-search fs-18 _mgr-25 _cs-pt _cl-gray-1 acsearch"></i>
+			</div>
+			<div class="_pst-asl" style="left: calc(50% - 104px / 2);">
+				<div class="dropdown">
+					<button class="btn btn-outline-transparent dropdown-toggle _cl-gray-1 fqs"
+					type="button" id="dropdownMenuButton"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						{{if eq templateName "app/follow"}}
+							Follow
+						{{else if eq templateName "app/public"}}
+							Public
+						{{else if eq templateName "app/liked"}}
+							ถูกใจแล้ว
+						{{else}}
+							หน้าแรก
+						{{end}}
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<div id="gtm-link" data-gtm-link="nbsi_dd_discover">
+							<a class="dropdown-item fqs" href="{{route "discover"}}">หน้าแรก</a>
+						</div>
+						<div id="gtm-link" data-gtm-link="nbsi_dd_like">
+							<a class="dropdown-item fqs" href="{{route "liked"}}">ถูกใจแล้ว</a>
+						</div>
+						<!-- <div id="gtm-link" data-gtm-link="nbsi_dd_follow">
+							<a class="dropdown-item fqs" href="{{route "follow"}}">Follow</a>
+						</div> -->
+					</div>
+				</div>
+			</div>
+			<div class="right-menu _mgl-at">
+				<div class="_pst-rlt noti-wrap _mgr-20" style="user-select: none;">
+					<div v-cloak class="_pst-asl _bgcl-negative _bdrd-50pct _w-10 _h-10" style="right: -4px;" v-if="redPoint"></div>
+					<div id="gtm-button" data-gtm-button="nbsi_noti">
+						<i class="far fa-bell fs-18 _cs-pt _cl-gray-1" @click="showDropdown('m')"></i>
+					</div>
+					<div class="noti-dropdown _bgcl-white" :class="{'show': dropdown === 'm'}">
+						<div class="_pdh-16 _pdv-8 _h-40">
+							<div v-if="hasList">
+								<i class="fs-14 fas fa-bell _cl-gray-3 _mgr-8" style="transform: rotate(-45deg);"></i>
+								<span class="fs-12 _cl-blue-1">แจ้งเตือนใหม่ ${notiCount} รายการ</span>
+							</div>
+						</div>
+						<div class="noti-list sw-scrollbar">
+							{{template "noti-item" .}}
+							<div class="_dp-f _jtfct-ct _mgv-15" v-if="hasList">
+								<a v-if="!noMore" class="_bdcl-gray-6 _bdrd-50px fs-12 _pdv-4"
+								@click="getListNoti">ดูเพิ่มเติม</a>
+								<h3 class="fs-13 _cl-gray-8" v-if="noMore">ไม่มีแจ้งเตือนเพิ่มเติม</h3>
+							</div>
+							<div v-cloak v-if="noData" class="_dp-f _fdrt-cl _alit-ct _jtfct-ct _mgt-100">
+								<i class="fs-20 fas fa-bell _cl-gray-2" style="transform: rotate(-45deg);"></i>
+								<h3 class="fs-16 _fw-600 _cl-gray-5 _mgt-10">ไม่มีการแจ้งเตือน</h3>
+							</div>
+							<div v-cloak v-if="!hasList && !noData" class="_dp-f _fdrt-cl _alit-ct _jtfct-ct _mgt-100">
+									<h3 class="fs-16 _fw-600 _cl-gray-5 _mgt-10">Loading...</h3>
+							</div>
+						</div>
+						<div id="gtm-link" data-gtm-link="noti_all">
+							<a href="{{route "notification"}}" class="fs-13 _fw-600 _bgcl-gray-1 _cl-blue-3 _h-30 _dp-f _jtfct-ct _alit-ct">
+								แจ้งเตือนทั้งหมด
+							</a>
+						</div>
+					</div>
+				</div>
+				{{if .User.IsPost}}
+				<a href="{{route "create.post"}}" id="gtm-link" data-gtm-link="nbsi_dd_create_gap">
+					<i class="fas fa-pen fs-16 _cs-pt _cl-gray-1"></i>
+				</a>
+				{{end}}
+			</div>
+		</div>
+	</nav>
+</div>
+{{else}}
+	<nav class="sw-navbar anonymous">
+		<div class="container _pdh-0-sm _pdh-10-lg">
+			<a class="navbar-brand _mgr-15" href="{{route "discover"}}" id="gtm-link" data-gtm-link="navbar_logo">
+				<img src="https://storage.googleapis.com/powerwork-bucket/static/mahaporn200.png"
+				srcset="https://storage.googleapis.com/powerwork-bucket/static/mahaporn200.png 2x" width="123" height="42" alt="logo-amld">
+			</a>
+			<div class="right-menu" id="gtm-link" data-gtm-link="navbar_contactus">
+				<div id="gtm-button" data-gtm-button="nbsi_search">
+						<i class="far fa-search fs-18 _mgr-25 _cs-pt _cl-gray-1 acsearch"></i>
+				</div>
+				<a class="fs-16 _fw-600 _mgr-15 _cl-gray-1" href="{{route "signin"}}">เข้าสู่ระบบ</a>
+				<a class="fs-16 _fw-600 _cl-gray-1 _dp-n _dp-b-md" href="{{route "contact"}}">ติดต่อเรา</a>
+			</div>
+		</div>
+	</nav>
+{{end}}
+{{end}}

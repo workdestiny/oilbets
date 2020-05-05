@@ -1,0 +1,15 @@
+{{define "category-item"}}
+<div class="row">
+		<div class="col-md-12">
+			<div class="_pst-rlt">
+				<div class="owl-carousel owl-category">
+					{{range .Category}}
+						<a class="item-category-sm _wsp-nw _tdcrt-n" href="{{route "category.get"}}{{.Code}}">
+							<span class="fs-14 _fw-600">{{.Name}}</span>
+						</a>
+					{{end}}
+				</div>
+			</div>
+		</div>
+	</div>
+{{end}}

@@ -1,0 +1,16 @@
+{{define "page.title"}}แก้ไขหมวดหมู่{{end}}
+
+{{define "app-body"}}
+    <div class="container-fluid _cl-gray">
+        <h1 class="_fs-3 _fw-600 _mgbt-20">แก้ไขหมวดหมู่</h1>
+        <form action="{{route "admin.category.edit"}}" method="POST">
+            <div class="form-group">
+                <label>ชื่อหมวดหมู่</label>
+                <input type="hidden" class="form-control" name="id" value="{{.ID}}">
+                <input type="text" class="form-control {{if .Flash.Has "Errors"}}is-invalid{{end}}" name="name" value="{{.Name}}" required>
+                <div class="invalid-feedback">{{.Flash.Get "Errors"}}</div>
+            </div>
+            <button type="submit" class="btn btn-info _pdh-40">บันทึก</button>
+        </form>
+    </div>
+{{end}}

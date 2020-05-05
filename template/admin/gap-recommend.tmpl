@@ -1,0 +1,68 @@
+{{define "page.title"}}จัดการ gap recommend{{end}}
+
+{{define "app-body"}}
+<div class="container-fluid _cl-gray">
+    <h3 class="_cl-gray _fw-600 fs-24 _mgbt-20">
+        <span>จัดการ GAP</span>
+        <i class="fal fa-user fs-20 _cl-gray-12"></i>
+    </h3>
+
+    <h3 class="_mgbt-10 _cl-blue-2 fs-18 _fw-600">ค้นหา ไอดีเพจ ชื่อเพจ </h3>
+    <form method="POST">
+        <div class="row _alit-ct">
+            <div class="col-md-9">
+                <input name="text" value="{{.TextSearch}}" type="text" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn sw-btn _cl-white _fw-600">ค้นหา</button>
+            </div>
+        </div>
+    </form>
+
+    <ul class="list-unstyled _mgv-34">
+        {{if .TextSearch}}
+            {{range .Gap}}
+            <li class="media _mgbt-16">
+                <a href="/gap/{{.Username}}" target="_blank">
+                    <img class="_mgr-16 _bdrd-3px" src="{{.Display}}" width="50" height="50" alt="Generic placeholder image">
+                </a>
+                <div class="media-body _dp-f _alit-ct">
+                    <h5 class="_mgbt-0 fs-16">{{.Name}}</h5>
+                    <form method="POST" action="{{route "admin.gap.recommend.register"}}" class="_mgl-at">
+                        <input type="hidden" name="id" value="{{.ID}}">
+                        <button class="btn btn-info btn-sm">ตั้งเป็น Recommend</button>
+                    </form>
+                </div>
+            </li>
+            {{else}}
+            <li class="_cl-gray fs-24">
+                ไม่มีเพจที่ค้นหา
+            </li>
+            {{end}}
+        {{end}}
+    </ul>
+
+    <div class="row _mgt-50">
+    {{range .GapRecommend}}
+        <div class="col-md-2 _mgbt-16">
+            <div class="card">
+            <a href="/gap/{{.Username}}" target="_blank">
+                <img class="card-img-top img-fluid" src="{{.Display}}" alt="{{.Name}}">
+            </a>
+                <div class="card-body">
+                    <h5 class="card-title fs-16">{{.Name}}</h5>
+                    <form method="POST" action="{{route "admin.gap.recommend.delete"}}">
+                        <input type="hidden" name="id" value="{{.ID}}">
+                        <button class="btn btn-primary btn-block">เอาออก</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {{end}}
+    </div>
+
+</div>
+{{end}}
+
+{{define "main.style"}}
+{{end}}

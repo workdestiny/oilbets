@@ -1,0 +1,160 @@
+[class^='sw-btn'] {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.sw-btn {
+  min-height: 35px;
+  min-width: 100px;
+  border-radius: 3px;
+  background-color: $color-yellow-main;
+  text-shadow: 0 1px 1px #f1bd00;
+}
+
+.sw-btn-tp {
+  display: flex;
+  flex-flow: row nowrap;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 8px;
+  text-align: center;
+  cursor: pointer;
+  color: #030303;
+}
+
+.btn:focus,
+.btn.focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.btn-outline-transparent {
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+}
+
+.btn-outline-white {
+  background-color: transparent;
+  background-image: none;
+  border-color: #fff;
+}
+
+.btn-create-gap {
+  background-color: transparent;
+  background-image: none;
+  border-color: #fff;
+  width: 140px;
+  height: 35px;
+  border-radius: 30px;
+  border: solid 1px;
+}
+
+.btn-select-topic {
+  height: 40px;
+  border: 2px solid $color-blue-3;
+  color: $color-blue-3;
+  background-color: $color-white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.6;
+  &.active {
+    opacity: 1;
+    background-color: $color-blue-3;
+    color: $color-white;
+  }
+}
+
+.dd-scroll {
+  max-height: 300px;
+  height: auto;
+  overflow-y: scroll;
+}
+
+.dropdown-item:active {
+  color: #000;
+  text-decoration: none;
+  background-color: $color-gray-2;
+}
+
+.dropdown-menu {
+  min-width: 180px;
+}
+
+.dropdown-menu-right {
+  right: 0;
+  left: auto;
+}
+
+.dropdown-menu.slide {
+  transform: translate3d(0, -20px, 0) !important;
+  visibility: hidden;
+  display: block;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  top: 100% !important;
+  transition: all .15s linear;
+  &.show {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    visibility: visible;
+    -webkit-transform: translate3d(0, 1px, 0) !important;
+    transform: translate3d(0, 1px, 0) !important;
+  }
+}
+
+.sw-btn-cover {
+  color: $color-white;
+  background-color: rgba(59, 76, 87, .5);
+  z-index: 2;
+  &:hover {
+    background-color: rgba(45, 58, 66, .3);
+  }
+}
+
+.sw-btn-primary {
+  color: #fff;
+  background-color: $color-yellow-4;
+}
+
+.-disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.btn.-loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.-loading:after {
+  content: "";
+  color: #fff;
+  border-left-color: #fff;
+  border-bottom-color: #fff;
+  position: absolute;
+  height: 1em;
+  width: 1em;
+  left: calc(50% - ((1em + 6px) / 2));
+  top: calc(50% - ((1em + 6px) / 2));
+  -webkit-animation: spinAround 500ms infinite linear;
+  animation: spinAround 500ms infinite linear;
+  border: 3px solid;
+  border-radius: 290486px;
+  border-right-color: transparent;
+  border-top-color: transparent;
+}
+
+@keyframes spinAround {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}

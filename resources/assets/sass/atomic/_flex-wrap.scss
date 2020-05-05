@@ -1,0 +1,39 @@
+._fw-nw {
+  flex-wrap: nowrap !important;
+}
+
+._fw-w {
+  flex-wrap: wrap !important;
+}
+
+._fw-wrv {
+  flex-wrap: wrap-reverse !important;
+}
+
+@include media-breakpoint-up(md) {
+  ._fw-nw-md {
+    flex-wrap: nowrap !important;
+  }
+
+  ._fw-w-md {
+    flex-wrap: wrap !important;
+  }
+
+  ._fw-wrv-md {
+    flex-wrap: wrap-reverse !important;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  ._fw-nw-lg {
+    flex-wrap: nowrap !important;
+  }
+
+  ._fw-w-lg {
+    flex-wrap: wrap !important;
+  }
+
+  ._fw-wrv-lg {
+    flex-wrap: wrap-reverse !important;
+  }
+}

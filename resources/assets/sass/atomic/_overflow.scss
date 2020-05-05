@@ -1,0 +1,56 @@
+._ovf-vsb  { overflow: visible !important; }
+._ovf-at   { overflow: auto !important; }
+._ovf-hd   { overflow: hidden !important; }
+._ovf-sc   { overflow: scroll !important; }
+._ovfx-vsb { overflow-x: visible !important; }
+._ovfx-at  { overflow-x: auto !important; }
+._ovfx-hd  { overflow-x: hidden !important; }
+._ovfx-sc  { overflow-x: scroll !important; }
+._ovfy-vsb { overflow-y: visible !important; }
+._ovfy-at  { overflow-y: auto !important; }
+._ovfy-hd  { overflow-y: hidden !important; }
+._ovfy-sc  { overflow-y: scroll !important; }
+
+@include media-breakpoint-up(md) {
+  ._ovf-vsb-md  { overflow: visible !important; }
+  ._ovf-at-md   { overflow: auto !important; }
+  ._ovf-hd-md   { overflow: hidden !important; }
+  ._ovf-sc-md   { overflow: scroll !important; }
+  ._ovfx-vsb-md { overflow-x: visible !important; }
+  ._ovfx-at-md  { overflow-x: auto !important; }
+  ._ovfx-hd-md  { overflow-x: hidden !important; }
+  ._ovfx-sc-md  { overflow-x: scroll !important; }
+  ._ovfy-vsb-md { overflow-y: visible !important; }
+  ._ovfy-at-md  { overflow-y: auto !important; }
+  ._ovfy-hd-md  { overflow-y: hidden !important; }
+  ._ovfy-sc-md  { overflow-y: scroll !important; }
+}
+
+@include media-breakpoint-up(lg) {
+  ._ovf-vsb-lg  { overflow: visible !important; }
+  ._ovf-at-lg   { overflow: auto !important; }
+  ._ovf-hd-lg   { overflow: hidden !important; }
+  ._ovf-sc-lg   { overflow: scroll !important; }
+  ._ovfx-vsb-lg { overflow-x: visible !important; }
+  ._ovfx-at-lg  { overflow-x: auto !important; }
+  ._ovfx-hd-lg  { overflow-x: hidden !important; }
+  ._ovfx-sc-lg  { overflow-x: scroll !important; }
+  ._ovfy-vsb-lg { overflow-y: visible !important; }
+  ._ovfy-at-lg  { overflow-y: auto !important; }
+  ._ovfy-hd-lg  { overflow-y: hidden !important; }
+  ._ovfy-sc-lg  { overflow-y: scroll !important; }
+}
+@include media-breakpoint-up(xl) {
+  ._ovf-vsb-xl  { overflow: visible !important; }
+  ._ovf-at-xl   { overflow: auto !important; }
+  ._ovf-hd-xl   { overflow: hidden !important; }
+  ._ovf-sc-xl   { overflow: scroll !important; }
+  ._ovfx-vsb-xl { overflow-x: visible !important; }
+  ._ovfx-at-xl  { overflow-x: auto !important; }
+  ._ovfx-hd-xl  { overflow-x: hidden !important; }
+  ._ovfx-sc-xl  { overflow-x: scroll !important; }
+  ._ovfy-vsb-xl { overflow-y: visible !important; }
+  ._ovfy-at-xl  { overflow-y: auto !important; }
+  ._ovfy-hd-xl  { overflow-y: hidden !important; }
+  ._ovfy-sc-xl  { overflow-y: scroll !important; }
+}

@@ -1,0 +1,59 @@
+{{define "page.title"}}Admin Revenue{{end}}
+
+{{define "app-body"}}
+<div class="container-fluid _cl-gray">
+    <h3 class="_cl-gray _fw-600 fs-20 _mgbt-20">
+        <span>ตรวจสอบใบถอนเงินของครีเอเตอร์</span>
+        <i class="fal fa-hand-holding-usd fs-16 _cl-gray-12"></i>
+    </h3>
+    <div class=" _mgbt-16 _pdbt-10 _bdbtw-1 _bdcl-blue-2">
+        <a class="_pdv-2 _cl-blue-5 _cl-blue-5-hover-hover fs-16 _fw-600 _tdcrt-n"
+        href="{{route "admin.revenue"}}">รายชื่อใบถอนเงิน</a>
+        <a class="_pdv-2 _cl-blue-5 _cl-blue-5-hover-hover fs-16 _fw-600 _tdcrt-n _mgl-42"
+        href="{{route "admin.revenue.history"}}">ประวัติจ่ายเงิน</a>
+    </div>
+
+    <h3 class="_mgbt-10 _cl-blue-2 fs-18 _fw-600">ค้นหา ไอดีเพจ ชื่อเพจ </h3>
+    <form method="POST" action="{{route "admin.revenue"}}">
+        <div class="row _alit-ct">
+            <div class="col-md-9">
+                <input name="text" value="{{.TextSearch}}" type="text" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn sw-btn _cl-white _fw-600">ค้นหา</button>
+            </div>
+        </div>
+    </form>
+    <div class="_mgt-50 rvn-list-post sw-scrollbar">
+    {{range .ListRevenue}}
+        {{template "rvn-post-item" .}}
+    {{end}}
+    </div>
+</div>
+{{end}}
+
+
+{{define "rvn-post-item"}}
+    <div class="_dp-f _bdbtw-1 _bdcl-gray-2 _pdbt-24 _pdr-10 _mgbt-16">
+        <div class="_f-s0 _mgr-16">
+            <img class="img-fluid" src="{{.Gap.Display}}">
+        </div>
+        <div class="_dp-f _fdrt-cl _w-100pct">
+            <div class="_dp-f">
+                <a href="{{route "admin.revenue.detail" (param "id" .ID)}}" class="_cl-blue-5 fs-14 _fw-600">
+                    {{.Gap.Name}} เลขที่ใบถอนเงิน {{.ID}}
+                </a>
+                <div class="_mgl-at fs-14 _cl-gray _fw-600">{{.Total | currency}}  บาท</div>
+            </div>
+            <div class="_dp-f _cl-gray-8 _alit-ct _mgt-10">
+                <div class="fs-12 _dp-f">
+                    <div class="_mgr-30">วันที่ส่งเรื่อง {{.CreatedAt | formatTime}} {{.Gap.ID}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{end}}
+
+
+{{define "main.style"}}
+{{end}}

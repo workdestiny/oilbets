@@ -1,0 +1,43 @@
+{{define "post-item"}}
+	<article class="col-6 col-sm-6 col-md-4 col-lg-3 post-item" v-cloak v-for="(p, index) in postList" :key="index">
+		<div class="post" :class="{'no-img': p.imageURL === ''}">
+			<div class="counter-view _bdrd-3px _pdh-10 fs-11">
+				เข้าชม ${p.count.view}
+			</div>
+
+			<a :href="{{route "post.read"}} + p.slug" v-if="p.imageURL" id="gtm-link" data-gtm-link="pc_image">
+				<img class="img-fluid _img-ct" :src="p.imageURL">
+			</a>
+
+			<a :href="{{route "post.read"}} + p.slug" class="_dp-b info-wrap _tdcrt-n" id="gtm-link" data-gtm-link="pc_post_content">
+				<h4 class="title _cl-blue-3 _fw-600" v-if="p.title" v-html="p.title"></h4>
+				<p class="excerp _cl-gray-10" v-if="p.description">${p.description}</p>
+			</a>
+
+			<a :href="{{route "gap"}} + p.owner.username" class="info-gap-wrap _tdcrt-n" id="gtm-link" data-gtm-link="pc_gap_avatar">
+				<img class="_bdrd-50pct avatar _f-s0 avatar-bd" :src="p.owner.display" :alt="p.owner.name">
+				<div class="_mgl-5 _dp-f _alit-ct _ovf-hd">
+					<div class="gap-name _cl-blue-6 fs-14-md fs-12" :title="p.owner.name">${p.owner.name}</div>
+					<img class="shield" v-if="p.owner.isVerify" src="/-/images/icon/shield-15.png"
+					srcset="/-/images/icon/shield-15@2x.png 2x" width="12px" height="12px" title="verified">
+				</div>
+			</a>
+
+			<div class="action-wrap _bdtw-1 _bdcl-gray-3 _bdtw-0px-lg _pdv-8">
+				<div class="action _mgr-10 _bdrw-1 _bdcl-gray-3 _bdrw-0px-lg" v-if="p.count">
+					<div class="count">${p.count.comment}</div>
+					<a class="item _tdcrt-n" :href="{{route "post.read"}} + p.slug" id="gtm-link" data-gtm-link="pc_comment_icon">
+						<i class="fal fa-comment-alt fs-18 _cl-gray-9"></i>
+					</a>
+				</div>
+				<div class="action" v-if="p.count">
+					<div class="count">${p.count.like}</div>
+					<div class="item aclike" id="gtm-button" data-gtm-button="pc_like_icon" :data-post-id="p.id">
+						<i class="fs-18 fas fa-heart _cl-yellow-1 _cs-pt" v-if="p.isLike"></i>
+						<i class="fs-18 fal fa-heart _cl-gray-9 _cs-pt" v-else></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+{{end}}

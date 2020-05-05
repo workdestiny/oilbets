@@ -1,0 +1,85 @@
+{{define "page.title"}}ข้อมูล user{{end}}
+
+{{define "app-body"}}
+<div class="container-fluid _cl-gray">
+    <h3 class="_cl-gray _fw-600 fs-24 _mgbt-20">
+        <span>ข้อมูล user</span>
+        <i class="fal fa-user fs-20 _cl-gray-12"></i>
+    </h3>
+    <h3 class="_mgbt-10 _cl-blue-2 fs-18 _fw-600">ค้นหา ไอดีเพจ ชื่อเพจ</h3>
+    <form method="POST" class="_mgbt-20">
+        <div class="row _alit-ct">
+            <div class="col-md-9">
+                <input name="email" value="" type="text" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn sw-btn _cl-white _fw-600">ค้นหา</button>
+            </div>
+        </div>
+    </form>
+
+    {{if .UserData.ID}}
+        <h1 class="fs-24">ข้อมูลผู้ใช้</h1>
+        <div style="text-align: center;">
+            <img src="{{.UserData.DisplayImage.Normal}}" width="200" height="200" class="rounded">
+        </div>
+        <div class="row _mgt-15">
+            <div class="form-group col-md-6">
+                <label for="email">ชื่อ</label>
+                <input type="text" class="form-control" value="{{.UserData.FirstName}}" readonly>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="email">นามสกุล</label>
+                <input type="text" class="form-control" value="{{.UserData.LastName}}" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">ไอดีผู้ใช้</label>
+            <input type="text" class="form-control" name="id"  value="{{.UserData.ID}}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="email">อีเมล</label>
+            <input type="text" class="form-control" value="{{.UserData.Email}}" readonly>
+            {{if .UserData.IsVerify}}
+                <small class="form-text text-muted fs-12">ยืนยันอีเมลแล้ว</small>
+            {{else}}
+                <small class="form-text text-muted fs-12" style="color: crimson;">ยังไม่ได้ยืนยันอีเมล</small>
+            {{end}}
+        </div>
+        <div class="_pd-20 _cl-gray-10">
+            <div class="_dp-f _fw-w" style="text-align: center;">
+                {{range .UserData.Gap}}
+                <a class="_dp-b _mgr-10 _mgv-10 u-raised-2 u-raised-5-hover" target="_blank" href="/gap/{{.Username}}">
+                    <img src="{{.Display}}" width="100" height="100" class="rounded">
+                </a>
+                {{end}}
+            </div>
+        </div>
+        {{if .UserData.IsVerify}}
+            <div class="form-row _mgt-15">
+                <div class="form-group col-md-6">
+                    {{if .UserData.IsVerifyIDCard}}
+                    <p class="_cl-gray-5 _fw-600">ยืนยันบัตรประชาชนแล้ว</p>
+                    {{else}}
+                    <p class="_cl-gray _fw-600">ยังไม่ได้ยืนยันบัตรประชาชน</p>
+                    {{end}}
+                </div>
+                <div class="form-group col-md-6">
+                    {{if .UserData.IsVerifyBookBank}}
+                    <p class="_cl-gray-5 _fw-600">
+                        ยืนยันบัญชีธนาคารแล้ว
+                    </p>
+                    {{else }}
+                    <p class="_cl-gray _fw-600">
+                        ยังไม่ได้ยืนยันบัญชีธนาคาร
+                    </p>
+                    {{end}}
+                </div>
+            </div>
+        {{end}}
+    {{end}}
+</div>
+{{end}}
+
+{{define "main.style"}}
+{{end}}

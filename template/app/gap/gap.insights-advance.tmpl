@@ -1,0 +1,212 @@
+{{define "insights-advance"}}
+	<div id="stat" class="container _mgv-30-md">
+		<div class="row">
+			<div class="col-md-12 col-lg-10 offset-lg-1">
+				<div class="row">
+					{{template "gap-sidebar" .}}
+					<div class="col-md-12 col-lg-10 _bgcl-white-3 _pdh-10 _pdv-34">
+						<h3 class="_cl-gray _fw-600 fs-20 _mgbt-20 _mgl-30">
+							<span>รายงานข้อมูลสถิติ</span>
+							<i class="fal fa-chart-bar fs-14 _cl-gray-12"></i>
+						</h3>
+						<div class="_mgl-30 _mgbt-20">
+							<a class="_pdv-2 _cl-blue-5 _cl-blue-5-hover-hover fs-16 _fw-600 _tdcrt-n" href="?section=overview">ภาพรวม</a>
+							<a class="_pdv-2 _cl-blue-5 _cl-blue-5-hover-hover fs-16 _fw-600 _mgl-42 _tdcrt-n _bdbtw-1 _bdcl-blue-5-hover" href="?section=advance">ข้อมูลเชิงลึก</a>
+						</div>
+						<div class="_dp-f _alit-ct _mgbt-20 _bgcl-white _pdv-24 _pdh-30 shadow-stat">
+							<h4 class="_mgbt-0 fs-16 _fw-600 _cl-gray">วิเคราะห์ข้อมูลเชิงลึก</h4>
+							<div class="_pst-rlt _mgl-at _cl-gray">
+								<form method="GET" ref="formTime">
+									<input type="hidden" name="type" :value="tab">
+									<input type="hidden" name="section" value="{{.Section}}">
+									<input type="hidden" name="from" :value="fromTime">
+									<input type="hidden" name="to" :value="toTime">
+								</form>
+								<form method="GET" ref="formType">
+									<input type="hidden" name="type" :value="tab">
+									<input type="hidden" name="section" value="{{.Section}}">
+								</form>
+								<div class="_dp-f _cl-gray-11 _cs-pt _ussl-n" @click="dateTab = !dateTab">
+									<span class="fs-16 _cl-gray _fw-600 _mgr-5">แสดงช่วงเวลา :</span>
+									<span v-cloak class="fs-16 _cl-gray-11">${textShowTimeCustom}</span>
+									<i class="fs-16 fas fa-sort-down _mgl-5"></i>
+								</div>
+								<div class="_pst-asl _zid-1 _bdrd-3px _ovf-hd" style="right: 0;box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.15);" v-show="dateTab">
+									<div v-cloak class="_bgcl-white _pd-20 date-warp">
+										<div class="_dp-f _fdrt-cl" :class="{'_mgr-24': tab === 'custom'}">
+											<div class="_dp-f">
+												<div class="_mgr-24" v-show="tab === 'custom'">
+													<input class="form-control date-start">
+													<div class="_pst-rlt _mgt-10 date-start-container"></div>
+												</div>
+												<div v-show="tab === 'custom'">
+													<input class="form-control date-end">
+													<div class="_pst-rlt _mgt-10 date-end-container"></div>
+												</div>
+											</div>
+											<div class="_mgl-at _mgt-20" v-show="tab === 'custom'">
+												<button
+												class="fs-14 btn btn-outline-transparent _cl-blue-1 _bdrd-5px _mgr-16"
+												@click="dateTab = false">ยกเลิก</button>
+												<button class="fs-14 btn sw-btn _bgcl-yellow-5 _fw-600 _cl-white _bdrd-5px"
+												@click.prevent="submitRange">ยืนยัน</button>
+											</div>
+										</div>
+										<div class="ranges">
+											<div class="_mgbt-10 _pdh-10 _pdv-10 _cs-pt cl-active-hover _bdrd-3px"
+											@click="setTab('today')">วันนี้</div>
+											<div class="_mgbt-10 _pdh-10 _pdv-10 _cs-pt cl-active-hover _bdrd-3px"
+											@click="setTab('7dayago')">7 วันล่าสุด</div>
+											<div class="_mgbt-10 _pdh-10 _pdv-10 _cs-pt cl-active-hover _bdrd-3px"
+											@click="setTab('30dayago')">30 วันล่าสุด</div>
+											<div class="_mgbt-10 _pdh-10 _pdv-10 _cs-pt cl-active-hover _bdrd-3px"
+											@click="setTab('thismonth')">เดือนนี้</div>
+											<div class="_mgbt-10 _pdh-10 _pdv-10 _cs-pt cl-active-hover _bdrd-3px"
+											@click="setTab('lastmonth')">เดือนที่แล้ว</div>
+											<div class="_mgbt-10 _pdh-10 _pdv-10 _cs-pt cl-active-hover _bdrd-3px"
+											@click="setTab('custom')">กำหนดเอง</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row _mgbt-20">
+							<div class="col-md-7">
+								<div class="_bgcl-white _pd-30 _h-100pct shadow-stat">
+									<div class="_dp-f _mgbt-15">
+										<h3 class="fs-16 mgbt-0 _cl-gray _fw-600">ยอดรวมการเข้าชม</h3>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<h4 class="_mgbt-24 fs-16 _fw-600 _cl-gray-10">
+												จำนวนเข้าชมคอนเทนต์
+											</h4>
+											<div class="_mgbt-42">
+												<div class="_cl-gray-11 fs-24 _fw-600">{{.ViewPost.GuestView}}</div>
+												<div class="_cl-gray-10 fs-14">ผู้ชมทั่วไป</div>
+											</div>
+											<div class="_mgbt-42">
+												<div class="_cl-gray-11 fs-24 _fw-600">{{.ViewPost.View}}</div>
+												<div class="_cl-gray-10 fs-14">ผู้ชมที่ล็อคอิน</div>
+											</div>
+											<div class="_mgbt-30">
+												<div class="_cl-gray-11 fs-24 _fw-600">{{.ViewPost.All}}</div>
+												<div class="_cl-gray-10 fs-14">รวม</div>
+											</div>
+										</div>
+										<div class="col">
+											<h4 class="_mgbt-24 fs-16 _fw-600 _cl-gray-10">
+												จำนวนเข้าชมเพจ
+											</h4>
+											<div class="_mgbt-42">
+												<div class="_cl-gray-11 fs-24 _fw-600">{{.ViewGap.GuestView}}</div>
+												<div class="_cl-gray-10 fs-14">ผู้ชมทั่วไป</div>
+											</div>
+											<div class="_mgbt-42">
+												<div class="_cl-gray-11 fs-24 _fw-600">{{.ViewGap.View}}</div>
+												<div class="_cl-gray-10 fs-14">ผู้ชมที่ล็อคอิน</div>
+											</div>
+											<div class="_mgbt-30">
+												<div class="_cl-gray-11 fs-24 _fw-600">{{.ViewGap.All}}</div>
+												<div class="_cl-gray-10 fs-14">รวม</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div class="row _h-100pct">
+									<div class="col-12 _mgbt-20">
+										<div class="_bgcl-white _h-100pct _pd-30 shadow-stat">
+											<h4 class="fs-16 _fw-600 _cl-gray _mgbt-20">
+												เข้าชมจากเดสท็อป
+											</h4>
+											<div class="_dp-f">
+												<div class="_cl-gray-10 _dp-f _alit-ct _jtfct-ct">
+													<span class="fs-48 _cl-gray-6">{{.PercentUserAgent.Desktop}}</span>
+													<small class="fs-24 _cl-gray-6 _mgl-15">ครั้ง</small>
+												</div>
+												<div class="_mgl-at" style="width: 120px;height: 120px;">
+													<div id="bar-desktop"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="_bgcl-white _h-100pct _pd-30 shadow-stat">
+											<h4 class="fs-16 _fw-600 _cl-gray _mgbt-20">
+												เข้าชมจากมือถือ
+											</h4>
+											<div class="_dp-f">
+												<div class="_cl-gray-10 _dp-f _alit-ct _jtfct-ct">
+													<span class="fs-48 _cl-gray-6">{{.PercentUserAgent.Mobile}}</span>
+													<small class="fs-24 _cl-gray-6 _mgl-15">ครั้ง</small>
+												</div>
+												<div class="_mgl-at" style="width: 120px;height: 120px;">
+													<div id="bar-mobile"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row _mgbt-20">
+							<div class="col">
+								<div class="_bgcl-white _pd-30 shadow-stat">
+									<div class="_dp-f _mgbt-34">
+										<h3 class="fs-16 mgbt-0 _cl-gray _fw-600">ช่วงเวลาที่เข้าชม</h3>
+									</div>
+
+									<div class="_pst-rlt">
+										<canvas id="timeChart" height="300"></canvas>
+									</div>
+									{{.ListCountViewHour}}
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col">
+								<div class="_bgcl-white _pd-30 shadow-stat">
+									<h4 class="_mgbt-24 fs-16 _fw-600 _cl-gray">
+										การเข้าชม และการมีส่วนร่วมกับคอนเทนต์
+									</h4>
+
+									{{template "table-stat" .}}
+									<nav v-cloak class="_mgt-40" aria-label="Page navigation example">
+										<ul class="pagination">
+											<li class="page-item">
+												<a class="page-link _cl-gray-10 _bdw-0" @click="changePage('back')"aria-label="Previous">
+													<span aria-hidden="true"><i class="fal fa-angle-left"></i></span>
+													<span class="sr-only">Previous</span>
+												</a>
+											</li>
+
+											<li class="page-item" v-for="(p,index) in paginate" :key="index">
+												<a class="page-link _cl-gray-10 _bdw-0" :class="{ '_bgcl-gray-2': index+1 === page }" @click="changePage(index+1)">${index+1}</a>
+											</li>
+
+											<li class="page-item">
+												<a class="page-link _cl-gray-10 _bdw-0" @click="changePage('next')" aria-label="Next">
+													<span aria-hidden="true"><i class="fal fa-angle-right"></i></span>
+													<span class="sr-only">next</span>
+												</a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{{end}}
+
+

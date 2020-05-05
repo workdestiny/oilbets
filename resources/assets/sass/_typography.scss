@@ -1,0 +1,59 @@
+.filter-post {
+  padding: 2px 0;
+  color: $color-gray-6;
+  &.active {
+    span {
+      color: $color-white;
+    }
+    color: $color-yellow-main;
+    border-radius: 5px 5px 0 0;
+    background-color: $color-blue-6;
+  }
+  &:hover {
+    span {
+      color: $color-white;
+    }
+    color: $color-yellow-main;
+    text-decoration: none;
+    border-radius: 5px 5px 0 0;
+    background-color: $color-blue-6;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .slogan {
+    font-size: 16px;
+  }
+  .sub-slogan,
+  .define {
+    font-size: 10px;
+  }
+  .sub {
+    font-size: 12px;
+  }
+  .sw-btn-flat span {
+    font-size: 12px;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .slogan {
+    font-size: 24px;
+  }
+  .sub-slogan {
+    font-size: 14px;
+  }
+  .define,
+  .define .sub {
+    &.top {
+      font-size: 10px;
+    }
+    font-size: 14px;
+  }
+  .sub {
+    font-size: 12px;
+  }
+  .sw-btn-flat span {
+    font-size: 12px;
+  }
+}

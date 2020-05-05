@@ -1,0 +1,77 @@
+{{define "root"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-157039904-1"></script>
+	<script>
+  		window.dataLayer = window.dataLayer || [];
+  		function gtag(){dataLayer.push(arguments);}
+  		gtag('js', new Date());
+
+  		gtag('config', 'UA-157039904-1');
+	</script>
+
+
+	{{if .M}}
+		<title>{{.M.Title}} {{.Tagline}}</title>
+		<meta name="description" content="{{.M.Description}}" />
+	{{else}}
+		<title>{{template "page.title" .}} {{.Tagline}}</title>
+		<meta name="description" content="{{.Meta.Description}}" />
+	{{end}}
+	{{if .Canonical}}
+		<link rel="canonical" href="{{.Canonical}}" />
+	{{end}}
+
+	<!-- For Google -->
+	<meta name="author" content="{{if .GapAuthor}}{{.GapAuthor}}{{else}}Creator{{end}}" />
+	<meta name="application-name" content="X" />
+
+
+	<!-- For Facebook -->
+	<meta property="fb:app_id" content="205286683339310">
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="{{.URL}}" />
+
+	{{if .M}}
+		<meta property="og:title" content="{{.M.Title}} {{.Tagline}}" />
+		<meta property="og:image" content="{{.M.Image}}" />
+		<meta property="og:description" content="{{.M.Description}}" />
+		<meta property="og:image:width" content="{{.M.Width}}" />
+		<meta property="og:image:height" content="{{.M.Height}}" />
+	{{else}}
+		<meta property="og:title" content="{{template "page.title" .}} {{.Tagline}}" />
+		<meta property="og:image" content="{{.Meta.Image}}" />
+		<meta property="og:description" content="{{.Meta.Description}}" />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+	{{end}}
+
+	<meta property="og:locale" content="TH" />
+
+	<link rel="apple-touch-icon" href="https://storage.googleapis.com/powerwork-bucket/static/mahaporn50.png">
+	<link rel="shortcut icon" href="https://storage.googleapis.com/powerwork-bucket/static/mahaporn50.png">
+
+	{{block "main.style" .}}{{end}}
+	<link rel="stylesheet" href="/-/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="{{static "/css/app.css"}}">
+	<link rel="stylesheet" href="{{static "/css/atomic.css"}}">
+	<link href="https://fonts.googleapis.com/css?family=Prompt:400,500" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Quicksand:500" rel="stylesheet">
+
+</head>
+
+<body class="sw-body-primary" style="overflow-x: hidden;">
+	{{template "body" .}}
+	<script src="{{static "/js/app.js"}}"></script>
+	{{template "global.script" .}}
+	{{block "main.script" .}}{{end}}
+</body>
+
+</html>
+{{end}}

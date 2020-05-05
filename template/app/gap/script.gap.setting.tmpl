@@ -1,0 +1,318 @@
+{{define "main.script"}}
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
+{{if eq templateName "app/gap.insights"}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.0.1/progressbar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/i18n/datepicker.th-TH.js"></script>
+{{end}}
+
+{{if eq templateName "app/gap.setting"}}
+<script>
+	new Vue({
+		el: '#setting',
+		data(){
+			return {
+				nameGap: {{.Flash.Get "Name"}} || {{.Gap.Name}},
+				oldNameGap: {{.Gap.Name}},
+				userName: {{.Flash.Get "Username"}} || {{.Gap.Username}} || {{.Gap.ID}},
+				oldUserName: {{.Gap.Username}} || {{.Gap.ID}},
+				Bio: {{.Flash.Get "Bio"}} || {{.Gap.Bio}},
+				oldBio: {{.Gap.Bio}},
+				tel: {{.Flash.Get "Tel"}} || {{.Gap.Tel}},
+				oldTel: {{.Gap.Tel}},
+				email: {{.Flash.Get "Email"}} || {{.Gap.Email}},
+				oldEmail: {{.Gap.Email}},
+				social: {{.Flash.Get "Social"}} || {{.Gap.Social}},
+				oldSocial: {{.Gap.Social}},
+				address:  {{.Flash.Get "Address"}} || {{.Gap.Address}},
+				oldAddress: {{.Gap.Address}},
+				city: {{.Gap.City}},
+				oldCity: {{.Gap.City}},
+				country: {{.Gap.Country}},
+				oldCountry: {{.Gap.Country}},
+				ctrlInfoChange: false,
+				ctrlUsernameChange: false,
+				ctrlContactChange: false,
+				ctrlAddressChange: false
+			}
+		},
+		computed: {
+			changeNameGap() {
+				return this.oldNameGap != this.nameGap
+			},
+			changeUserName() {
+				return this.oldUserName != this.userName
+			}
+		},
+		methods: {
+			editUsername() {
+			if(this.changeUserName && this.userName != "") {
+					swal({
+						text: "คุณต้องการเปลี่ยน Username ใช่หรือไม่?",
+						buttons: ["ยกเลิก","ตกลง"],
+					}).then((value) => {
+						if (value) {
+							this.$refs.formUsername.submit()
+						}
+					});
+				}
+			},
+			reset() {
+				location.reload()
+			},
+			InfoChange() {
+				if (this.Bio != this.oldBio || this.nameGap != this.oldNameGap) {
+					this.ctrlInfoChange = true
+				} else {
+					this.ctrlInfoChange = false
+				}
+			},
+			usernameChange() {
+				if (this.userName != this.oldUserName) {
+					this.ctrlUsernameChange = true
+				} else {
+					this.ctrlUsernameChange = false
+				}
+			},
+			contactChange() {
+				if (this.tel != this.oldTel || this.email != this.oldEmail || this.social != this.oldSocial){
+					this.ctrlContactChange = true
+				}else {
+					this.ctrlContactChange = false
+				}
+			},
+			addressChange() {
+				if (this.address != this.oldAddress || this.city != this.oldCity || this.country != this.oldCountry) {
+					this.ctrlAddressChange = true
+				} else {
+					this.ctrlAddressChange = false
+				}
+			}
+		}
+	})
+</script>
+{{end}}
+
+{{if eq templateName "app/gap.insights"}}
+<script>
+	new Vue({
+		el: '#stat',
+		data() {
+			return {
+				dateTab: false,
+				tab: {{.Type}} || {{if eq .Section "overview"}}'all'{{else}}'thismonth'{{end}},
+				page: 1,
+				routeAjaxGapStatiscPost: '{{route "ajax.gap.statistic.post"}}',
+				listPage: {{.Post}} || [],
+				gapID: {{.Gap.ID}} || null,
+				noMore: false,
+				fromTime: null,
+				toTime: null,
+				pickerStart: null,
+				pickerEnd: null,
+				dataGraph: {{.ListCountViewHour}},
+				graphLabel: [],
+				paginate: 3,
+				graphData: [],
+				isLoading: false,
+				pageNow: {{.Section}}
+			}
+		},
+
+		computed: {
+			textShowTimeCustom() {
+				if ({{.Type}} === 'today'){
+					return 'วันนี้'
+				} else if ({{.Type}} === '7dayago') {
+					return '7 วันล่าสุด'
+				} else if ({{.Type}} === '30dayago') {
+					return '30 วันล่าสุด'
+				} else if ({{.Type}} === 'lastmonth') {
+					return 'เดือนที่แล้ว'
+				} else if ({{.Type}} === 'custom') {
+					return '{{.FormatFromTime}} - {{.FormatToTime}}'
+				} else if ({{.Type}} === 'thismonth') {
+					return 'เดือนนี้'
+				}
+			}
+		},
+
+		mounted() {
+			this.$nextTick(() => {
+				this.pickerStart = $('.date-start').datepicker({
+					autoPick: true,
+					inline: true,
+					container: '.date-start-container',
+					language: 'th-TH',
+					weekStart: 1,
+				})
+				this.pickerEnd = $('.date-end').datepicker({
+					autoPick: true,
+					inline: true,
+					container: '.date-end-container',
+					language: 'th-TH',
+					weekStart: 1,
+				})
+				{{if eq .Section "advance"}}
+					this.initProgressbar('#bar-desktop', '#f4516c', {{.PercentUserAgent.DesktopPercent}})
+					this.initProgressbar('#bar-mobile', '#00c5dc', {{.PercentUserAgent.MobilePercent}})
+				{{end}}
+				this.initChart()
+			})
+		},
+
+		methods: {
+			setTab(tab) {
+				this.tab = tab
+				if (tab === 'custom') return
+				this.dateTab = false
+				this.$nextTick(() => {
+					this.$refs.formType.submit()
+				})
+			},
+			submitRange() {
+				let start = this.pickerStart.datepicker('getDate', true).split('/')
+				let end = this.pickerEnd.datepicker('getDate', true).split('/')
+				this.fromTime = `${start[2]}-${start[1]}-${start[0]}`
+				this.toTime = `${end[2]}-${end[1]}-${end[0]}`
+				this.$nextTick(() => {
+					this.$refs.formTime.submit()
+				})
+			},
+			initProgressbar(container, color, value) {
+				var bar = new ProgressBar.Circle(container, {
+					strokeWidth: 6,
+					easing: 'easeInOut',
+					duration: 1400,
+					color: color,
+					trailColor: '#eee',
+					trailWidth: 1,
+					svgStyle: null,
+					step: (state, bar) => {
+						bar.setText(Math.round(bar.value() * 100) + ' %');
+					}
+				})
+				bar.animate(value)
+			},
+			initChart() {
+				var ctx = $("#timeChart")
+				if (!ctx.length) return
+				this.dataGraph.forEach((val) => {
+					this.graphLabel.push(val.Hour)
+					this.graphData.push(val.Count)
+				})
+				var config = {
+					type: 'line',
+					data: {
+						labels: this.graphLabel,
+						datasets: [{
+							borderColor: '#37a2eb',
+							fill: false,
+							data: this.graphData
+						}]
+					},
+					options: {
+						legend: {
+							display: false
+						},
+						tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+						tooltips: {
+							mode: 'index',
+							intersect: false,
+							callbacks: {
+								title: function(tooltipItem, data) {
+									return 'เวลา ' + data['labels'][tooltipItem[0]['index']] + ' น.'
+								},
+								label: function(tooltipItem, data) {
+									return data['datasets'][0]['data'][tooltipItem['index']] + ' ครั้ง';
+								},
+							},
+							backgroundColor: 'rgba(0,0,0,0.75)',
+							titleFontSize: 16,
+							titleFontColor: '#fff',
+							bodyFontColor: '#fff',
+							bodyFontSize: 14,
+							displayColors: false,
+							xPadding: 10,
+							titleMarginBottom: 10
+						},
+						maintainAspectRatio: false,
+						scales: {
+							xAxes:[{
+								type: 'time',
+								time: {
+									format: "HH:mm",
+									unit: 'hour',
+									unitStepSize: 3,
+									displayFormats: {
+										'minute': 'HH:mm',
+										'hour': 'HH:mm',
+										min: '00:00',
+										max: '23:59'
+									},
+								}
+							}],
+						},
+					}
+				};
+				var myChart = new Chart(ctx, config)
+			},
+			changePage(val) {
+				if (this.page === val) return
+				if (this.isLoading) return
+				this.$nextTick(() => {
+					switch (val) {
+						case 'back':
+							if (this.page === 1) return
+							this.page -= 1
+							this.fetchData()
+							break
+						case 'next':
+							if(this.page === this.paginate) return
+							this.page += 1
+							this.fetchData()
+							break
+						default:
+							this.page = val
+							this.fetchData()
+							break
+					}
+				})
+			},
+			fetchData() {
+				if (this.isLoading) return
+				this.isLoading = true
+				axios.post(this.routeAjaxGapStatiscPost, {
+					id: this.gapID,
+					type: this.tab,
+					start: {{.FromTime}},
+					end: {{.ToTime}},
+					page: this.page
+				}, { withCredentials: true }).then(res => {
+					if (res.status === 200) {
+						this.listPage = res.data.post
+						if (this.paginate === this.page && !this.noMore) {
+							this.paginate += 1
+						}
+						this.noMore = false
+					} else if (res.status === 204) {
+						this.noMore = true
+					}
+					this.isLoading = false
+				})
+			}
+		}
+	})
+</script>
+{{end}}
+
+{{end}}

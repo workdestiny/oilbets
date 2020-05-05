@@ -1,0 +1,15 @@
+._pst-rlt { position: relative !important; }
+._pst-asl { position: absolute !important; }
+._pst-f   { position: fixed !important; }
+
+@include media-breakpoint-up(md) {
+  ._pst-rlt-md { position: relative !important; }
+  ._pst-asl-md { position: absolute !important; }
+  ._pst-f-md   { position: fixed !important; }
+}
+
+@include media-breakpoint-up(lg) {
+  ._pst-rlt-lg { position: relative !important; }
+  ._pst-asl-lg { position: absolute !important; }
+  ._pst-f-lg   { position: fixed !important; }
+}

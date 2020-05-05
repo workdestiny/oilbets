@@ -1,0 +1,388 @@
+
+{{define "main.style"}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.5/cropper.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/css/lightbox.min.css">
+{{end}}
+
+{{define "main.script"}}
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.5/cropper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/js/lightbox.min.js"></script>
+
+{{if .Flash.Has "SuccessEmail"}}
+<script>
+	swal("ส่งคำขอยืนยันอีเมลเรียบร้อย", "กรุณาตรวจสอบอีเมล และกดยืนยันอีเมล")
+</script>
+{{end}}
+
+<script>
+new Vue({
+	el: '#app',
+	data() {
+		return {
+			cropperInstance: null,
+			routeDisplay: {{route "ajax.profile.upload.display"}},
+			routeIDCard: {{route "ajax.profile.verify.creator"}},
+			routeBookBank: {{route "ajax.profile.verify.bookbank"}},
+			btnLoading: false,
+			imageSrc: '',
+			imageSrcIDCard: '',
+			imageSrcFaceIDCard: '',
+			imageSrcBookbank: '',
+			option: {
+				aspectRatio: 1,
+				viewMode: 1,
+				dragMode: 'move',
+				responsive: true,
+				cropBoxResizable: false,
+				cropBoxMovable: false,
+				autoCrop: true,
+				autoCropArea: 1.0,
+				scalable: false,
+				toggleDragModeOnDblclick: false
+			},
+			image: {
+				width: 300,
+				height: 300,
+			},
+			firstName: {{.Flash.Get "FirstName"}} || {{.User.FirstName}},
+			oldFirstName: {{.User.FirstName}},
+			lastName: {{.Flash.Get "LastName"}} || {{.User.LastName}},
+			oldLastName: {{.User.LastName}},
+			editAccount: false,
+			dummyPassword: '********',
+			changePassword: {{.Flash.Get "changePassword"}},
+			oldEmail: {{.User.Email}},
+			newEmail: {{.Flash.Get "Email"}} || {{.User.Email}},
+			listFollow: {{.ListFollowGap}},
+			routeListFollow: {{route "ajax.user.list.gap.follow"}},
+			nextID: {{.NextLoad}},
+			noMore: false,
+			routeEmailVerify: {{route "ajax.profile.verify.email"}},
+			verify: {
+				email: '',
+				password: '',
+				repeatPassword: ''
+			},
+			verifyErr: {
+				email: false,
+				password: false,
+				message: ''
+			},
+			verifyBookbank: {
+				bookbank_name: '',
+				bank_name: '',
+				bookbank_number: ''
+			}
+		}
+	},
+
+	mounted() {
+		var self = this
+		this.changeSomeThing()
+		$('#upload-image').on('hide.bs.modal', this.closeModal)
+		$('#verify-idcard').on('hide.bs.modal', function() {
+			self.imageSrcIDCard = ''
+			self.imageSrcFaceIDCard = ''
+			$(self.$refs.formIDCard).val('')
+			$(self.$refs.formFaceIDCard).val('')
+		})
+		$('#verify-bookbank').on('hide.bs.modal', function() {
+			self.verifyBookbank.bookbank_name = ''
+			self.verifyBookbank.bookbank_number = ''
+			self.verifyBookbank.bank_name = ''
+			self.imageSrcBookbank = ''
+			$(self.$refs.formBookBank).val('')
+		})
+	},
+
+	computed: {
+		title() {
+			return 'อัพโหลดรูปโปรไฟล์'
+		},
+
+		changeEmail() {
+			return this.oldEmail !== this.newEmail
+		},
+
+		canUploadIDCard() {
+			return this.imageSrcIDCard && this.imageSrcFaceIDCard
+		}
+	},
+
+	methods: {
+		openModal(val) {
+			$('#upload-image').modal({
+				keyboard: false,
+				backdrop: 'static'
+			})
+		},
+
+		openVerifyIDCard() {
+			$('#verify-idcard').modal({
+				keyboard: false,
+				backdrop: 'static'
+			})
+		},
+
+		openVeriyBookbank() {
+			$('#verify-bookbank').modal({
+				keyboard: false,
+				backdrop: 'static'
+			})
+		},
+
+		changeSomeThing() {
+			if(this.firstName != this.oldFirstName || this.lastName != this.oldLastName || this.changePassword == true || this.oldEmail != this.newEmail) {
+				this.editAccount = true
+			} else {
+				this.editAccount = false
+			}
+		},
+
+		verifyEmail() {
+			if (this.btnLoading) return
+			this.btnLoading = true
+			if (this.oldEmail) {
+				axios.post(this.routeEmailVerify, {
+					email: this.oldEmail
+				}, { withCredentials: true }).then(function (res) {
+					swal("ส่งคำขอยืนยันอีเมลเรียบร้อย", "กรุณาตรวจสอบอีเมล และกดยืนยันอีเมล").then(() => {
+						this.btnLoading = false
+						location.reload()
+					})
+				}).catch(() => {
+					this.btnLoading = false
+					swal("", "ไม่สามารถส่งอีเมลได้ กรุณาลองอีกครั้ง", "error")
+				})
+				return
+			}
+			$('#verify-email').modal({
+				keyboard: false,
+				backdrop: 'static'
+			})
+			this.btnLoading = false
+		},
+		ajaxVerify() {
+			axios.post(this.routeEmailVerify, this.verify, { withCredentials: true })
+			.then((res) => {
+				if (res.data.errors) {
+					if (res.data.errors === 'email') {
+						this.verifyErr.email = true
+					} else {
+						this.verifyErr.password = true
+					}
+					this.verifyErr.message = res.data.message
+					return
+				}
+				swal("ส่งอีเมลสำเร็จ", "กรุณาเช็คอีเมล และ กดยืนยันอีเมล")
+				.then(() => {
+					location.reload()
+				})
+			}).catch(err => {
+				if (err) {
+					swal("", "ไม่สามารถส่งอีเมลได้ กรุณาลองอีกครั้ง", "error")
+				}
+			})
+		},
+
+		selectPicture() {
+			this.$refs.formFile.click()
+		},
+
+		setFile(e) {
+			const imageType = ['jpeg', 'jpg', 'png', 'gif', 'bmp']
+			const files = e.target.files || e.dataTransfer.files
+			const URL = window.URL || window.webkitURL
+			if (!files.length) {
+				return
+			}
+			if ($.inArray(files[0].type.split('/')[1], imageType) === -1) {
+				$(this.$refs.formFile).val('')
+				swal('แจ้งเตือน', 'กรุณาเลือกเฉพาะไฟล์รูปภาพ', 'error').catch(swal.noop)
+				return
+			}
+			this.imageSrc = URL.createObjectURL(files[0])
+			$(this.$refs.formFile).val('')
+			this.setUpCropper()
+		},
+
+		setUpCropper() {
+			this.$nextTick(() => {
+				if (this.cropperInstance) {
+					this.cropperInstance.destroy()
+				}
+				this.cropperInstance = new Cropper(document.getElementById('cropper'), this.option)
+				this.cropperInstance.setCropBoxData({
+					width: this.image.width,
+					height: this.image.height
+				})
+			})
+		},
+
+		uploadImage() {
+			if (this.btnLoading || this.imageSrc == '') return
+			this.btnLoading = true
+			let self = this
+			let imageBase64 = this.cropperInstance.getCroppedCanvas({
+				width: this.image.width,
+				height: this.image.height,
+				fillColor: '#fff'
+			}).toBlob(function (blob) {
+				let form = new FormData()
+				form.append("image", blob)
+				axios({
+						method: 'post',
+						url: self.routeDisplay,
+						data: form,
+						config: {
+							withCredentials: true,
+							headers: {'Content-Type': 'multipart/form-data'
+						}
+					}
+				}).then((res) => {
+					self.btnLoading = false
+					location.reload()
+				}).catch((err) => {
+					self.btnLoading = false
+					swal('แจ้งเตือน', 'ไม่สามารถอัพโหลดรูปได้ กรุณาลองอีกครั้ง', 'error').catch(swal.noop)
+					return err
+				})
+			})
+		},
+
+		closeModal() {
+			if (this.cropperInstance) {
+				this.cropperInstance.destroy()
+				this.cropperInstance = null
+				this.imageSrc = ""
+			}
+		},
+
+		openChangePassword() {
+			this.changePassword = !this.changePassword
+			this.changeSomeThing()
+		},
+
+		submitForm() {
+			if (this.newEmail != "") {
+				this.$refs.formAccount.submit()
+			}
+		},
+
+		reset() {
+			location.reload()
+		},
+
+		nextLoadFollowGap() {
+			axios.post(this.routeListFollow,{
+				id: {{.User.ID}},
+				next: this.nextID
+			},{
+				withCredentials: true
+			}).then(res => {
+				if (res.status === 200) {
+					this.listFollow = this.listFollow.concat(res.data.gap)
+					if(!res.data.isNext){
+						this.noMore = true
+					} else {
+						this.nextID = res.data.next
+					}
+				} else if (res.status === 204) {
+					this.noMore = true
+				}
+			}).catch(err => {
+				return err
+			})
+		},
+
+		setFileIDCard(e, type) {
+			const imageType = ['jpeg', 'jpg', 'png']
+			const files = e.target.files || e.dataTransfer.files
+			const URL = window.URL || window.webkitURL
+			if (!files.length) {
+				return
+			}
+			if ($.inArray(files[0].type.split('/')[1], imageType) === -1) {
+				if (type === 'card') {
+					$(this.$refs.formIDCard).val('')
+				} else if (type === 'face'){
+					$(this.$refs.formFaceIDCard).val('')
+				} else {
+					$(this.$refs.formBookBank).val('')
+				}
+				swal('แจ้งเตือน', 'กรุณาเลือกเฉพาะไฟล์รูปภาพ', 'error').catch(swal.noop)
+				return
+			}
+			if (files[0].size > 10485760) {
+				swal('แจ้งเตือน', 'อัพโหลดรูปไม่เกิน 10 MB', 'error').catch(swal.noop)
+				return
+			}
+			if(type === 'card') {
+				this.imageSrcIDCard = URL.createObjectURL(files[0])
+			} else if (type === 'face'){
+				this.imageSrcFaceIDCard = URL.createObjectURL(files[0])
+			} else {
+				this.imageSrcBookbank = URL.createObjectURL(files[0])
+			}
+		},
+
+		sendVerify(type) {
+			if (this.btnLoading) return
+			this.btnLoading = true
+			let form = new FormData()
+			let route = ""
+			if (type === 'card') {
+				route = this.routeIDCard
+				form.append("idcard", this.$refs.formIDCard.files[0])
+				form.append("face_idcard", this.$refs.formFaceIDCard.files[0])
+			} else {
+				if(this.verifyBookbank.bank_name === '') {
+					this.btnLoading = false
+					alert('กรุณาเลือกธนาคาร')
+					return
+				}
+				route = this.routeBookBank
+				form.append("bookbank_name", this.verifyBookbank.bookbank_name)
+				form.append("bookbank_number", this.verifyBookbank.bookbank_number)
+				form.append("bank_name", this.verifyBookbank.bank_name)
+				form.append("image_bookbank", this.$refs.formBookBank.files[0])
+			}
+			axios({
+					method: 'post',
+					url: route,
+					data: form,
+					config: {
+						withCredentials: true,
+						headers: {'Content-Type': 'multipart/form-data'
+					}
+				}
+			}).then((res) => {
+				this.btnLoading = false
+				if (res.status === 204) {
+					swal({
+						title: 'แจ้งเตือน',
+						text: 'ส่งข้อมูลการอัพเกรดสถานะเรียบร้อยแล้ว กรุณารอการตรวจสอบ',
+						icon: 'success',
+						closeOnClickOutside: false
+					}).then(() => {
+						this.imageSrcIDCard = ''
+						this.imageSrcFaceIDCard = ''
+						this.verifyBookbank.bookbank_name = ''
+						this.verifyBookbank.bookbank_number = ''
+						this.verifyBookbank.bank_name = ''
+						this.imageSrcBookbank = ''
+						$('#verify-idcard').modal('hide')
+						$('#verify-bookbank').modal('hide')
+					}).catch(swal.noop)
+				}
+			}).catch(() => {
+				swal('แจ้งเตือน', 'ไม่สามารถอัพโหลดรูปภาพได้ กรุณาลองใหม่ภายหลัง', 'error').catch(swal.noop)
+				this.btnLoading = false
+			})
+		}
+
+	}
+}) // end upload
+</script>
+{{end}}

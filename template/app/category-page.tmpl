@@ -1,0 +1,92 @@
+{{define "page.title"}}{{.Code}}{{end}}
+
+{{define "app-body"}}
+<div class="container _mgt-32">
+	{{template "topic-small" .}}
+</div>
+
+<div id="post-container" class="content _mgt-32">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="_dp-f" style="border-bottom: solid 1px rgb(11, 27, 48);">
+					<div class="filter-post _cs-pt _pd-12" :class="{'active': type === ''}" @click="selectType('')"
+					id="gtm-link" data-gtm-link="tab_dcv_new">
+						<i class="fs-13 _mgr-3 fas fa-bookmark"></i>
+						<span class="fs-14 fs-16-md fpt">ประสบการณ์ครั้งใหม่</span>
+					</div>
+					<!-- <div class="filter-post _cs-pt _pd-12" :class="{'active': type === 'article'}" @click="selectType('article')"
+					id="gtm-link" data-gtm-link="tab_dcv_general">
+						<i class="fs-13 _mgr-3 fal fa-edit"></i>
+						<span class="fs-14 fs-16-md fpt">ทั่วไป</span>
+					</div>
+					<div class="filter-post _cs-pt _pd-12" :class="{'active': type === 'gallery'}" @click="selectType('gallery')"
+					id="gtm-link" data-gtm-link="tab_dcv_gallery">
+						<i class="fs-13 _mgr-3 fal fa-images"></i>
+						<span class="fs-14 fs-16-md fpt">แกลลอลี่</span>
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container _mgbt-50" :class="{'_mh-1000': !hasPost && isAjax}">
+		<div class="row content-post _mgt-15 _mgt-32-lg" ref="postList">
+			{{template "post-item"}}
+		</div>
+		<div v-cloak class="_mh-80">
+			<infinite-loading @infinite="infiniteHandler" ref="infiniteLoading" spinner="spiral" :distance="300">
+				<div slot="no-results">
+					<h5 class="_cl-white _tal-ct fs-14">ยังไม่มีคอนเทนต์</h5>
+				</div>
+				<div slot="no-more">
+					<h5 class="_cl-white _tal-ct fs-14">ไม่มีคอนเทนต์เพิ่มเติม</h5>
+				</div>
+			</infinite-loading>
+		</div>
+	</div>
+</div>
+{{end}}
+
+{{define "main.style"}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.3/assets/owl.carousel.min.css">
+{{end}}
+
+{{define "main.script"}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.3/owl.carousel.min.js"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const topic = $('.owl-topic')
+
+		topic.owlCarousel({
+			loop: false,
+			nav: false,
+			dots: false,
+			margin: 10,
+			autoWidth: true,
+			slideBy: 3,
+			responsive: {
+				768: {
+					items: 4
+				},
+				992: {
+					items: 8
+				},
+				1200: {
+					items: 10
+				}
+			}
+		})
+		// Go to the next item
+		$('.ctrl-carousel.ctrl-topic.next').click(function() {
+			topic.trigger('next.owl.carousel', [300])
+		})
+		// Go to the previous item
+		$('.ctrl-carousel.ctrl-topic.previous').click(function() {
+			topic.trigger('prev.owl.carousel', [300])
+		})
+
+	}) // end
+</script>
+
+{{end}}

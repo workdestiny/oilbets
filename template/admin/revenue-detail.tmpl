@@ -1,0 +1,360 @@
+{{define "page.title"}}Admin Revenue Detail{{end}}
+
+{{define "app-body"}}
+<div class="container-fluid _cl-gray" id="revenue">
+
+    {{template "modal-admin-report-post"}}
+    <h3 class="_cl-gray _fw-600 fs-20 _mgbt-20">
+        <span>ตรวจสอบใบถอนเงินของครีเอเตอร์</span>
+        <i class="fal fa-hand-holding-usd fs-16 _cl-gray-12"></i>
+    </h3>
+    <div class=" _mgbt-16 _pdbt-10 _bdbtw-1 _bdcl-blue-2">
+        <a class="_pdv-2 _cl-blue-5 _cl-blue-5-hover-hover fs-16 _fw-600 _tdcrt-n"
+        href="{{route "admin.revenue"}}">รายชื่อใบถอนเงิน</a>
+        <a class="_pdv-2 _cl-blue-5 _cl-blue-5-hover-hover fs-16 _fw-600 _tdcrt-n _mgl-42"
+        href="{{route "admin.revenue.history"}}">ประวัติจ่ายเงิน</a>
+    </div>
+
+    <div class="row _mgbt-20">
+        <div class="col-12">
+            <div class="shadow-stat _pdv-16 _pdh-30" style="background-color: #2d3c4c;">
+                {{template "detail-card" .}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row _mgbt-20">
+        <div class="col-12 col-md-6">
+            <div class="_bgcl-white shadow-stat _pd-30">
+                <h3 class="fs-16 _mgbt-24 _cl-gray _fw-600">รายได้จากการเข้าชมทั่วไป</h3>
+                <div class="_cl-gray _mgbt-30">
+                    <small class="fs-16">รายได้</small>
+                    <span class="fs-36 _fw-600 _mgh-5">{{.View.GuestViewAmount | currency}}</span>
+                    <small class="fs-16">บาท</small>
+                </div>
+                <div class="_cl-gray">มียอดเข้าชม {{.View.GuestView}}  ครั้ง</div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 _mgt-20 _mgt-0-md">
+            <div class="_bgcl-white shadow-stat _pd-30">
+                <h3 class="fs-16 _mgbt-24 _cl-gray _fw-600">รายได้การเข้าชมที่ล็อคอิน</h3>
+                <div class="_cl-gray _mgbt-30">
+                    <small class="fs-16">รายได้</small>
+                    <span class="fs-36 _fw-600 _mgh-5">{{.View.ViewAmount | currency}}</span>
+                    <small class="fs-16">บาท</small>
+                </div>
+                <div class="_cl-gray">มียอดเข้าชม {{.View.View}} ครั้ง</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row _mgbt-20">
+        <div class="col-12">
+            <div class="_bgcl-white shadow-stat _pd-30 _mgbt-20">
+                <h3 class="fs-18 _mgbt-24 _cl-gray _fw-600">การถอนเงิน</h3>
+                <div class="_cl-gray">
+                    <small class="fs-16">จำนวนเงินที่จะถอน</small>
+                    <span class="fs-36 _fw-600 _mgh-5">{{.View.AmountAll | currency}}</span>
+                    <small class="fs-16">บาท</small>
+                </div>
+            </div>
+
+            <div class="_bgcl-white shadow-stat _pd-30">
+                <div class="row">
+                    <div class="col-12 col-md-6 _bdrw-1 _bdcl-gray-2 _pdv-40 _cl-gray _jtfct-ct _dp-f">
+                        <div>
+                            <h3 class="fs-16 _mgbt-24 _fw-600">ข้อมูลการถอนเงิน</h3>
+                            <div class="_mgbt-5">ชื่อเพจ : {{.Gap.Name}}</div>
+                            <div class="_mgbt-5">รายได้ที่จะถอน :  {{.View.AllAmount | currency}} บาท</div>
+                            <div class="_mgbt-5">วันที่ :  {{.DateTime}}</div>
+                            <div>เวลา :  {{.DateTimeHour}} น.</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 _pdv-40 _cl-gray _jtfct-ct _dp-f">
+                        <div>
+                            <h3 class="fs-16 _mgbt-24 _fw-600">บัญชีที่รับเงิน</h3>
+                            <div class="_mgbt-5">ชื่อบัญชี : {{.Bookbank.Name}}</div>
+                            <div class="_mgbt-5">เลขที่บัญชี :  {{.Bookbank.Number}}</div>
+                            <div>ธนาคาร :  {{.Bookbank.BankName}}</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="_bgcl-white shadow-stat _pd-30">
+                <h3 class="fs-16 _mgbt-40 _cl-gray _fw-600">รายการคอนเทนต์ของเพจ</h3>
+                <div class="rvn-list-post sw-scrollbar">
+                    <div id="listPost">
+                        {{range .Post}}
+                            {{template "rvn-post-item" .}}
+                        {{else}}
+                            <h3 class="_cl-gray">ไม่มีคอนเทนต์</h3>
+                        {{end}}
+                    </div>
+                    {{if .IsNext}}
+                        <div class="_dp-f _jtfct-ct _mgt-32">
+                            <div id="gtm-button">
+                                <button class="btn btn-outline-white _pdh-20 _bdcl-gray-9 _cl-gray-9 _cl-gray-10-hover _bgcl-gray-2-hover fs-13 _bdrd-50px" id="load-post-revenue">ดูเพิ่มเติม</button>
+                            </div>
+                            <h5 class="_cl-gray-11 fs-14 nomore" style="display:none;">ไม่มีคอนเทนต์เพิ่มเติม</h5>
+                        </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{{end}}
+
+
+{{define "rvn-post-item"}}
+    <div class="_dp-f _bdbtw-1 _bdcl-gray-2 _pdbt-24 _pdr-10 _mgbt-16">
+        <div class="_f-s0 _mgr-16 _h-50 _w-50 _bgs-cv" style="background: url({{.Image}});"></div>
+        <div class="_dp-f _fdrt-cl _w-100pct">
+            <div class="_dp-f">
+                <a href="{{route "post.read"}}{{.Slug}}" target="_blank" class="_cl-blue-5 fs-14 _fw-600">
+                    {{.Title}}
+                </a>
+                <div class="_mgl-at fs-14 _cl-gray _fw-600">{{.View.AllAmount | currency}}  บาท</div>
+            </div>
+            <div class="_dp-f _cl-gray-8 _alit-ct">
+                <div class="fs-12 _dp-f">
+                    <div class="_mgr-30">{{.Time}} น.</div>
+                    <div class="_mgr-30">เข้าชมทั่วไป  {{.View.GuestView}}  ครั้ง </div>
+                    <div class="_mgr-30">เข้าชมที่ล็อคอิน  {{.View.View}}  ครั้ง </div>
+                </div>
+                {{if .Reject}}
+                    <div class="_mgl-at _fw-600 _cl-gray fs-14">สถานะ:  <span class="_cl-negative">ไม่ผ่าน</span></div>
+                {{end}}
+                <div class="_mgl-at">
+                    <button type="button" class="btn btn-primary btn-sm ac-report" data-id="{{.ID}}">Report</button>
+                </div>
+            </div>
+            {{if .Reject}}
+            {{range $index, $data := .Note}}
+                <p class="_cl-negative fs-13 _mgbt-0">*หมายเหตุ {{$data}}</p>
+            {{end}}
+        {{end}}
+        </div>
+    </div>
+{{end}}
+
+{{define "detail-card"}}
+    <div class="_dp-f _alit-ct">
+        <div class="_f-s0 _mgr-25">
+            <img class="img-fluid" src="{{.Gap.Display}}">
+        </div>
+        <div class="_dp-f _fdrt-cl _w-100pct">
+            <div class="_dp-f">
+                <div class="fs-14 _cl-white _fw-600 _mgr-30">ชื่อเพจ: {{.Gap.Name}}</div>
+                <div class="fs-14 _cl-white _fw-600">เลขที่ใบถอนเงิน: {{.Revenue.ID}}</div>
+            </div>
+            <div class="_dp-f _cl-gray-8 _alit-ct">
+                <div class="fs-12 _dp-f">
+                    <div class="_mgr-30">วันที่ใบถอนเงิน: {{.DateTime}}</div>
+                    <div class="_mgr-30">เวลา: {{.DateTimeHour}} น.</div>
+                </div>
+            </div>
+        </div>
+        <div v-if="checkApprove && checkReject" class="_mgl-at _dp-f">
+            <button type="button" class="_mgl-at fs-14 btn _bgcl-gray-8 _fw-600 _cl-white _bdrd-5px _mgr-16" @click="rejectApprove('{{.Revenue.ID}}')">ไม่อนุมัติ</button>
+            <button type="button" id="withdraw" class="_mgl-at fs-14 btn sw-btn _bgcl-yellow-5 _fw-600 _cl-white _bdrd-5px" @click="buttonApprove('{{.Revenue.ID}}')">อนุมัติ</button>
+        </div>
+        <div v-if="!checkApprove" class="_mgl-at _dp-f">
+            <p class="_mgl-at fs-12 _cl-white">อนุมัติแล้ว</p>
+        </div>
+        <div v-if="!checkReject" class="_mgl-at _dp-f">
+            <p class="_mgl-at fs-12 _cl-white">ไม่อนุมัติ</p>
+        </div>
+    </div>
+{{end}}
+
+
+{{define "main.style"}}
+{{end}}
+
+{{define "main.script"}}
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+<script>
+    new Vue({
+        el: '#revenue',
+        data() {
+            return {
+                routeReject: {{route "admin.ajax.post.reject"}},
+                routeDeletePost: {{route "admin.ajax.post.delete"}},
+                routeApprove: {{route "admin.ajax.revenue.approve"}},
+                routeRejectApprove: {{route "admin.ajax.revenue.reject"}},
+                postID: null,
+                checkOpenNote: false,
+                checkApprove: true,
+                checkReject: true,
+                note: ''
+            }
+        },
+
+        mounted() {
+            $('#report-post').on('hide.bs.modal', this.closeModal)
+            let self = this
+            $(document).on('click', '.ac-report', function () {
+                let id = $(this).data('id')
+                self.openModal(id)
+            })
+        },
+
+        methods: {
+            openModal(postID) {
+                this.postID = postID
+                $('#report-post').modal({
+                    keyboard: false,
+				    backdrop: 'static'
+                })
+            },
+
+            closeModal() {
+                this.postID = null
+                this.checkOpenNote = false
+            },
+            openNote(){
+                this.checkOpenNote = !this.checkOpenNote
+            },
+            submitReject(){
+                if (this.note === '') {
+                    alert('กรุณากรอกหมายเหตุ')
+                }
+                axios.post(this.routeReject,{
+                    id: this.postID+"",
+                    text: this.note
+                },{
+                    withCredentials: true
+                }).then(res => {
+                    location.reload()
+                })
+            },
+            deletePost(){
+                axios.post(this.routeDeletePost,{
+                    id: this.postID+""
+                },{
+                    withCredentials: true
+                }).then(res => {
+                    location.reload()
+                })
+            },
+            buttonApprove(revenueID){
+                swal({
+                    text: "คุณต้องการอนุมัติใบรับเงินใช่หรือไม่?",
+                    buttons: ["ยกเลิก","ตกลง"],
+					}).then((value) => {
+                        if (value) {
+                            axios.post(this.routeApprove, {
+                                id: revenueID+""
+                            },{
+                                withCredentials: true
+                            }).then(res => {
+                                this.checkApprove = false
+                            })
+                        }
+					})
+            },
+            rejectApprove(revenueID){
+                swal({
+                    text: "คุณต้องการปฏิเสธใบรับเงินใช่หรือไม่?",
+                    buttons: ["ยกเลิก","ตกลง"],
+                    }).then((value) => {
+                        if (value) {
+                            axios.post(this.routeRejectApprove, {
+                                id: revenueID+""
+                            }, {
+                                withCredentials: true
+                            }).then(res => {
+                                this.checkReject = false
+                            })
+                        }
+                    })
+            }
+        }
+    })
+</script>
+<script>
+    $(document).ready(function () {
+    let nextID = {{.NextLoad}}
+    let timeRevenue = {{.Revenue.CreatedAt}}
+    $('#load-post-revenue').click(function() {
+        var route = '{{route "admin.ajax.revenue.post"}}'
+        axios.post(route,{
+				id: {{.Gap.ID}},
+                time: timeRevenue,
+				next: nextID
+			},{
+				withCredentials: true
+			}).then(res => {
+                if (res.status === 200) {
+                    console.log(res.data)
+                    nextID = res.data.next
+                    timeRevenue = res.data.time
+                    var reject = `<div class="_mgl-at _fw-600 _cl-gray fs-14">สถานะ:  <span class="_cl-negative">ไม่ผ่าน</span></div>`
+                    res.data.post.forEach(data => {
+                        if(data.reject){
+                            var note = ''
+                            data.note.forEach(getnote => {
+                                if (getnote){
+                                    note += `<p class="_cl-negative fs-13 _mgbt-0">*หมายเหตุ ${getnote}</p>`
+                                }
+                            })
+                        }
+                        $('#listPost').append(`
+                        <div class="_dp-f _bdbtw-1 _bdcl-gray-2 _pdbt-24 _pdr-10 _mgbt-16">
+                            <div class="_f-s0 _mgr-16 _h-50 _w-50 _bgs-cv" style="background: url(${data.image});"></div>
+                            <div class="_dp-f _fdrt-cl _w-100pct">
+                                <div class="_dp-f">
+                                    <a href="{{route "post.read"}}${data.slug}" target="_blank" class="_cl-blue-5 fs-14 _fw-600">
+                                        ${data.title}
+                                    </a>
+                                    <div class="_mgl-at fs-14 _cl-gray _fw-600">${data.view.amount} บาท</div>
+                                </div>
+                                <div class="_dp-f _cl-gray-8 _alit-ct">
+                                    <div class="fs-12 _dp-f">
+                                        <div class="_mgr-30">${data.time} น.</div>
+                                        <div class="_mgr-30">เข้าชมทั่วไป ${data.view.guestView} ครั้ง </div>
+                                        <div class="_mgr-30">เข้าชมที่ล็อคอิน ${data.view.view} ครั้ง </div>
+                                    </div>
+                                    ${data.reject ? reject : ''}
+                                    <div class="_mgl-at">
+                                            <button type="button" class="btn btn-primary btn-sm ac-report" data-id="${data.id}">Report</button>
+                                    </div>
+                                </div>
+                                ${note}
+                            </div>
+                        </div>
+                        `)
+                    })
+                } else if (res.status === 204) {
+                    $('#load-post-revenue').hide()
+                    $('.nomore').show()
+                }
+			}).catch(err => {
+				return err
+			})
+    })
+    $('#submit-withdraw').click(function() {
+        var routeWithdraw = '{{route "ajax.gap.revenue.register"}}'
+        axios.post(routeWithdraw,{
+				id: {{.Gap.ID}}
+			},{
+				withCredentials: true
+			}).then(res => {
+                if (res.status === 204) {
+                    location.reload()
+                }
+			}).catch(err => {
+				return err
+			})
+    })
+})
+</script>
+{{end}}

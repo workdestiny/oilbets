@@ -1,0 +1,37 @@
+{{define "page.title"}}หมวดหมู่{{end}}
+
+{{define "app-body"}}
+	<div class="container _mgt-20-md">
+		<div class="row">
+			<div
+			class="col-lg-9 offset-lg-1 col-xl-8 offset-xl-2 _bgcl-white _bdrd-0 _bdrd-2px-md _pd-30 _pdv-42-md _pdh-90-md _pdv-42-lg _pdh-132-lg">
+				<h1 class="_mgbt-20 _dp-f _alit-ct">
+					<i class="fs-16 fas fa-book _cl-yellow-5"></i>
+					<span class="fs-18 _cl-gray _mgl-5 _fw-600">หมวดหมู่</span>
+				</h1>
+				{{range .Category}}
+				<h3 class="fs-16 _mgbt-14 _cl-gray-10">{{.Name}}</h3>
+
+				<div class="category-wrap _dp-f _fw-w _jtfct-ct _jtfct-ct _jtfct-fst-md">
+					{{range .Topic}}
+						<div class="box _bgcl-white _bgcl-gray-2-hover _bdrd-5px _cs-pt">
+							<a href="{{route "topic"}}{{.Code}}">
+								<img class="_w-100 _h-80 _bdrd-5px" src="{{.Image}}">
+							</a>
+							<a href="{{route "topic"}}{{.Code}}"
+							class="name _fw-600 _dp-b fs-16 _cl-gray-10 _mgt-4 _tdcrt-n"
+							title="{{.Name}}">{{.Name}}
+							</a>
+							{{if .IsFollow}}
+								<div class="fs-13 _cl-blue-1 _mgt-6 acfollowtopic" data-topic-id="{{.ID}}">เลิกติดตาม</div>
+							{{else}}
+								<div class="fs-13 _cl-blue-1 _mgt-6 acfollowtopic" data-topic-id="{{.ID}}">ติดตาม</div>
+							{{end}}
+						</div>
+					{{end}}
+				</div>
+				{{end}}
+			</div>
+		</div>
+	</div>
+{{end}}

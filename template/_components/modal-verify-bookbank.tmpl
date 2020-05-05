@@ -1,0 +1,73 @@
+{{define "modal-verify-bookbank"}}
+<div class="modal fade" id="verify-bookbank">
+	<div class="modal-dialog verify-id modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body _pdh-10 _pdh-24-md _pdv-10">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+                </button>
+                <div style="clear: both;"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="_dp-f _alit-ct fs-18 _cl-gray-11 _fw-600 _mgbt-24">
+                                <i class="fas fa-wallet fs-16 _cl-blue-5"></i>
+								<span class="fs-18 _mgl-6 _cl-blue-5 _fw-600">บัญชีการเงิน</span>
+                            </h3>
+                        </div>
+                        <div class="col-md-12 _mgbt-30">
+                            <form>
+                                <div class="form-group">
+                                    <label class="_cl-gray-10" for="bookbank_name">ชื่อบัญชีธนาคาร</label>
+                                    <input type="text" class="form-control form-control-sm" id="bookbank_name" v-model="verifyBookbank.bookbank_name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="_cl-gray-10" for="bank_name">ธนาคาร</label>
+                                    <select class="form-control" id="bank_name" v-model="verifyBookbank.bank_name">
+                                        <option value="">เลือกธนาคาร</option>
+                                        {{range .BankList}}
+                                            <option value="{{.Name}}">{{.Name}}</option>
+                                        {{end}}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="_cl-gray-10" for="bookbank_number">เลขบัญชี</label>
+                                    <input type="text" class="form-control form-control-sm" id="bookbank_number" v-model="verifyBookbank.bookbank_number">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-12">
+                            <h4 class="fs-16 _cl-blue-5 _mgbt-12">
+                                <i class="fal fa-id-card _cl-gray-9 fs-18 _mgr-6"></i>
+                                รูปสมุดบัญชีธนาคารหน้าแรก
+                            </h4>
+                            <p class="fs-14 _cl-gray-10 _mgbt-5">เงื่อนไขการอัพโหลด</p>
+                            <ol class="_cl-gray-10 _pdl-16 fs-14 _mgbt-30">
+                                <li>ใช้ภาพถ่าย หรือ สำเนา ก็ได้</li>
+                                <li>ภาพต้องมีความชัดเจน</li>
+                                <li>ชื่อบัญชีต้องตรงกับบัตรประชาชน</li>
+                            </ol>
+                            <input ref="formBookBank" type="file" class="hide-input" accept="image/*" @change="setFileIDCard($event, 'bookbank')">
+                            <div class="_dp-f _alit-ct _mgbt-16">
+                                <button class="btn _bgcl-yellow-5 _cl-white _fw-600 fs-14 _pdh-25"
+                                @click="$refs.formBookBank.click()">อัพโหลด</button>
+                                <span class="fs-13 _cl-gray-8 _mgl-20">รับเฉพาะไฟล์ .png  .jpg  10 MB</span>
+                            </div>
+                            <div v-if="imageSrcBookbank" class="_bgcl-gray-3 _dp-f _alit-ct _jtfct-ct _mgbt-16 _pdv-24">
+                                <img class="_img-ct img-fluid" :src="imageSrcBookbank">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="_tal-ct">
+                                <button v-if="imageSrcBookbank" class="btn _bgcl-blue-5 _cl-white _fw-600 _h-40 _pdh-30"
+                                @click="sendVerify('bookbank')"
+                                :class="{'-disabled -loading': btnLoading}">อัพเกรดสถานะ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+{{end}}

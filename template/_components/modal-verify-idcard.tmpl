@@ -1,0 +1,85 @@
+{{define "modal-verify-idcard"}}
+<div class="modal fade" id="verify-idcard">
+	<div class="modal-dialog verify-id modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body _pdh-10 _pdh-24-md _pdv-10">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+                </button>
+                <div style="clear: both;"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3 class="_dp-f _alit-ct fs-18 _cl-gray-11 _fw-600 _mgbt-24">
+                                <span class="_cl-blue-5 _mgr-10">อัพเกรดสถานะครีเอเตอร์เป็น</span> นักเผยแพร่
+                                <img class="_w-15 _h-15 _mgl-5" src="/-/images/icon/shield-15.png" srcset="/-/images/icon/shield-15@2x.png 2x" title="verified">
+                            </h3>
+                            <p class="_cl-gray-11 _mgbt-8">ชื่อบัญชี: {{.User.FirstName}} {{.User.LastName}}</p>
+                            <p class="_cl-gray-11 _mgbt-24">อีเมล: {{.User.Email}}</p>
+                        </div>
+                        <div class="col-md-12">
+                            <h4 class="fs-16 _cl-blue-5 _mgbt-12">
+                                <i class="fal fa-id-card _cl-gray-9 fs-18 _mgr-6"></i>
+                                บัตรประชาชน
+                            </h4>
+                            <p class="fs-14 _cl-gray-10 _mgbt-5">เงื่อนไขการอัพโหลด</p>
+                            <ol class="_cl-gray-10 _pdl-16 fs-14 _mgbt-20">
+                                <li>ภาพสำเนาบัตรประชาชนต้องมีความชัดเจน</li>
+                                <li>เซ็นรับรองสำเนาและระบุว่า “ใช้สำหรับการเป็นครีเอเตอร์ของ x เท่านั้น”</li>
+                            </ol>
+                            <input ref="formIDCard" type="file" class="hide-input" accept="image/*" @change="setFileIDCard($event, 'card')">
+                            <div class="_dp-f _alit-ct _mgbt-16">
+                                <button class="btn _bgcl-yellow-5 _cl-white _fw-600 fs-14 _pdh-25"
+                                @click="$refs.formIDCard.click()">อัพโหลด</button>
+                                <span class="fs-13 _cl-gray-8 _mgl-20">รับเฉพาะไฟล์ .png  .jpg  10 MB</span>
+                            </div>
+                            <div v-if="imageSrcIDCard" class="_bgcl-gray-3 _dp-f _alit-ct _jtfct-ct _mgbt-16 _pdv-24">
+                                <img class="_img-ct img-fluid" :src="imageSrcIDCard">
+                            </div>
+                        </div>
+                        <div class="_bdbtw-1 _bdcl-gray-5 _w-100pct _mgt-24 _mgbt-32"></div>
+                        <div class="col-md-12">
+                            <h4 class="fs-16 _cl-blue-5 _mgbt-12">
+                                <i class="fas fa-user _cl-gray-6 fs-18 _mgr-6"></i>
+                                ภาพถ่ายใบหน้าเจ้าของบัตร
+                            </h4>
+                            <div class="row">
+                                <div class="col-8">
+                                    <p class="fs-14 _cl-gray-10 _mgbt-5">เงื่อนไขการอัพโหลด</p>
+                                    <ol class="_cl-gray-10 _pdl-16 fs-14 _mgbt-40-lg">
+                                        <li>ภาพต้องเห็นบัตรชัดเจน โดยเฉพาะเลขที่บัตร ชื่อ-สกุล และใบหน้าชัดเจน</li>
+                                        <li>เจ้าของบัตรต้องเป็นผู้ถือบัตรตัวเองเท่านั้น</li>
+                                    </ol>
+                                </div>
+                                <div class="col-4">
+                                    <a class="_dp-b _tdcrt-n _w-80 _h-80 _mgl-20" href="https://storage.googleapis.com/powerwork-bucket/static/web/example-faceid-lg3.jpg" data-lightbox="image-1">
+                                        <img class="img-fluid _bdrd-3px" src="https://storage.googleapis.com/powerwork-bucket/static/web/example-faceid-sm1.jpg">
+                                        <div class="_cl-gray-10 _tal-ct _mgt-5 fs-13">ตัวอย่าง</div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <input ref="formFaceIDCard" type="file" class="hide-input" accept="image/*" @change="setFileIDCard($event,'face')">
+                            <div class="_dp-f _alit-ct _mgbt-16">
+                                <button class="btn _bgcl-yellow-5 _cl-white _fw-600 fs-14 _pdh-25"
+                                @click="$refs.formFaceIDCard.click()">อัพโหลด</button>
+                                <span class="fs-13 _cl-gray-8 _mgl-20">รับเฉพาะไฟล์ .png  .jpg  10 MB</span>
+                            </div>
+                            <div v-if="imageSrcFaceIDCard" class="_bgcl-gray-3 _dp-f _alit-ct _jtfct-ct _mgbt-16 _pdv-24">
+                                <img class="_img-ct img-fluid" :src="imageSrcFaceIDCard">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="_tal-ct">
+                                <button v-if="canUploadIDCard" class="btn _bgcl-blue-5 _cl-white _fw-600 _h-40 _pdh-30"
+                                @click="sendVerify('card')"
+                                :class="{'-disabled -loading': btnLoading}">อัพเกรดสถานะ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+{{end}}

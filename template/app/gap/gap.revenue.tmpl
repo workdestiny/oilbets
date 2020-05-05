@@ -1,0 +1,253 @@
+{{define "page.title"}}สรุปรายได้ {{.Gap.Name}}{{end}}
+
+{{define "app-body"}}
+<div id="stat" class="container _mgv-30-md">
+    <div class="row">
+        <div class="col-md-12 col-lg-10 offset-lg-1">
+            <div class="row">
+                {{template "gap-sidebar" .}}
+                <div class="col-md-12 col-lg-10 _bgcl-white-2 _pdh-30 _pdv-34">
+                    <h3 class="_cl-gray _fw-600 fs-20 _mgbt-20 _dp-f">
+                        <span>สรุปรายได้ของเพจ</span>
+                        <i class="fas fa-hand-holding-usd fs-18 _cl-gray-12 _mgl-6"></i>
+                    </h3>
+                    <div class="_mgbt-16 _pdbt-10 _bdbtw-1 _bdcl-blue-2">
+                        <a class="_pdv-2 _cl-blue-5 _cl-blue-5-hover-hover fs-16 _fw-600 _tdcrt-n"
+                        href="#">ภาพรวม</a>
+                    </div>
+
+                    <div class="row _mgbt-20">
+                        <div class="col-12 col-md-6">
+                            <div class="_bgcl-white shadow-stat _pd-30">
+                                <h3 class="fs-16 _mgbt-24 _cl-gray _fw-600">รายได้จากการเข้าชมทั่วไป</h3>
+                                <div class="_cl-gray _mgbt-30">
+                                    <small class="fs-16">รายได้</small>
+                                    <span class="fs-36 _fw-600 _mgh-5">{{.View.GuestViewAmount | currency}}</span>
+                                    <small class="fs-16">บาท</small>
+                                </div>
+                                <div class="_cl-gray">มียอดเข้าชม {{.View.GuestView}}  ครั้ง</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 _mgt-20 _mgt-0-md">
+                            <div class="_bgcl-white shadow-stat _pd-30">
+                                <h3 class="fs-16 _mgbt-24 _cl-gray _fw-600">รายได้จากการเข้าชมที่ล็อคอิน</h3>
+                                <div class="_cl-gray _mgbt-30">
+                                    <small class="fs-16">รายได้</small>
+                                    <span class="fs-36 _fw-600 _mgh-5">{{.View.ViewAmount | currency}}</span>
+                                    <small class="fs-16">บาท</small>
+                                </div>
+                                <div class="_cl-gray">มียอดเข้าชม {{.View.View}} ครั้ง</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row _mgbt-20">
+                        <div class="col-12">
+                            <div class="_bgcl-white shadow-stat _pd-30">
+                                <h3 class="fs-16 _mgbt-24 _cl-gray _fw-600">การรับเงิน</h3>
+                                <div class="_cl-gray fs-14">ยอดขั้นต่ำที่รับเงินได้ 500 บาท</div>
+                                <div class="progress _bdw-1 _bdcl-blue-1">
+                                    <div class="progress-bar" role="progressbar" style="width: {{.View.Percent}}%;" aria-valuenow="{{.View.Percent}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="_cl-gray _mgt-16 _mgbt-40">
+                                    <small class="fs-16">คุณมีรายได้รวม</small>
+                                    <span class="fs-24 _fw-600 _mgh-5">{{.View.AllAmount | currency}}</span>
+                                    <small class="fs-16">บาท</small>
+                                </div>
+                                <div class="row _mgbt-32">
+                                    <div class="col-6">
+                                        <p class="fs-13 _cl-gray-8">
+                                            *เงื่อนไขการรับเงิน เมื่อส่งใบขอรับเงินแล้ว รอดำเนินการ 7-14 วันทำการ
+                                            หลังจากดำเนินการเรียบร้อยแล้ว คุณจะได้รับอีเมล์แจ้งหลักฐานการจ่ายเงิน
+                                        </p>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <div class="_dp-f">
+                                        {{if not .IsRevenue}}
+                                            <button type="submit" class="_mgl-at fs-14 btn _bgcl-gray-5 _fw-600 _cl-white _pdh-40 _bdrd-5px" disabled>รับเงิน</button>
+                                        {{else}}
+                                            <button type="submit" id="withdraw" class="_mgl-at fs-14 btn sw-btn _bgcl-yellow-5 _fw-600 _cl-white _pdh-40 _bdrd-5px">รับเงิน</button>
+                                        {{end}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="open-withdraw" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 _bdrw-1 _bdcl-gray-2 _pdv-40 _cl-gray _jtfct-ct _dp-f">
+                                            <div>
+                                                <h3 class="fs-16 _mgbt-24 _fw-600">ข้อมูลการรับเงิน</h3>
+                                                <div class="_mgbt-5"><span class="_fw-600">ชื่อเพจ :</span> {{.Gap.Name}}</div>
+                                                <div class="_mgbt-5"><span class="_fw-600">รายได้ที่ได้รับ :</span>  {{.View.AllAmount}} บาท</div>
+                                                <div class="_mgbt-5"><span class="_fw-600">วันที่ :</span> {{.DateTime}}</div>
+                                                <div><span class="_fw-600">เวลา :</span>  {{.DateTimeHour}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 _pdv-40 _cl-gray _jtfct-ct _dp-f">
+                                            <div>
+                                                <h3 class="fs-16 _mgbt-24 _fw-600">บัญชีที่รับเงิน</h3>
+                                                <div class="_mgbt-5"><span class="_fw-600">ชื่อบัญชี :</span> {{.Bookbank.Name}}</div>
+                                                <div class="_mgbt-5"><span class="_fw-600">เลขที่บัญชี :</span>  {{.Bookbank.Number}}</div>
+                                                <div><span class="_fw-600">ธนาคาร :</span>  {{.Bookbank.BankName}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="_dp-f">
+                                                <button type="button" class="_mgl-at fs-14 btn btn-outline-transparent _cl-blue-1 _bdrd-5px _mgr-16" id="reset">ยกเลิก</button>
+                                                <button type="submit" class="fs-14 btn sw-btn _bgcl-yellow-5 _fw-600 _cl-white _pdh-40 _bdrd-5px" id="submit-withdraw">ส่งใบถอนเงิน</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="_bgcl-white shadow-stat _pd-30">
+                                <h3 class="fs-16 _mgbt-40 _cl-gray _fw-600">รายการคอนเทนต์ของเพจ</h3>
+                                <div class="rvn-list-post sw-scrollbar">
+                                <div id="listPost">
+                                    {{range .Post}}
+                                        {{template "rvn-post-item" .}}
+                                    {{else}}
+                                        <h5 class="_cl-gray-11 fs-14">ไม่มีคอนเทนต์</h5>
+                                    {{end}}
+                                </div>
+
+                                {{if .IsNext}}
+                                    <div class="_dp-f _jtfct-ct _mgt-32">
+                                        <div id="gtm-button">
+                                            <button class="btn btn-outline-white _pdh-20 _bdcl-gray-9 _cl-gray-9 _cl-gray-10-hover _bgcl-gray-2-hover fs-13 _bdrd-50px" id="load-post-revenue">ดูเพิ่มเติม</button>
+                                        </div>
+                                        <h5 class="_cl-gray-11 fs-14 nomore" style="display:none;">ไม่มีคอนเทนต์เพิ่มเติม</h5>
+                                    </div>
+                                {{end}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{define "rvn-post-item"}}
+    <div class="_dp-f _bdbtw-1 _bdcl-gray-2 _pdbt-24 _pdr-10 _mgbt-16">
+        <div class="_f-s0 _mgr-16 _h-50 _w-50 _bgs-cv" style="background: url({{.Image}});">
+        </div>
+        <div class="_dp-f _fdrt-cl _w-100pct">
+            <div class="_dp-f _mgbt-5">
+                <a href="{{route "post.read"}}{{.Slug}}" target="_blank" class="_cl-blue-5 fs-14 _fw-600">
+                    {{.Title}}
+                </a>
+                <div class="_mgl-at fs-14 _cl-gray _fw-600">{{.View.AllAmount | currency}} บาท</div>
+            </div>
+            <div class="_dp-f _cl-gray-8 _alit-ct">
+                <div class="fs-12 _dp-f">
+                    <div class="_mgr-30">{{.Time}} น.</div>
+                    <div class="_mgr-30">เข้าชมทั่วไป  {{.View.GuestView}}  ครั้ง </div>
+                    <div class="_mgr-30">เข้าชมที่ล็อคอิน  {{.View.View}}  ครั้ง </div>
+                </div>
+            {{if .Reject}}
+                <div class="_mgl-at _cl-gray fs-12"><span class="_cl-negative">ไม่สามารถสร้างรายได้</span></div>
+            {{end}}
+            </div>
+            {{if .Reject}}
+                {{range $index, $data := .Note}}
+                    <p class="_cl-negative fs-13 _mgbt-0">*หมายเหตุ {{$data}}</p>
+                {{end}}
+            {{end}}
+        </div>
+    </div>
+{{end}}
+
+{{define "main.style"}}
+{{end}}
+
+{{define "main.script"}}
+<script>
+$(document).ready(function () {
+    $('#withdraw').click(function() {
+        $('#open-withdraw').toggle()
+        $('#withdraw').css('display','none')
+    })
+    $('#reset').click(function() {
+        $('#open-withdraw').toggle()
+        $('#withdraw').css('display','block')
+    })
+    let nextID = {{.NextLoad}}
+    $('#load-post-revenue').click(function() {
+        var route = '{{route "ajax.gap.revenue.post"}}'
+        axios.post(route,{
+				id: {{.Gap.ID}},
+				next: nextID
+			},{
+				withCredentials: true
+			}).then(res => {
+                if (res.status === 200) {
+                    nextID = res.data.next
+                    var reject = `<div class="_mgl-at _cl-gray fs-12"><span class="_cl-negative">ไม่สามารถสร้างรายได้</span></div>`
+                    res.data.post.forEach(data => {
+                        if(data.reject){
+                            var note = ''
+                            data.note.forEach(getnote => {
+                                if (getnote){
+                                    note += `<p class="_cl-negative fs-13 _mgbt-0">*หมายเหตุ ${getnote}</p>`
+                                }
+                            })
+                        }
+                        $('#listPost').append(`
+                        <div class="_dp-f _bdbtw-1 _bdcl-gray-2 _pdbt-24 _pdr-10 _mgbt-16">
+                            <div class="_f-s0 _mgr-16 _h-50 _w-50 _bgs-cv" style="background: url(${data.image});"></div>
+                            <div class="_dp-f _fdrt-cl _w-100pct">
+                                <div class="_dp-f">
+                                    <a href="{{route "post.read"}}${data.slug}" target="_blank" class="_cl-blue-5 fs-14 _fw-600">
+                                        ${data.title}
+                                    </a>
+                                    <div class="_mgl-at fs-14 _cl-gray _fw-600">${data.view.amount} บาท</div>
+                                </div>
+                                <div class="_dp-f _cl-gray-8 _alit-ct">
+                                    <div class="fs-12 _dp-f">
+                                        <div class="_mgr-30">${data.time} น.</div>
+                                        <div class="_mgr-30">เข้าชมทั่วไป ${data.view.guestView} ครั้ง </div>
+                                        <div class="_mgr-30">เข้าชมที่ล็อคอิน ${data.view.view} ครั้ง </div>
+                                    </div>
+                                    ${data.reject ? reject : ''}
+                                </div>
+                                ${note}
+                            </div>
+                        </div>
+                        `)
+                    })
+                } else if (res.status === 204) {
+                    $('#load-post-revenue').hide()
+                    $('.nomore').show()
+                }
+			}).catch(err => {
+				return err
+			})
+    })
+    $('#submit-withdraw').click(function() {
+        var routeWithdraw = '{{route "ajax.gap.revenue.register"}}'
+        axios.post(routeWithdraw,{
+				id: {{.Gap.ID}}
+			},{
+				withCredentials: true
+			}).then(res => {
+                if (res.status === 204) {
+                    location.reload()
+                }
+			}).catch(err => {
+				return err
+			})
+    })
+})
+</script>
+{{end}}

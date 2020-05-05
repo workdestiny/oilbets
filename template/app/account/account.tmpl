@@ -1,0 +1,251 @@
+{{define "page.title"}}ตั้งค่าบัญชี{{end}}
+
+{{define "app-body"}}
+	<div class="container _mgt-0 _mgt-20-md">
+		<div class="row" id="app">
+			{{template "modal-upload-img"}}
+			{{template "modal-verify-email"}}
+			{{if and (and .User.IsVerify .User.IsVerifyIDCard) (not .User.IsVerifyBookBank)}}
+				{{template "modal-verify-bookbank" .}}
+			{{end }}
+			{{if and (not .User.IsVerifyIDCard) .User.IsVerify}}
+				{{template "modal-verify-idcard" .}}
+			{{end}}
+			<div class="col-12 col-lg-8 offset-lg-2 _bgcl-white">
+				<div class="row">
+					<div class="col-12 col-md-10 offset-md-1">
+						<div class="_bdrd-0 _bdrd-2px-md _bgcl-white _pdv-15 _pdv-32-md">
+							<h1 class="fs-20 _cl-gray-11 _fw-700 _mgbt-10">บัญชี</h1>
+							<div class="_bdw-1 _bdcl-gray-2 _mgbt-24"></div>
+							<div class="_dp-f _fdrt-cl _fdrt-r-lg">
+								<div class="_dp-f _alit-ct _jtfct-ct _alit-fst-lg _mgbt-16 _mgbt-0-lg _mgr-38-lg">
+									<div class="_pst-rlt image-account" id="gtm-link" data-gtm-link="account_avatar">
+										<img class="_bdrd-50pct _img-ct avatar-bd"
+										src="{{.User.DisplayImage.Normal}}"
+										width="174px" height="174px">
+										<div class="icon-upload _cs-pt _bdrd-50pct _jtfct-ct _alit-ct" title="เปลี่ยนรูปภาพ"
+										@click="openModal">
+											<i class="fs-40 fal fa-camera"></i>
+										</div>
+									</div>
+								</div>
+								<div class="_w-100pct">
+									<form ref="formAccount" action="{{route "account"}}" method="POST" autocomplete="off">
+										<div class="form-row">
+											<div class="form-group col-sm-12 col-md-6">
+												<label class="_cl-gray-11 _fw-600 fs-14" for="name">ชื่อ</label>
+												<input id="name" class="form-control {{if .Flash.Has "ErrName"}}is-invalid{{end}}"
+												name="firstname"
+												v-model="firstName"
+												@input="changeSomeThing"
+												type="text" required>
+												<div class="invalid-feedback">{{.Flash.Get "ErrName"}}</div>
+											</div>
+											<div class="form-group col-sm-12 col-md-6">
+												<label class="_cl-gray-11 _fw-600 fs-14" for="lname">นามสกุล</label>
+												<input id="lname" class="form-control {{if .Flash.Has "ErrLName"}}is-invalid{{end}}"
+												name="lastname"
+												v-model="lastName"
+												@input="changeSomeThing"
+												type="text" required>
+												<div class="invalid-feedback">{{.Flash.Get "ErrLName"}}</div>
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="form-group col-12">
+												<label class="_cl-gray-11 _fw-600 fs-14" for="email">อีเมล</label>
+												<input id="email" class="form-control {{if .Flash.Has "ErrEmail"}}is-invalid{{end}}"
+												name="email"
+												v-model="newEmail"
+												@input="changeSomeThing"
+												type="email" required>
+												<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+												{{if and (.Flash.Has "ErrEmail") (not .User.Email)}}
+													<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+												{{end}}
+											</div>
+										</div>
+										<input type="hidden" name="change-email" :value="changeEmail">
+										<div class="form-row">
+											<div class="col-12">
+												<label class="_cl-gray-11 _fw-600 fs-14" for="password">รหัสผ่าน</label>
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="form-group col-8 col-sm-10 col-md-10">
+												<input v-if="changePassword" id="password" class="form-control {{if .Flash.Has "ErrOldPassword"}}is-invalid{{end}}"
+												:class="{ '_bgcl-gray-2': !changePassword }"
+												name="old-password" type="password"
+												{{if or (.Flash.Has "ErrOldPassword") (.Flash.Has "ErrNewPassword") (.Flash.Has "ErrInputEmptyNewPassword") (.Flash.Has "ErrInputEmptyRepeatPassword") (.Flash.Has "ErrPasswordMissMatch")}}
+													value="{{.Flash.Get "OldPassword"}}"
+												{{end}}
+													value=""
+												placeholder="รหัสผ่านเดิม"  required
+												:readonly="!changePassword"
+												>
+												<div class="invalid-feedback">{{.Flash.Get "ErrOldPassword"}}</div>
+												<input v-cloak v-if="!changePassword" class="form-control _bgcl-gray-2" type="password" v-model="dummyPassword" :readonly="!changePassword">
+											</div>
+											<div class="form-group col-4 col-sm-2 col-md-2" id="gtm-button" data-gtm-button="change_password">
+												<a class="btn btn-outline-transparent fs-14 _cl-blue-5 _bdrd-5px _w-100pct _tdcrt-udl-hover" @click.prevent="openChangePassword">แก้ไข</a>
+											</div>
+										</div>
+										<div v-cloak class="form-row">
+											<div class="form-group col-12" v-if="changePassword">
+												<input class="form-control
+												{{if or (.Flash.Has "ErrNewPassword") (.Flash.Has "ErrPasswordMissMatch") (.Flash.Has "ErrInputEmptyNewPassword")}}is-invalid{{end}}"
+												name="new-password" type="password" placeholder="รหัสผ่านใหม่"
+												value="{{.Flash.Get "NewPassword"}}"
+												required>
+												{{if  .Flash.Has "ErrNewPassword"}}
+													<div class="invalid-feedback">{{.Flash.Get "ErrNewPassword"}}</div>
+												{{end}}
+												{{if  .Flash.Has "ErrInputEmptyNewPassword"}}
+													<div class="invalid-feedback">{{.Flash.Get "ErrInputEmptyNewPassword"}}</div>
+												{{end}}
+											</div>
+										</div>
+										<div v-cloak class="form-row">
+											<div class="form-group col-12" v-if="changePassword">
+												<input class="form-control
+												{{if or (.Flash.Has "ErrNewPassword") (.Flash.Has "ErrPasswordMissMatch") (.Flash.Has "ErrInputEmptyRepeatPassword")}}is-invalid{{end}}"
+												name="repeat-password" type="password" placeholder="ยืนยันรหัสผ่านใหม่"
+												value="{{.Flash.Get "RepeatPassword"}}"
+												required>
+												{{if  .Flash.Has "ErrNewPassword"}}
+													<div class="invalid-feedback">{{.Flash.Get "ErrNewPassword"}}</div>
+												{{end}}
+												{{if  .Flash.Has "ErrPasswordMissMatch"}}
+													<div class="invalid-feedback">{{.Flash.Get "ErrPasswordMissMatch"}}</div>
+												{{end}}
+												{{if  .Flash.Has "ErrInputEmptyRepeatPassword"}}
+													<div class="invalid-feedback">{{.Flash.Get "ErrInputEmptyRepeatPassword"}}</div>
+												{{end}}
+											</div>
+										</div>
+										<input type="hidden" name="change-password"
+											:value="changePassword"
+										>
+										{{if .Flash.Has "Success"}}
+											<div class="alert alert-success fs-12 _pdv-5">
+												{{.Flash.Get "Success"}}
+											</div>
+										{{end}}
+										<div class="_dp-f _jtfct-fe _mgv-32" v-if="editAccount || changePassword">
+											<div v-cloak id="gtm-link" data-gtm-link="cancel">
+												<button type="button" class="fs-14 btn btn-outline-transparent _cl-blue-1 _tdcrt-udl-hover _bdrd-5px _mgr-16" @click="reset">ยกเลิก</button>
+											</div>
+											<div v-cloak id="gtm-link" data-gtm-link="save_info">
+												<button type="button" class="fs-14 btn sw-btn _bgcl-yellow-5 _bgcl-yellow-4-hover _fw-600 _cl-white _bdrd-5px" type="submit" @click="submitForm">ยืนยัน</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="_bdw-1 _bdcl-gray-2 _mgv-35"></div>
+
+							<div class="_pst-rlt">
+								<h3 class="fs-18 _cl-gray-11 _fw-700 _mgbt-2">เพจของฉัน</h3>
+								<div class="_dp-f _alit-ct">
+									{{if and (not .User.IsVerify) (not .User.IsVerifyIDCard)}}
+										<span class="fs-14 _cl-gray-11">สถานะครีเอเตอร์:<span class="_fw-600 _mgh-10">ทั่วไป</span></span>
+										<span id="gtm-button" data-gtm-button="mg_upgrade_ผู้เริ่มต้น">
+											<a class="fs-14 _cl-blue-5 _cs-pt _tdcrt-udl-hover" @click="verifyEmail">อัพเกรดเป็น</a>
+										</span>
+										<span class="fs-14 _fw-600 _cl-gray-11 _mgl-10">ผู้เริ่มต้น</span>
+									{{else if and .User.IsVerify (not .User.IsVerifyIDCard)}}
+										<span class="fs-14 _cl-gray-11">สถานะครีเอเตอร์:<span class="_fw-600 _mgh-10">ผู้เริ่มต้น</span></span>
+										<span id="gtm-button" data-gtm-button="mg_upgrade_นักเผยแพร่">
+											<a class="fs-14 _cl-blue-5 _cs-pt _tdcrt-udl-hover" @click="openVerifyIDCard">อัพเกรดเป็น</a>
+										</span>
+										<span class="fs-14 _fw-600 _cl-gray-11 _mgl-10 _mgr-5">นักเผยแพร่</span>
+										<img src="/-/images/icon/shield-15.png" srcset="/-/images/icon/shield-15@2x.png 2x" width="12px" height="12px" title="verified">
+									{{else if and .User.IsVerify .User.IsVerifyIDCard}}
+										<span class="fs-14 _cl-gray-11">สถานะครีเอเตอร์:<span class="_fw-600 _mgl-10 _mgr-5">นักเผยแพร่</span></span>
+										<img src="/-/images/icon/shield-15.png"
+										srcset="/-/images/icon/shield-15@2x.png 2x"
+										width="12px" height="12px"
+										title="verified"
+										style="margin-top: -2px;">
+									{{else if and (not .User.IsVerify) .User.IsVerifyIDCard}}
+										<span class="fs-14 _cl-gray-11">สถานะครีเอเตอร์:<span class="_fw-600 _mgl-10 _mgr-5">นักเผยแพร่</span></span>
+										<img src="/-/images/icon/shield-15.png" srcset="/-/images/icon/shield-15@2x.png 2x" width="12px" height="12px" title="verified">
+										<span class="fs-14 _cl-negative _mgh-5">*(กรุณายืนยันอีเมล)</span>
+										<span id="gtm-button" data-gtm-button="mg_verify_email">
+											<a class="fs-14 _cl-blue-5 _cs-pt _tdcrt-udl-hover" @click="verifyEmail">ส่งคำขอยืนยันอีเมล</a>
+										</span>
+									{{end}}
+								</div>
+								{{if and (and .User.IsVerify .User.IsVerifyIDCard) (not .User.IsVerifyBookBank)}}
+									<div class="_dp-f _alit-ct _mgt-10 _mgbt-5 _mgbt-16-md _mgbt-24-lg _cs-pt" @click="openVeriyBookbank">
+										<i class="fas fa-wallet fs-14 _cl-blue-5"></i>
+										<span class="fs-13 _mgl-6 _cl-blue-5 _fw-600">บัญชีการเงิน</span>
+									</div>
+                                {{else}}
+                                    <div class="_cl-blue-5 fs-14 _mgt-10">เพจสามารถสร้างรายได้</div>
+								{{end}}
+								<div class="create-grap-wrap _mgbt-20 _mgbt-0-lg" style="right: 0; top: 0;" id="gtm-link" data-gtm-link="mg_create_gap">
+									<a href="{{route "create.gap"}}" class="_dp-ilf _alit-ct fs-14 _fw-600 btn _bgcl-blue-5 _bgcl-blue-5-hover-hover _cl-white _bdrd-5px _mgl-at">
+										<i class="far fa-plus fs-14 _cl-gray-1"></i>
+										<span class="fs-14 _cl-white _mgl-5">สร้างเพจ</span>
+									</a>
+								</div>
+
+								<div class="_dp-f _fw-w _mgbt-12 mygap-wrap _mgt-20">
+									{{range .ListGap}}
+									<div id="gtm-link" data-gtm-link="mg_gap_{{.Name}}">
+										<a href="{{route "gap"}}{{.Username}}" class="_dp-f _fdrt-cl _w-70 _mgh-20 _tdcrt-n _mgbt-20">
+											<img class="_w-70 _h-70 _bdrd-50pct avatar-bd" src="{{.Display}}">
+											<div class="fs-14 _fw-600 _cl-gray-11 _tal-ct _mgt-3 _tovf-elp">{{.Name}}</div>
+										</a>
+									</div>
+									{{else}}
+										<div class="_dp-f _fdrt-cl _tdcrt-n _mgh-20 _cl-gray-11">
+											<h5 class="fs-14 _cl-gray-10">ยังไม่มีเพจ</h5>
+										</div>
+									{{end}}
+								</div>
+
+							</div>
+
+							<div class="_bdw-1 _bdcl-gray-2 _mgbt-32"></div>
+
+							<h3 class="fs-18 _cl-gray-11 _fw-700 _mgbt-20">เพจที่ติดตาม {{.User.Count.Gap | shortNumber}}</h3>
+
+							<div v-if="listFollow" class="_dp-f _fw-w" style="margin-right: -8px;margin-left: -8px;">
+								<div v-cloak v-for="(l, index) in listFollow" :key="index" class="gap-item-sm-wrap _pdh-8 _mgbt-16 u-raised-1 u-raised-3-hover _ovf-hd">
+									<a :href="{{route "gap"}} + l.username" class="gap-item-sm _bdrd-2px _pd-12 _tdcrt-n" id="gtm-link" :data-gtm-link="'flg_gap_' + l.name">
+										<div class="_dp-f _alit-ct _w-80pct">
+											<img class="_w-40 _h-40 _bdrd-50pct _f-s0 avatar-bd" :src="l.display">
+											<div class="fs-14 _fw-600 _cl-gray-11 _mgl-12 _mgr-3 _tovf-elp" :title="l.name">${l.name}</div>
+											<img v-if="l.isVerify" class="_w-10 _h-10" src="/-/images/icon/shield-15.png" srcset="/-/images/icon/shield-15@2x.png 2x" title="verified">
+										</div>
+										<div v-if="l.name !== 'Official'" class="_mgl-at" id="gtm-button" data-gtm-button="flg_unfollow">
+											<button
+											class="btn _bdcl-gray-9 _bgcl-white _pd-0 _bdrd-50px _dp-ilf _jtfct-ct _w-30 _h-20 acfollow"
+											:data-gap-id="l.id">
+												<i class="fs-10 far fa-minus _cs-pt _cl-gray-11"></i>
+											</button>
+										</div>
+									</a>
+								</div>
+							</div>
+							<div v-cloak v-else class="_dp-f _fdrt-cl _tdcrt-n _mgh-20 _cl-gray-11">
+								<h5 class="_cl-gray-11 fs-14">ไม่มีเพจที่ติดตาม</h5>
+							</div>
+
+							<div class="_dp-f _jtfct-ct _mgt-32">
+								{{if .IsNext}}
+								<div id="gtm-button" data-gtm-button="flg_see_more">
+									<button v-if="!noMore" class="btn btn-outline-white _pdh-20 _bdcl-gray-9 _cl-gray-9 _cl-gray-10-hover _bgcl-gray-2-hover fs-13 _bdrd-50px" @click="nextLoadFollowGap">ดูเพิ่มเติม</button>
+								</div>
+								{{end}}
+								<h5 v-if="noMore" class="_cl-gray-11 fs-14">ไม่มีเพจเพิ่มเติม</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{{end}}

@@ -1,0 +1,31 @@
+@each $key, $value in $color-value {
+  ._cl-#{$key} { color: #{$value} !important; }
+};
+
+@include media-breakpoint-up(sm) {
+  @each $key, $value in $color-value {
+    ._cl-#{$key}-sm { color: #{$value} !important; }
+  };
+}
+
+@include media-breakpoint-up(md) {
+  @each $key, $value in $color-value {
+    ._cl-#{$key}-md { color: #{$value} !important; }
+  };
+}
+
+@include media-breakpoint-up(lg) {
+  @each $key, $value in $color-value {
+    ._cl-#{$key}-lg { color: #{$value} !important; }
+  };
+}
+
+@each $key, $value in $color-value {
+  ._cl-#{$key}-hover {
+    &:hover {
+      color: #{$value} !important;
+    }
+  };
+};
+
+

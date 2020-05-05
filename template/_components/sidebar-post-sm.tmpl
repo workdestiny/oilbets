@@ -1,0 +1,25 @@
+{{define "sidebar-post-sm"}}
+<article class="col-12 col-sm-6 col-md-6 col-lg-12 col-xl-12 _mgbt-16 sidebar-post sm">
+	<div class="post-thumb" id="gtm-link" data-gtm-link="cnt_post_image">
+		{{if .ImageURL}}
+			<a href="{{route "post.read"}}{{.Slug}}">
+				<div class="thumb"
+				style="background-image: url('{{.ImageURL}}')"></div>
+			</a>
+		{{else}}
+			<a href="{{route "post.read"}}{{.Slug}}">
+				<div class="thumb"
+				style="background-image: url('https://storage.googleapis.com/powerwork-bucket/static/post/avatar-relate.svg')"></div>
+			</a>
+		{{end}}
+	</div>
+	<div class="post-info">
+			{{if .Title}}
+			<a class="_tdcrt-n" href="{{route "post.read"}}{{.Slug}}" id="gtm-link" data-gtm-link="cnt_post_title">
+				<h6 class="fs-13 fs-14-md _cl-blue-4 _cl-blue-2-hover _fw-700 _mgbt-0 _wb-bw">{{.Title | sanitize | shortTextPost 42 | html}}</h6>
+			</a>
+			{{end}}
+			<span class="fs-12 fs-13-lg _cl-gray-9">เข้าชม {{.View}} ครั้ง</span>
+		</div>
+</article>
+{{end}}

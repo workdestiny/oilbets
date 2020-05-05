@@ -1,0 +1,21 @@
+@each $key, $value in $dimension-value {
+  ._w-#{$key} { width: #{$value} !important; }
+};
+
+@include media-breakpoint-up(sm) {
+  @each $key, $value in $dimension-value {
+    ._w-#{$key}-sm { width: #{$value} !important; }
+  };
+}
+
+@include media-breakpoint-up(md) {
+  @each $key, $value in $dimension-value {
+    ._w-#{$key}-md { width: #{$value} !important; }
+  };
+}
+
+@include media-breakpoint-up(lg) {
+  @each $key, $value in $dimension-value {
+    ._w-#{$key}-lg { width: #{$value} !important; }
+  };
+}

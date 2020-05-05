@@ -1,0 +1,54 @@
+{{define "search-overlay"}}
+<div id="search-overlay" class="search-overlay _pdt-70 _pdt-90-md">
+    <div class="row">
+        <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+            <div class="btn-close acsearch _cs-pt _w-30 _h-30 _bdrd-50pct _dp-f _alit-ct _jtfct-ct" id="gtm-button" data-gtm-button="search_close">
+                <i class="fal fa-times _cl-gray-1"></i>
+            </div>
+            <div class="input-search-group _pdh-20 _pdh-0-md">
+                <input class="input-search fs-18 _w-100pct _bdrd-50px"
+                @input="searchChange"
+                autofocus type="text"
+                placeholder="เพจ, หัวข้อ"
+                ref="search"
+                v-model="search">
+                <div class="icon">
+                    <i class="fal fa-search _cl-yellow-5 fs-24"></i>
+                    <span class="_dp-n _dp-b-md _mgl-12 _mgt-1">ค้นหา</span>
+                </div>
+            </div>
+            <div class="_pdh-20 _pdh-42-md _mgt-34" v-if="open">
+                <h2 class="fs-16 _cl-gray-1 _mgbt-12">
+                    <i class="fas fa-book _cl-yellow-5"></i>
+                    <span class="_mgl-4">หัวข้อ</span>
+                </h2>
+                <div class="t-wrap">
+                    <span v-for="topic in searchListTopic" id="gtm-link"
+                    :data-gtm-link="` search_topic${topic.id} | ${topic.name} | user{{.User.ID}}`">
+                        <a :href="{{route "topic"}}+ topic.code" class="t-list _cl-gray-1">
+                            ${topic.name}
+                        </a>
+                    </span>
+                    <h5 class="fs-16 _mgbt-0" v-if="searchListTopic === null">ไม่พบหัวข้อที่ค้นหา</h5>
+                </div>
+			</div>
+			<div class="_pdh-20 _pdh-42-md _mgt-10" v-if="open">
+                <h2 class="fs-16 _cl-gray-4 _mgbt-12">
+                    <i class="far fa-shield-alt _cl-yellow-5"></i>
+                    <span class="_mgl-4">เพจ</span>
+                </h2>
+                <div class="gap-item-sm-wrap _pdh-8 _mgbt-4" v-for="gap in searchListGap" id="gtm-link"
+                :data-gtm-link="` search_gap${gap.id} | ${gap.name} | user{{.User.ID}}`">
+                    <a :href="{{route "gap"}} + gap.username" class="gap-item-sm _pd-12 _tdcrt-n">
+                        <div class="_dp-f _alit-ct _w-80pct">
+                            <img :src="gap.displayMini" class="_w-40 _h-40 _bdrd-50pct _bdw-1 _bdcl-blue-4">
+                            <div :title="gap.name" class="fs-14 _cl-gray-1 _mgl-12 _mgr-3 _tovf-elp">${gap.name}</div>
+                        </div>
+                    </a>
+                </div>
+                <h5 class="fs-16 _mgbt-0" v-if="searchListGap === null">ไม่พบเพจที่ค้นหา</h5>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

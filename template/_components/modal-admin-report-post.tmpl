@@ -1,0 +1,38 @@
+{{define "modal-admin-report-post"}}
+<div class="modal fade" id="report-post">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body _pdh-10 _pdh-24-md _pdv-20">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+                </button>
+                <div style="clear: both;"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="_dp-f _alit-ct fs-18 _cl-gray-11 _fw-600 _mgbt-24">
+                                <i class="fas fa-bug fs-16 _cl-blue-5"></i>
+								<span class="fs-18 _mgl-6 _cl-blue-5 _fw-600">Report posts</span>
+                            </h3>
+                            <div class="_dp-f _jtfct-ct _mgbt-20">
+                                <button type="button" class="btn btn-danger btn-sm _mgr-30" @click="deletePost">ลบคอนเทนต์</button>
+                                <button type="button" class="btn btn-secondary btn-sm" @click="openNote">ติดเงื่อนไข</button>
+                            </div>
+                            <hr>
+
+                            <div class="_mgt-20" v-if="checkOpenNote">
+                                <h4 class="_cl-gray fs-13 _fw-600">หมายเหตุ</h4>
+                                <textarea class="form-control" v-model="note"></textarea>
+                            </div>
+
+                            <div class="_dp-f _mgt-16" v-if="checkOpenNote">
+                                <button type="button" class="btn btn-primary btn-sm _mgl-at _pdh-30" @click="submitReject">บันทึก</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+{{end}}

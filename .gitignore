@@ -1,0 +1,13 @@
+gin-bin
+node_modules
+config/secret
+gin-bin.exe
+gin-bin.exe~
+.DS_Store
+.goreload
+.goreload.exe
+config/config-production.yaml
+public/mix-manifest.json
+public/css/*.css
+public/js/*.js
+public/ckeditor5

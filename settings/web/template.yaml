@@ -1,0 +1,228 @@
+dir: template
+root: root
+minify: true
+
+preload:
+  - main.tmpl
+  - _components/navbar.tmpl
+  - _components/navbar-transparent.tmpl
+  - _components/global.script.tmpl
+  - _components/noti-item.tmpl
+
+list:
+  app/search:
+  - _layout/app.tmpl
+  - _components/post-item.tmpl
+  - app/search/search.tmpl
+  app/contact:
+  - _layout/app.tmpl
+  - app/contact-us.tmpl
+  app/privacy:
+  - _layout/app.tmpl
+  - app/privacy.tmpl
+  app/condition:
+  - _layout/app.tmpl
+  - app/condition.tmpl
+  app/signin:
+  - _layout/_blank.tmpl
+  - app/signin.tmpl
+  app/signin-email:
+  - _layout/_blank.tmpl
+  - app/signin-email.tmpl
+  app/signup:
+  - _layout/_blank.tmpl
+  - app/signup.tmpl
+  app/forgotpassword:
+  - _layout/_blank.tmpl
+  - app/forgotpassword.tmpl
+  app/resetpassword:
+  - _layout/_blank.tmpl
+  - app/resetpassword.tmpl
+  app/discover:
+  - _layout/app.tmpl
+  - _components/gap-recommend.tmpl
+  - _components/topic-small.tmpl
+  - _components/category-item.tmpl
+  - _components/post-item.tmpl
+  - _components/modal-select-topic.tmpl
+  - app/discover.tmpl
+  app/follow:
+  - _layout/app.tmpl
+  - _components/topic-small.tmpl
+  - _components/post-item.tmpl
+  - app/follow.tmpl
+  app/liked:
+  - _layout/app.tmpl
+  - _components/topic-small.tmpl
+  - _components/post-item.tmpl
+  - app/liked.tmpl
+  app/public:
+  - _layout/app.tmpl
+  - _components/topic-small.tmpl
+  - _components/post-item.tmpl
+  - app/public.tmpl
+  app/topic:
+  - _layout/app.tmpl
+  - _components/topic-small.tmpl
+  - _components/post-item.tmpl
+  - app/topic.tmpl
+  app/categoryget:
+  - _layout/app.tmpl
+  - _components/topic-small.tmpl
+  - _components/post-item.tmpl
+  - app/category-page.tmpl
+  app/category:
+  - _layout/app.tmpl
+  - app/category.tmpl
+  app/create-post:
+  - _layout/app.tmpl
+  - app/create-post/create-post.tmpl
+  app/create-gap:
+  - _layout/app.tmpl
+  - app/create-gap.tmpl
+  app/post-edit:
+  - _layout/app.tmpl
+  - app/post-edit/post-edit.tmpl
+
+  app/post-read:
+  - _layout/app.tmpl
+  - _components/sidebar-post-sm.tmpl
+  - _components/sidebar-post.tmpl
+  - _components/post-item.tmpl
+  - app/post-read/script.tmpl
+  - app/post-read/post-read.tmpl
+
+  app/gap:
+  - _layout/app.tmpl
+  - _components/post-item.tmpl
+  - _components/modal-list-follow.tmpl
+  - _components/modal-upload-img.tmpl
+  - app/gap/script.tmpl
+  - app/gap/gap.tmpl
+
+  app/gap.setting:
+  - _layout/app.tmpl
+  - _components/modal-upload-img.tmpl
+  - _components/modal-list-follow.tmpl
+  - app/gap/script.gap.setting.tmpl
+  - app/gap/gap.sidebar.tmpl
+  - app/gap/gap.setting.tmpl
+
+  app/gap.insights:
+  - _layout/app.tmpl
+  - _components/modal-upload-img.tmpl
+  - _components/modal-list-follow.tmpl
+  - app/gap/script.gap.setting.tmpl
+  - app/gap/gap.sidebar.tmpl
+  - app/gap/gap.insights-overview.tmpl
+  - app/gap/gap.insights-advance.tmpl
+  - app/gap/gap.insights.tmpl
+
+  app/gap.revenue:
+  - _layout/app.tmpl
+  - app/gap/gap.sidebar.tmpl
+  - app/gap/gap.revenue.tmpl
+
+  app/account:
+  - _layout/app.tmpl
+  - _components/modal-upload-img.tmpl
+  - _components/modal-verify-email.tmpl
+  - _components/modal-verify-idcard.tmpl
+  - _components/modal-verify-bookbank.tmpl
+  - app/account/script.tmpl
+  - app/account/account.tmpl
+
+  app/notification:
+  - _layout/app.tmpl
+  - app/notification.tmpl
+
+  app/help-post:
+  - _layout/app.tmpl
+  - app/help.post.tmpl
+
+  app/test:
+  - _layout/app.tmpl
+  - app/test.tmpl
+
+  notfound:
+  - _layout/app.tmpl
+  - app/not-found.tmpl
+
+  # admin
+
+  admin/verify:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/kycs/verify.tmpl
+
+  admin/verify-detail:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/kycs/script.tmpl
+  - admin/kycs/verify-detail.tmpl
+
+  admin/user:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/user.tmpl
+
+  admin/revenue:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/revenue.tmpl
+
+  admin/revenue-history:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/revenue-history.tmpl
+
+  admin/revenue-detail:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - _components/modal-admin-report-post.tmpl
+  - admin/revenue-detail.tmpl
+
+  admin/gap-recommend:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/gap-recommend.tmpl
+
+  admin/category:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/category.tmpl
+
+  admin/category-create:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/category-create.tmpl
+
+  admin/category-edit:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/category-edit.tmpl
+
+  admin/topic:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/topic.tmpl
+
+  admin/topic-create:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/topic-create.tmpl
+
+  admin/topic-edit:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/topic-edit.tmpl
+
+  admin/topic-seo:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/topic-seo.tmpl
+
+  admin/topic-seo-edit:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/topic-seo-edit.tmpl

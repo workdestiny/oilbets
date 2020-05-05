@@ -1,0 +1,51 @@
+{{define "page.title"}}สถิติของเพจ {{.Gap.Name}}{{end}}
+
+{{define "app-body"}}
+	{{if eq .Section "overview"}}
+		{{template "insights-overview" .}}
+	{{else if eq .Section "advance"}}
+		{{template "insights-advance" .}}
+	{{end}}
+{{end}}
+
+{{define "table-stat"}}
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th class="fs-14 _cl-gray-12 _tal-ct">วันที่</th>
+			<th class="fs-14 _cl-gray-12 _tal-ct">คอนเทนต์</th>
+			<th class="fs-14 _cl-gray-12 _tal-ct">เข้าชม</th>
+			<th class="fs-14 _cl-gray-12 _tal-ct">ผู้ชมทั่วไป</th>
+			<th class="fs-14 _cl-gray-12 _tal-ct">ผู้ชมที่ล็อคอิน</th>
+			<th class="fs-14 _cl-gray-12 _tal-ct">ถูกใจ</th>
+			<th class="fs-14 _cl-gray-12 _tal-ct">ความคิดเห็น</th>
+		</tr>
+	</thead>
+	<tbody v-cloak>
+		<tr v-for="(l, index) in listPage" :key="index" v-if="!noMore">
+			<td class="_cl-gray-10 _tal-ct">${l.createdAt}</td>
+			<td class="_cl-blue-5">
+				<a :href="`{{route "post.read"}}${l.slug}`" target="_blank">${l.title}</a>
+			</td>
+			<td class="_cl-gray-10 _tal-ct">${l.all}</td>
+			<td class="_cl-gray-10 _tal-ct">${l.guestView}</td>
+			<td class="_cl-gray-10 _tal-ct">${l.view}</td>
+			<td class="_cl-gray-10 _tal-ct">${l.like}</td>
+			<td class="_cl-gray-10 _tal-ct">${l.comment}</td>
+		</tr>
+
+		<tr v-if="noMore || listPage.length === 0">
+			<td class="_cl-gray-10 _tal-ct" colspan="7">ไม่มีข้อมูล</td>
+		</tr>
+	</tbody>
+</table>
+{{end}}
+
+{{define "main.style"}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css">
+<style>
+.table td, .table th {
+	border: 0 !important;
+}
+</style>
+{{end}}

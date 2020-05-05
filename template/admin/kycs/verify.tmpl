@@ -1,0 +1,64 @@
+{{define "page.title"}}Verify{{end}}
+
+{{define "app-body"}}
+<div class="container-fluid _cl-gray">
+
+    <h3 class="_cl-gray _fw-600 fs-20 _mgbt-20">
+        <span>ยืนยันบัญชี</span>
+        <i class="fal fa-user fs-16 _cl-gray-12"></i>
+    </h3>
+
+    <h3 class="_mgbt-30 fs-18 _fw-600">รายชื่อเพจ</h3>
+    <h3 class="_mgbt-10 _cl-blue-2 fs-18 _fw-600">ค้นหา ไอดีเพจ ชื่อเพจ </h3>
+    <div class="row">
+        <div class="col-md-6">
+            <form method="POST">
+                <div class="row _alit-ct">
+                    <div class="col-md-9">
+                        <input name="email" value="" type="text" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn sw-btn _cl-white _fw-600">ค้นหา</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="_mgt-50 rvn-list-post sw-scrollbar">
+        {{range .ListVerify}}
+            {{template "rvn-post-item" .}}
+        {{else}}
+            <h3 class="_cl-gray fs-20 _tal-ct">ไม่มีผู้ยืนยัน</h3>
+        {{end}}
+    </div>
+</div>
+{{end}}
+
+{{define "main.style"}}
+{{end}}
+
+{{define "rvn-post-item"}}
+    <div class="_dp-f _bdbtw-1 _bdcl-gray-2 _pdbt-24 _pdr-10 _mgbt-16">
+        <div class="_f-s0 _mgr-16">
+            <img class="img-fluid" src="{{.Display}}">
+        </div>
+        <div class="_dp-f _fdrt-cl _w-100pct">
+            <div class="_dp-f">
+                <a href="{{route "admin.verify.detail" (param "email" .Email)}}" class="_cl-blue-5 fs-14 _fw-600">
+                    ชื่อ {{.FirstName}} {{.LastName}}
+                </a>
+                {{if eq .Type 0}}
+                    <div class="_mgl-at fs-14 _cl-gray _fw-600">ยืนยันบัญชี</div>
+                {{else}}
+                    <div class="_mgl-at fs-14 _cl-gray _fw-600">ยืนยันธนาคาร</div>
+                {{end}}
+            </div>
+            <div class="_dp-f _cl-gray-8 _alit-ct _mgt-10">
+                <div class="fs-12 _dp-f">
+                    <div class="_mgr-30">{{.CreatedAt | formatTime}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{end}}
