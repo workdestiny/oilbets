@@ -8,7 +8,7 @@ COMMIT_SHA=$(shell git rev-parse HEAD)
 # BUCKET_PRODUCTION=daml-bucket
 
 IMAGE_STAGING=powerwork-staging-mpa
-IMAGE_PRODUCTION=powerwork-mpa-p
+IMAGE_PRODUCTION=powerwork-mpa-oil
 PROJECT_NAME=powerwork
 BUCKET_STAGING=powerwork-stage-bucket
 BUCKET_PRODUCTION=powerwork-bucket
@@ -47,10 +47,10 @@ merge-production:
 	git pull -r
 
 clean:
-	rm -f amlp
+	rm -f poweroil
 
 build: clean
-	env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 $(GO) build -o amlp -ldflags '-w -s' main.go
+	env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 $(GO) build -o poweroil -ldflags '-w -s' main.go
 
 production: build stylep
 	docker build -t $(IMAGE_PRODUCTION):$(COMMIT_SHA) .

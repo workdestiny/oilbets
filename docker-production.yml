@@ -2,12 +2,12 @@ version: '3'
 
 services:
   amld_production:
-    image: gcr.io/powerwork/powerwork-mpa-p:7390c06577f1ffc7d89d04a655c99f295492abfb
+    image: gcr.io/powerwork/powerwork-mpa-oil:c47259d4e781b8f76b5098916fafad69239e86c9
     container_name: menfin_production
     environment:
-      - VIRTUAL_HOST=mahaporn.com,www.mahaporn.com
-      - LETSENCRYPT_HOST=mahaporn.com,www.mahaporn.com
-      - LETSENCRYPT_EMAIL=powerwork.po@gmail.com
+      - VIRTUAL_HOST=richboxclub.com,www.richboxclub.com
+      - LETSENCRYPT_HOST=richboxclub.com,www.richboxclub.com
+      - LETSENCRYPT_EMAIL=powerwork.betoil@gmail.com
     volumes:
        - /var/app/config:/config:ro
     restart: always
