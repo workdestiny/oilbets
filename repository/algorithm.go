@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/workdestiny/amlporn/entity"
+	"github.com/workdestiny/oilbets/entity"
 )
 
 //AlgorithmReplacePost sub post owner index next index

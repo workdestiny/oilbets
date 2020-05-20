@@ -15,10 +15,10 @@ import (
 	"github.com/asaskevich/govalidator"
 	"github.com/moonrhythm/hime"
 	"github.com/moonrhythm/session"
-	"github.com/workdestiny/amlporn/config"
-	"github.com/workdestiny/amlporn/entity"
-	"github.com/workdestiny/amlporn/repository"
-	"github.com/workdestiny/amlporn/service"
+	"github.com/workdestiny/oilbets/config"
+	"github.com/workdestiny/oilbets/entity"
+	"github.com/workdestiny/oilbets/repository"
+	"github.com/workdestiny/oilbets/service"
 )
 
 func userGetHandler(ctx *hime.Context) error {

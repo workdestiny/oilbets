@@ -1,7 +1,7 @@
 domain: "localhost:8080"
 base_url: "http://localhost:8080"
 shortener_url: "https://go.menfin.com"
-db: "postgres://amlp:w051202129@157.245.154.62/amlpdb?sslmode=require"
+db: "postgres://poweroil:WoRk1717@167.99.72.73/poweroildb?sslmode=require"
 session_host: "localhost:6379"
 session_prefix: "amld-stage:"
 session_key: "aMLD213ddrewlsd:]{}lf@gSasdgapsz"

@@ -26,6 +26,7 @@ routes:
   follow: /follow
   liked: /liked
   category.get: /category/
+  addcoin: /addcoin
   # public: /public
   create.post: /create/post
   create.post.undraft: /create/post/undraft
@@ -87,6 +88,7 @@ routes:
   ajax.gap.revenue.post: /ajax/gap/revenue/post
   ajax.gap.revenue.register: /ajax/gap/revenue/register
   ajax.topic.list: /ajax/topic/list
+  ajax.frontback.bet: /ajax/frontback/bet
 
   # admin
   admin: /admin
@@ -109,6 +111,10 @@ routes:
   admin.topic.edit: /admin/topic/edit
   admin.topic.seo: /admin/topic/seo
   admin.topic.seo.edit: /admin/topic/seo/edit
+  admin.addcoin: /admin/addcoin
+  admin.addcoin.route: /addcoin
+  admin.selectuser: /admin/selectuser
+
 
   admin.ajax.revenue.post: /admin/ajax/revenue/post
   admin.ajax.revenue.approve: /admin/ajax/revenue/approve

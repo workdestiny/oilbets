@@ -59,7 +59,7 @@ production: build stylep
 	echo gcr.io/$(PROJECT_NAME)/$(IMAGE_PRODUCTION):$(COMMIT_SHA)
 
 updkf:
-	scp -i ~/.ssh/amlp docker-production.yml root@165.22.100.167:/var/app
+	scp -i ~/.ssh/poweroil docker-production.yml root@206.189.144.8:/var/app
 
 # scp -i ~/.ssh/menfinhub config/config-stage-server.yaml root@128.199.173.150:/var/app/config
 # manual upload

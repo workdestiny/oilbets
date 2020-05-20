@@ -7,7 +7,7 @@ import (
 
 	"github.com/acoshift/configfile"
 	mailjet "github.com/mailjet/mailjet-apiv3-go"
-	"github.com/workdestiny/amlporn/config"
+	"github.com/workdestiny/oilbets/config"
 )
 
 type sendEmailModel struct {

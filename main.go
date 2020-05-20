@@ -23,8 +23,8 @@ import (
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
 
-	"github.com/workdestiny/amlporn/app"
-	"github.com/workdestiny/amlporn/service"
+	"github.com/workdestiny/oilbets/app"
+	"github.com/workdestiny/oilbets/service"
 )
 
 // set time zone

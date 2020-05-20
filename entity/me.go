@@ -21,6 +21,8 @@ type Me struct {
 	IsNotification   bool
 	IsVerifyIDCard   bool
 	IsVerifyBookBank bool
+	Wallet           int64
+	Bonus            int64
 }
 
 // IsPost is check if user can post

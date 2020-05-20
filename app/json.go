@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"io"
 
-	"github.com/workdestiny/amlporn/entity"
+	"github.com/workdestiny/oilbets/entity"
 )
 
 func bindJSON(r io.Reader, v interface{}) error {

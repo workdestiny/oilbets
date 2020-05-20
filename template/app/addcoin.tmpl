@@ -1,0 +1,67 @@
+{{define "page.title"}}AddCoin{{end}}
+
+{{define "app-body"}}
+
+<div class="container _mgt-20-md" id="panan-container">
+	<div class="row">
+		<div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+			<div class="row _fdrt-cl _bgcl-white _bdrd-2px _cl-gray-11 _pdbt-30">
+				<form class="form _pdh-20 _pdv-20 _pdh-65-md _pdv-30-md _bgcl-white" method="POST">
+						<h4 class="fs-16 _cl-gray-11 _fw-700 _tal-ct _mgbt-20">เติมเงินให้ลูกค้า</h4>
+						<div class="form-group">
+							<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">User ID</p>
+							<input type="text" class="form-control" name="userID" value="{{.User.ID}}" hidden placeholder="User ID" required>
+							<input type="text" class="form-control" name="name" value="{{.User.Email}}" disabled placeholder="Email" required>
+							<div class="invalid-feedback">{{.Flash.Get "ErrName"}}</div>
+						</div>
+						<div class="form-group">
+							<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">จำนวนเงิน</p>
+							<input type="text" class="form-control" name="oldwallet" placeholder="เติมเงิน" value="{{.User.Wallet}}" disabled required>
+							<div class="invalid-feedback">{{.Flash.Get "ErrBio"}}</div>
+						</div>
+						<div class="form-group">
+								<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">จำนวนเงินโบนัส</p>
+								<input type="text" class="form-control" name="oldbonus" value="{{.User.Bonus}}" disabled placeholder="เติมโบนัส" required>
+								<div class="invalid-feedback">{{.Flash.Get "ErrBio"}}</div>
+						</div>
+						<div class="form-group">
+							<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">จำนวนเงิน</p>
+							<input type="text" class="form-control" name="wallet" placeholder="เติมเงิน" value="" required>
+							<!-- <div class="invalid-feedback fs-16" style="color: red;">{{.Flash.Get "Errors"}}</div> -->
+						</div>
+						<div class="form-group">
+								<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">จำนวนเงินโบนัส</p>
+								<input type="text" class="form-control" name="bonus" value="" placeholder="เติมโบนัส" >
+								<!-- <div class="invalid-feedback">{{.Flash.Get "Errors"}}</div> -->
+						</div>
+						{{if .Flash.Has "Success"}}
+						<div class="alert alert-success fs-14">
+							{{.Flash.Get "Success"}}
+						</div>
+						{{end}}
+						<div id="gtm-link">
+							<button class="btn btn-info _bgcl-yellow-5 _fw-600 _cl-white _bdrd-5px _w-100pct _h-40 _mgt-20 _mgbt-25">ยืนยัน</button>
+						</div>
+						<small class="form-text _cl-gray-8 fs-12">
+								อ่าน <a href="{{route "condition"}}" target="_bank">ข้อกำหนดและเงื่อนไข</a> ในการใช้บริการ
+						</small>
+					</form>
+
+				<div class="w-100"></div>
+
+			</div>
+		</div>
+	</div>
+</div>
+{{end}}
+
+{{define "main.style"}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.3/assets/owl.carousel.min.css">
+
+{{end}}
+
+{{define "main.script"}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.3/owl.carousel.min.js"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
+{{end}}

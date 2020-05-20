@@ -7,8 +7,8 @@ import (
 	"unicode/utf8"
 
 	"github.com/go-redis/redis"
-	"github.com/workdestiny/amlporn/config"
-	"github.com/workdestiny/amlporn/entity"
+	"github.com/workdestiny/oilbets/config"
+	"github.com/workdestiny/oilbets/entity"
 )
 
 // RedisUserModel is Model User in Redis

@@ -3,7 +3,7 @@ package entity
 import (
 	"time"
 
-	"github.com/workdestiny/amlporn/config"
+	"github.com/workdestiny/oilbets/config"
 	"github.com/shopspring/decimal"
 )
 

@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/acoshift/configfile"
-	"github.com/workdestiny/amlporn/entity"
+	"github.com/workdestiny/oilbets/entity"
 )
 
 //SendErrorToDiscord send err

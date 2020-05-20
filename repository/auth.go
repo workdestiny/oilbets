@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/workdestiny/amlporn/entity"
+	"github.com/workdestiny/oilbets/entity"
 
 	"github.com/go-redis/redis"
-	"github.com/workdestiny/amlporn/config"
+	"github.com/workdestiny/oilbets/config"
 
 	// postgre
 	_ "github.com/lib/pq"
@@ -417,18 +417,6 @@ func Register(q Queryer, redis *redis.Client, req *CreateUser, agent string) (st
 			        $5, $6, $7);`,
 		id, false, false, false,
 		false, false, false)
-	if err != nil {
-		return "", "", err
-	}
-
-	_, err = q.Exec(`
-		INSERT INTO public.statistic_token
-					(location, refresh_token, signin_type, signout_at,
-					user_agent, user_id, status)
-			 VALUES ($1, $2, $3, $4,
-					$5, $6, $7);`,
-		"{}", "", 0, now.Unix(), agent, id, true)
-
 	if err != nil {
 		return "", "", err
 	}

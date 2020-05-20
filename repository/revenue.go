@@ -6,7 +6,7 @@ import (
 
 	"github.com/lib/pq"
 
-	"github.com/workdestiny/amlporn/entity"
+	"github.com/workdestiny/oilbets/entity"
 )
 
 // CheckRevenue is get pending

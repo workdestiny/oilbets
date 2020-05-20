@@ -4,7 +4,7 @@ import (
 	"html/template"
 
 	"github.com/workdestiny/convbox"
-	"github.com/workdestiny/amlporn/service"
+	"github.com/workdestiny/oilbets/service"
 )
 
 // TemplateFuncs returns template funcs

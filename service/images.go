@@ -15,7 +15,7 @@ import (
 	"cloud.google.com/go/storage"
 	"github.com/google/uuid"
 	"github.com/nfnt/resize"
-	"github.com/workdestiny/amlporn/config"
+	"github.com/workdestiny/oilbets/config"
 )
 
 const (

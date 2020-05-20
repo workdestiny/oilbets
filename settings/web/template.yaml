@@ -10,6 +10,16 @@ preload:
   - _components/noti-item.tmpl
 
 list:
+  app/selectuser:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/kycs/verify.tmpl
+  - app/select-user.tmpl
+  app/addcoin:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/kycs/verify.tmpl
+  - app/addcoin.tmpl
   app/search:
   - _layout/app.tmpl
   - _components/post-item.tmpl

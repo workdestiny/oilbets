@@ -1,10 +1,11 @@
 package repository
 
 import (
+	"log"
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/workdestiny/amlporn/entity"
+	"github.com/workdestiny/oilbets/entity"
 )
 
 // // GetUser view can get Me retrun user data
@@ -38,41 +39,26 @@ func GetUser(q Queryer, userID string) *entity.Me {
 			SELECT users.id, users.birthdate, users.count->>'topic', users.count->>'gap',
 			       users.role, users.display->>'mini', users.display->>'middle', users.display->>'normal', users.email->>'email',
 				   users.firstname, users.lastname, users.gender, COALESCE(user_kycs.is_verify_email, 'false'),
-				   COALESCE(user_kycs.is_idcard, 'false'), COALESCE(user_kycs.is_bookbank, 'false'), COALESCE(gap.id, ''), COALESCE(gap.name->>'text', ''),
-				COALESCE(gap.display->>'mini', ''), COALESCE(gap.username->>'text', ''), users.notification
+				   COALESCE(user_kycs.is_idcard, 'false'), COALESCE(user_kycs.is_bookbank, 'false'), users.notification, users.wallet, users.bonus
 			  FROM users
-		 LEFT JOIN gap
-				ON gap.user_id = users.id
 		 LEFT JOIN user_kycs
 				ON user_kycs.user_id = users.id
-			 WHERE users.id = $1
-		  ORDER BY COALESCE(gap.count->>'popular','0')::int DESC
-		     LIMIT 3;
+			 WHERE users.id = $1;
 			 `, userID)
 		if err != nil {
+			log.Println(err)
 			return me
 		}
 		defer rows.Close()
 
 		for rows.Next() {
-			var g entity.GapList
 			err := rows.Scan(&m.ID, &m.BirthDate, &m.Count.Topic, &m.Count.Gap,
 				&m.Role, &m.DisplayImage.Mini, &m.DisplayImage.Middle, &m.DisplayImage.Normal, &m.Email,
 				&m.FirstName, &m.LastName, &m.Gender, &m.IsVerify,
-				&m.IsVerifyIDCard, &m.IsVerifyBookBank, &g.ID, &g.Name,
-				&g.Display, &g.Username, &m.IsNotification)
+				&m.IsVerifyIDCard, &m.IsVerifyBookBank, &m.IsNotification, &m.Wallet, &m.Bonus)
 			if err != nil {
 				return me
 			}
-
-			if g.Username == "" {
-				g.Username = g.ID
-			}
-
-			if g.ID != "" {
-				m.Gap = append(m.Gap, g)
-			}
-
 		}
 
 		m.IsSignin = true
@@ -80,6 +66,38 @@ func GetUser(q Queryer, userID string) *entity.Me {
 		return &m
 	}
 	return me
+}
+
+// GetUserByEmail view can get Me retrun user data
+func GetUserByEmail(q Queryer, email string) *entity.Me {
+
+	var m entity.Me
+	rows, err := q.Query(`
+			SELECT users.id, users.birthdate, users.count->>'topic', users.count->>'gap',
+			       users.role, users.display->>'mini', users.display->>'middle', users.display->>'normal', users.email->>'email',
+				   users.firstname, users.lastname, users.gender, COALESCE(user_kycs.is_verify_email, 'false'),
+				   COALESCE(user_kycs.is_idcard, 'false'), COALESCE(user_kycs.is_bookbank, 'false'), users.notification, users.wallet, users.bonus
+			  FROM users
+		 LEFT JOIN user_kycs
+				ON user_kycs.user_id = users.id
+			 WHERE users.email->>'email' = $1;
+			 `, email)
+	if err != nil {
+		return &m
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		err := rows.Scan(&m.ID, &m.BirthDate, &m.Count.Topic, &m.Count.Gap,
+			&m.Role, &m.DisplayImage.Mini, &m.DisplayImage.Middle, &m.DisplayImage.Normal, &m.Email,
+			&m.FirstName, &m.LastName, &m.Gender, &m.IsVerify,
+			&m.IsVerifyIDCard, &m.IsVerifyBookBank, &m.IsNotification, &m.Wallet, &m.Bonus)
+		if err != nil {
+			return &m
+		}
+	}
+
+	return &m
 }
 
 //ListFollowUser list User FollowerGap
@@ -347,6 +365,21 @@ func GetBookbank(q Queryer, userID string) (*entity.Bookbank, error) {
 	b.BankName = entity.GetBankNameByID(bankID)
 
 	return &b, nil
+}
+
+//UpdateWalletAndBonusUser input wallet, bonus
+func UpdateWalletAndBonusUser(q Queryer, userID string, wallet int64, bonus int64) error {
+
+	_, err := q.Exec(`
+		UPDATE users
+		   SET wallet = $1, bonus = $2
+		 WHERE id = $3;
+		 `, wallet, bonus, userID)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 type codeEmail struct {

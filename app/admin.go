@@ -15,10 +15,10 @@ import (
 	"github.com/asaskevich/govalidator"
 	"github.com/moonrhythm/hime"
 	"github.com/shopspring/decimal"
-	"github.com/workdestiny/amlporn/config"
-	"github.com/workdestiny/amlporn/entity"
-	"github.com/workdestiny/amlporn/repository"
-	"github.com/workdestiny/amlporn/service"
+	"github.com/workdestiny/oilbets/config"
+	"github.com/workdestiny/oilbets/entity"
+	"github.com/workdestiny/oilbets/repository"
+	"github.com/workdestiny/oilbets/service"
 )
 
 func adminIndexGetHandler(ctx *hime.Context) error {
@@ -985,4 +985,54 @@ func adminTopicSEOEditPostHandler(ctx *hime.Context) error {
 	must(err)
 	f.Add("Success", "แก้ไข SEO เรียบร้อยแล้ว")
 	return ctx.Redirect("/admin/topic/seo/edit", ctx.Param("code", code))
+}
+
+func adminSelectUserGetHandler(ctx *hime.Context) error {
+
+	return ctx.View("app/selectuser", page(ctx))
+}
+
+func adminAddCoinGetHandler(ctx *hime.Context) error {
+	email := ctx.FormValue("email")
+	if email == "" {
+		return ctx.RedirectTo("admin.selectuser")
+	}
+
+	user := repository.GetUserByEmail(db, email)
+	if user.ID == "" {
+		return ctx.RedirectTo("admin.selectuser")
+	}
+
+	p := page(ctx)
+	p["User"] = user
+
+	return ctx.View("app/addcoin", p)
+}
+
+func adminAddCoinPostHandler(ctx *hime.Context) error {
+	userID := ctx.PostFormValue("userID")
+	wallet := ctx.PostFormValueInt64("wallet")
+	bonus := ctx.PostFormValueInt64("bonus")
+
+	f := getSession(ctx).Flash()
+	f.Clear()
+
+	if wallet == 0 {
+		f.Add("Errors", "กรุณากรอกจำนวนเงินให้ถูกต้อง")
+		return ctx.RedirectToGet()
+	}
+
+	err := pgsql.RunInTx(db, nil, func(tx *sql.Tx) error {
+
+		err := repository.AddWalletAndBonusUser(tx, userID, wallet, bonus)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+	must(err)
+
+	f.Add("Success", "เติมเงินเข้าระบบเรียบร้อยแล้ว")
+	return ctx.RedirectToGet()
 }

@@ -14,9 +14,9 @@ import (
 	"github.com/acoshift/pgsql"
 	"github.com/asaskevich/govalidator"
 	"github.com/moonrhythm/hime"
-	"github.com/workdestiny/amlporn/config"
-	"github.com/workdestiny/amlporn/entity"
-	"github.com/workdestiny/amlporn/repository"
+	"github.com/workdestiny/oilbets/config"
+	"github.com/workdestiny/oilbets/entity"
+	"github.com/workdestiny/oilbets/repository"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/facebook"
 
@@ -614,16 +614,6 @@ func signupPostHandler(ctx *hime.Context) error {
 				Mini:   mini,
 			},
 		}, GetUserAgent(ctx))
-		if err != nil {
-			return err
-		}
-
-		err = repository.CreateFollowGapXOfficial(tx, id)
-		if err != nil {
-			return err
-		}
-
-		err = repository.CreateFollowTopicXOfficial(tx, id)
 		if err != nil {
 			return err
 		}

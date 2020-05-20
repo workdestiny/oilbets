@@ -6,9 +6,9 @@ import (
 
 	"github.com/lib/pq"
 	"github.com/shopspring/decimal"
-	"github.com/workdestiny/amlporn/config"
-	"github.com/workdestiny/amlporn/entity"
-	"github.com/workdestiny/amlporn/service"
+	"github.com/workdestiny/oilbets/config"
+	"github.com/workdestiny/oilbets/entity"
+	"github.com/workdestiny/oilbets/service"
 )
 
 //AdminCheckUser เอาไว้สำหรับตรวจสอบดูว่ามีผู้ใช้นี้หรือไม่
@@ -863,6 +863,21 @@ func AdminUpdateTopicSEOVerify(q Queryer, topicID, title, description, tagline, 
 		 WHERE id = $5;
 	`, title, description, tagline, imageFb,
 		topicID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+//AddWalletAndBonusUser input wallet, bonus
+func AddWalletAndBonusUser(q Queryer, userID string, wallet int64, bonus int64) error {
+
+	_, err := q.Exec(`
+		UPDATE users
+		   SET wallet = wallet + $1, bonus = bonus + $2
+		 WHERE id = $3;
+		 `, wallet, bonus, userID)
 	if err != nil {
 		return err
 	}

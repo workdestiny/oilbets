@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/workdestiny/amlporn/config"
+	"github.com/workdestiny/oilbets/config"
 )
 
 // FormatTime is parse date to th e.g. วันที่ 01 ม.ค. 2552 เวลา 12:00 น.

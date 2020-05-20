@@ -7,9 +7,9 @@ import (
 
 	"github.com/acoshift/pgsql"
 	"github.com/go-redis/redis"
-	"github.com/workdestiny/amlporn/config"
-	"github.com/workdestiny/amlporn/entity"
-	"github.com/workdestiny/amlporn/service"
+	"github.com/workdestiny/oilbets/config"
+	"github.com/workdestiny/oilbets/entity"
+	"github.com/workdestiny/oilbets/service"
 )
 
 //ListNotification list all myNotification

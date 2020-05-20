@@ -13,7 +13,7 @@ import (
 
 	"github.com/disintegration/imaging"
 	"github.com/nfnt/resize"
-	"github.com/workdestiny/amlporn/config"
+	"github.com/workdestiny/oilbets/config"
 )
 
 func resizeImage(m image.Image) (image.Image, int, int) {

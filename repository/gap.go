@@ -9,8 +9,8 @@ import (
 
 	"github.com/go-redis/redis"
 	"github.com/mssola/user_agent"
-	"github.com/workdestiny/amlporn/config"
-	"github.com/workdestiny/amlporn/entity"
+	"github.com/workdestiny/oilbets/config"
+	"github.com/workdestiny/oilbets/entity"
 )
 
 //GetGap input userID, gapID

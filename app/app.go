@@ -16,8 +16,8 @@ import (
 	"github.com/go-redis/redis"
 	"github.com/moonrhythm/hime"
 	"github.com/moonrhythm/session"
-	"github.com/workdestiny/amlporn/config"
-	"github.com/workdestiny/amlporn/entity"
+	"github.com/workdestiny/oilbets/config"
+	"github.com/workdestiny/oilbets/entity"
 )
 
 // Handler is return Handler
@@ -61,85 +61,22 @@ func (app *App) Handler() http.Handler {
 	m.Post(app.Hime.Route("forgot"), isAnonymous(hime.Handler(forgetPostHandler)))
 	m.Get(app.Hime.Route("resetpassword"), isAnonymous(hime.Handler(resetpasswordGetHandler)))
 	m.Post(app.Hime.Route("resetpassword"), isAnonymous(hime.Handler(resetPasswordPostHandler)))
-	m.Get(app.Hime.Route("index"), isPublic(hime.Handler(discoverGetHandler)))
-	m.Get(app.Hime.Route("discover"), hime.Handler(discoverGetHandler))
-	m.Get(app.Hime.Route("follow"), isUser(hime.Handler(followGetHandler)))
-	m.Get(app.Hime.Route("liked"), isUser(hime.Handler(likedGetHandler)))
-	m.Get(app.Hime.Route("search"), hime.Handler(searchGetHandler))
-	// m.Get(app.Hime.Route("public"), isUser(hime.Handler(publicGetHandler)))
-	m.Get(app.Hime.Route("create.post"), isUser(hime.Handler(createPostGetHandler)))
-	m.Post(app.Hime.Route("create.post"), isUser(hime.Handler(createPostPostHandler)))
-	m.Post(app.Hime.Route("create.post.undraft"), isUser(hime.Handler(undraftPostHandler)))
-	m.Get(app.Hime.Route("create.gap"), isUser(hime.Handler(createGapGetHandler)))
-	m.Post(app.Hime.Route("create.gap"), isUser(hime.Handler(createGapPostHandler)))
-	m.Get(app.Hime.Route("edit.post", ":postID"), isUser(hime.Handler(editPostGetHandler)))
-	m.Post(app.Hime.Route("edit.post", ":postID"), isUser(hime.Handler(editPostPostHandler)))
-	m.Post(app.Hime.Route("delete.post"), isUser(hime.Handler(deletePostPostHandler)))
+	m.Get(app.Hime.Route("index"), isPublic(hime.Handler(frontbackBetGetHandler)))
+	m.Get(app.Hime.Route("discover"), hime.Handler(frontbackBetGetHandler))
 	m.Get(app.Hime.Route("notfound"), hime.Handler(notFoundHandler))
-	m.Get(app.Hime.Route("category"), isUser(hime.Handler(categoryGetHandler)))
-	m.Get(app.Hime.Route("topic", ":topic"), hime.Handler(topicGetHandler))
-	m.Get(app.Hime.Route("category.get", ":category"), hime.Handler(getCategoryGetHandler))
-	m.Post(app.Hime.Route("topic.select"), isUser(hime.Handler(followTopicListPostHandler)))
-	m.Get(app.Hime.Route("post.read"), hime.Handler(func(ctx *hime.Context) error {
-		return ctx.Redirect("/")
-	}))
-	m.Get(app.Hime.Route("post.read", ":postID"), hime.Handler(postReadGetHandler))
-	m.Get("/gap/:gapID", hime.Handler(gapGetHandler))
-	m.Get("/gap/:gapID/setting", isUser(hime.Handler(gapSettingGetHandler)))
-	m.Get("/gap/:gapID/insights", isUser(hime.Handler(gapInsightsGetHandler)))
-	m.Get("/gap/:gapID/revenue", isBookbank(isUser(hime.Handler(gapRevenueGetHandler))))
-	m.Post(app.Hime.Route("gap.setting.info"), isUser(hime.Handler(gapSettingInfoPostHandler)))
-	m.Post(app.Hime.Route("gap.setting.username"), isUser(hime.Handler(gapSettingUserNamePostHandler)))
-	m.Post(app.Hime.Route("gap.setting.contact"), isUser(hime.Handler(gapSettingContactPostHandler)))
-	m.Post(app.Hime.Route("gap.setting.address"), isUser(hime.Handler(gapSettingAddressPostHandler)))
 	m.Get(app.Hime.Route("account"), isUser(hime.Handler(userGetHandler)))
 	m.Post(app.Hime.Route("account"), isUser(hime.Handler(userPostHandler)))
-	m.Get(app.Hime.Route("notification"), isUser(hime.Handler(notificationGetHandler)))
-	m.Get(app.Hime.Route("help.post"), hime.Handler(helpPostGetHandler))
-
-	m.Post(app.Hime.Route("ajax.gap.follow"), isUser(hime.Handler(ajaxFollowGapPostHandler)))
-	m.Post(app.Hime.Route("ajax.gap.list.user.follower"), hime.Handler(ajaxListUserFollowerGapPostHandler))
-	m.Post(app.Hime.Route("ajax.profile.upload.display"), isUser(hime.Handler(ajaxUploadProfileDisplayPostHandler)))
-	m.Post(app.Hime.Route("ajax.profile.verify.creator"), isUser(hime.Handler(ajaxVerifyToCreatorPostHandler)))
-	m.Post(app.Hime.Route("ajax.profile.verify.email"), isUser(hime.Handler(ajaxEmailVerify)))
-	m.Post(app.Hime.Route("ajax.profile.verify.bookbank"), isUser(hime.Handler(ajaxVerifyBookbankPostHandler)))
-	m.Post(app.Hime.Route("ajax.gap.upload.display", ":gapID"), isUser(hime.Handler(ajaxUploadGapDisplayPostHandler)))
-	m.Post(app.Hime.Route("ajax.gap.upload.cover", ":gapID"), isUser(hime.Handler(ajaxUploadGapCoverPostHandler)))
-	m.Post(app.Hime.Route("ajax.topic.follow"), isUser(hime.Handler(ajaxFollowTopicPostHandler)))
-	m.Post(app.Hime.Route("ajax.search.tagtopic"), isUser(hime.Handler(ajaxSearchTagTopicPostHandler)))
-	m.Post(app.Hime.Route("ajax.search.navigationbar"), hime.Handler(ajaxNavigationBarSearchHandler))
-	m.Post(app.Hime.Route("ajax.post.like"), isUser(hime.Handler(ajaxLikePostHandler)))
-	m.Post(app.Hime.Route("ajax.post.image"), isUser(hime.Handler(ajaxDraftImagePostHandler)))
-	m.Post(app.Hime.Route("ajax.post.draft.article"), isUser(hime.Handler(ajaxDraftPostArticleHandler)))
-	m.Post(app.Hime.Route("ajax.post.discover"), hime.Handler(discoverPostHandler))
-	m.Post(app.Hime.Route("ajax.post.liked"), hime.Handler(ajaxLikedPostHandler))
-	m.Post(app.Hime.Route("ajax.post.follow"), isUser(hime.Handler(ajaxFollowPostHandler)))
-	//m.Post(app.Hime.Route("ajax.post.public"), isUser(hime.Handler(ajaxPublicPostHandler)))
-	m.Post(app.Hime.Route("ajax.post.read", ":postID"), hime.Handler(readPostHandler))
-	m.Post(app.Hime.Route("ajax.post.topic", ":topic"), hime.Handler(ajaxTopicPostHandler))
-	m.Post(app.Hime.Route("ajax.post.category", ":category"), hime.Handler(ajaxCategoryPostHandler))
-	m.Post(app.Hime.Route("ajax.post.gap", ":gapID"), hime.Handler(ajaxGapPostHandler))
-	m.Post(app.Hime.Route("ajax.post.shortener.url"), hime.Handler(ajaxShortenerURLPostHandler))
-	m.Post(app.Hime.Route("ajax.user.list.gap.follow"), isUser(hime.Handler(ajaxUserFollowGapPostHandler)))
-	m.Post(app.Hime.Route("ajax.comment.list"), hime.Handler(ajaxCommentNextLoadPostHandler))
-	m.Post(app.Hime.Route("ajax.comment.post"), isUser(hime.Handler(ajaxCommentPostHandler)))
-	m.Post(app.Hime.Route("ajax.comment.delete"), isUser(hime.Handler(ajaxCommentDeletePost)))
-	m.Post(app.Hime.Route("ajax.comment.edit"), isUser(hime.Handler(ajaxCommentEditPostHandler)))
-	m.Post(app.Hime.Route("ajax.notification.list"), isUser(hime.Handler(ajaxListNotificationPostHandler)))
-	m.Post(app.Hime.Route("ajax.notification.list.type"), isUser(hime.Handler(ajaxListNotificationTypePostHandler)))
-	m.Post(app.Hime.Route("ajax.notification.read"), isUser(hime.Handler(ajaxReadNotificationPostHandler)))
-	m.Post(app.Hime.Route("ajax.notification.read.all"), isUser(hime.Handler(ajaxReadAllNotificationPostHandler)))
-	m.Post(app.Hime.Route("ajax.notification.reset"), isUser(hime.Handler(ajaxResetNotificationPostHandler)))
-	m.Post(app.Hime.Route("ajax.gap.statistic.post"), isUser(hime.Handler(ajaxListPostCountViewHandler)))
-	m.Post(app.Hime.Route("ajax.gap.revenue.post"), isBookbank(isUser(hime.Handler(ajaxListPostCountViewRevenueHandler))))
-	m.Post(app.Hime.Route("ajax.gap.revenue.register"), isBookbank(isUser(hime.Handler(ajaxRevenuePostHandler))))
-	m.Post(app.Hime.Route("ajax.topic.list"), isUser(hime.Handler(ajaxListTopicPostHandler)))
+	m.Post(app.Hime.Route("ajax.frontback.bet"), isUser(hime.Handler(ajaxFrontbackBetPostHandler)))
 
 	admin := httprouter.New()
 	admin.HandleMethodNotAllowed = false
 	admin.NotFound = hime.Handler(notFoundHandler)
 
 	admin.Get("/", hime.Handler(adminIndexGetHandler))
+
+	admin.Get("/selectuser", hime.Handler(adminSelectUserGetHandler))
+	admin.Get("/addcoin", hime.Handler(adminAddCoinGetHandler))
+	admin.Post("/addcoin", hime.Handler(adminAddCoinPostHandler))
 	admin.Get("/verify", hime.Handler(adminVerifyGetHandler))
 	admin.Post("/verify", hime.Handler(adminVerifyPostHandler))
 	admin.Get("/user", hime.Handler(adminVerifyUserHandler))
@@ -222,47 +159,10 @@ func must(err error) {
 // RunRedisX run
 func RunRedisX(rds *redis.Client, postgre *sql.DB) {
 
-	rds.Del(config.RedisIndexTopicName)
 	rds.Del(config.RedisIndexUserFirstName)
 	rds.Del(config.RedisIndexUserLastName)
-	rds.Del(config.RedisIndexGapName)
 
 	rows, err := postgre.Query(`
-		SELECT id, cat_id, code, name->>'th', images->>'mini',
-		       images->>'normal', count, used_count, verify
-		  FROM public.topic
-	`)
-	if err != nil {
-		log.Println(err)
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-
-		var verify bool
-		var rt entity.RedisTopicModel
-		err := rows.Scan(&rt.ID, &rt.CatID, &rt.Code, &rt.Name, &rt.Images.Mini, &rt.Images.Normal, &rt.Count, &rt.UsedCount, &verify)
-		must(err)
-
-		buf := bytes.Buffer{}
-		gob.NewEncoder(&buf).Encode(&rt)
-
-		if verify {
-			rds.Set(config.RedisTopic+rt.CatID+":"+rt.ID+":"+rt.Code, buf.Bytes(), 0)
-			//c.Do("SET", config.RedisTopic+rt.CatID+":"+rt.ID+":"+rt.Code, buf.Bytes())
-		}
-
-		if !verify {
-			rds.Set(config.RedisTopicNotVerify+rt.CatID+":"+rt.ID+":"+rt.Code, buf.Bytes(), 0)
-			//c.Do("SET", config.RedisTopicNotVerify+rt.CatID+":"+rt.ID+":"+rt.Code, buf.Bytes())
-		}
-
-		rds.SAdd(config.RedisIndexTopicName, rt.ID+":"+strings.ToLower(rt.Name))
-		//c.Do("SADD", config.RedisIndexTopicName, rt.ID+":"+strings.ToLower(rt.Name))
-
-	}
-
-	rows, err = postgre.Query(`
 		SELECT users.id, users.username->>'text', users.firstname, users.lastname,
 			   users.display->>'mini', users.display->>'middle', COALESCE(user_kycs.is_email, 'false'), COALESCE(user_kycs.is_verify_email, 'false'),
 			   COALESCE(user_kycs.is_idcard, 'false'), COALESCE(user_kycs.is_bookbank, 'false')
@@ -271,7 +171,6 @@ func RunRedisX(rds *redis.Client, postgre *sql.DB) {
 	 		ON users.id = user_kycs.user_id
 	`)
 	if err != nil {
-
 		log.Println(err)
 	}
 
@@ -308,31 +207,6 @@ func RunRedisX(rds *redis.Client, postgre *sql.DB) {
 		//c.Do("SADD", config.RedisIndexUserFirstName, ru.ID+":"+strings.ToLower(ru.FirstName))
 		rds.SAdd(config.RedisIndexUserLastName, ru.ID+":"+strings.ToLower(ru.LastName))
 		//c.Do("SADD", config.RedisIndexUserLastName, ru.ID+":"+strings.ToLower(ru.LastName))
-
-	}
-
-	rows, err = postgre.Query(`
-		SELECT id, username->>'text', name->>'text', user_id,
-		       display->>'mini', display->>'middle', count->>'follower', count->>'popular'
-		  FROM public.gap
-	`)
-	if err != nil {
-		log.Println(err)
-	}
-
-	for rows.Next() {
-
-		var rg entity.RedisGapModel
-		err := rows.Scan(&rg.ID, &rg.Username, &rg.Name, &rg.UserID, &rg.DisplayImageMini, &rg.DisplayImage, &rg.CountFollower, &rg.CountPopular)
-		must(err)
-
-		buf := bytes.Buffer{}
-		gob.NewEncoder(&buf).Encode(&rg)
-
-		rds.Set(config.RedisGap+rg.UserID+":"+rg.ID, buf.Bytes(), 0)
-		//c.Do("SET", config.RedisGap+rg.UserID+":"+rg.ID, buf.Bytes())
-		rds.SAdd(config.RedisIndexGapName, rg.ID+":"+strings.ToLower(rg.Name))
-		//c.Do("SADD", config.RedisIndexGapName, rg.ID+":"+strings.ToLower(rg.Name))
 
 	}
 

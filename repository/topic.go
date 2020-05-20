@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/go-redis/redis"
-	"github.com/workdestiny/amlporn/config"
-	"github.com/workdestiny/amlporn/entity"
+	"github.com/workdestiny/oilbets/config"
+	"github.com/workdestiny/oilbets/entity"
 )
 
 //ListCategoryDiscover list category and topic

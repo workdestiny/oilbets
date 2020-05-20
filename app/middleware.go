@@ -13,13 +13,13 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/workdestiny/amlporn/entity"
-	"github.com/workdestiny/amlporn/service"
+	"github.com/workdestiny/oilbets/entity"
+	"github.com/workdestiny/oilbets/service"
 
 	"github.com/acoshift/header"
 	"github.com/acoshift/middleware"
 	"github.com/moonrhythm/hime"
-	"github.com/workdestiny/amlporn/repository"
+	"github.com/workdestiny/oilbets/repository"
 	"golang.org/x/net/xsrftoken"
 )
 

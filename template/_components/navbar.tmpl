@@ -7,29 +7,6 @@
 				<img src="https://storage.googleapis.com/powerwork-bucket/static/mahaporn200.png"
 				srcset="https://storage.googleapis.com/powerwork-bucket/static/mahaporn200.png 2x" width="123" height="42" alt="logo-x">
 			</a>
-
-			<div class="dropdown" style="border-left: solid 1px #fcfcfc;">
-				<button class="btn btn-outline-transparent dropdown-toggle _cl-gray-1 fqs" type="button" id="dropdownMenuButton"
-				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 2px 0.75rem;">
-					{{if eq templateName "app/follow"}}
-						Follow
-					{{else if eq templateName "app/public"}}
-						Public
-					{{else if eq templateName "app/liked"}}
-						ถูกใจแล้ว
-					{{else}}
-						หน้าแรก
-					{{end}}
-				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<div id="gtm-link" data-gtm-link="nbsi_dd_discover">
-						<a class="dropdown-item fqs" href="{{route "discover"}}">หน้าแรก</a>
-					</div>
-					<div id="gtm-link" data-gtm-link="nbsi_dd_like">
-						<a class="dropdown-item fqs" href="{{route "liked"}}">ถูกใจแล้ว</a>
-					</div>
-				</div>
-			</div>
 			{{if .User.IsPost}}
                {{if .User.HasPage}}
                 <a href="{{route "create.post"}}"
@@ -51,13 +28,15 @@
 			{{end}}
 
 			<div class="right-menu _mgl-at">
-				<div id="gtm-button" data-gtm-button="nbsi_search">
+				<!-- <div id="gtm-button" data-gtm-button="nbsi_search">
 					<i class="far fa-search fs-18 _mgr-25 _cs-pt _cl-gray-1 acsearch"></i>
-				</div>
+				</div> -->
 				<div class="_pst-rlt noti-wrap _mgr-15" style="user-select: none;">
 					<div v-cloak class="_pst-asl _bgcl-negative _bdrd-50pct _w-10 _h-10" style="right: -4px;" v-if="redPoint"></div>
 					<div id="gtm-button" data-gtm-button="nbsi_noti">
-						<i class="far fa-bell fs-18 _cs-pt _cl-gray-1" @click="showDropdown('d')"></i>
+						<span>wallet : </span> <span class="wallet">{{.User.Wallet}}</span>
+						<span class="bonus">bonus : {{.User.Bonus}}</span>
+						<!-- <i class="far fa-bell fs-18 _cs-pt _cl-gray-1" @click="showDropdown('d')"></i> -->
 					</div>
 					<div class="noti-dropdown _bgcl-white" :class="{'show': dropdown === 'd'}">
 						<div class="_pdh-16 _pdv-8 _h-40">
@@ -97,7 +76,7 @@
 					</button>
 					<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="right: 0 !important;">
 						<div id="gtm-link" data-gtm-link="nbsi_dd_category">
-							<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "category"}}">
+							<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "admin.selectuser"}}">
 								<i class="far fa-book _mgr-5 _cl-gray-10"></i>
 								หมวดหมู่
 							</a>
@@ -171,7 +150,7 @@
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<div id="gtm-link" data-gtm-link="nbsi_dd_category">
-						<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "category"}}">
+						<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "admin.selectuser"}}">
 							<i class="far fa-book _mgr-5 _cl-gray-10"></i>
 							หมวดหมู่
 						</a>
