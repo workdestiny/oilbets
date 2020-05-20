@@ -75,6 +75,8 @@ func main() {
 	db.SetConnMaxLifetime(30 * time.Minute)
 	db.Ping()
 
+	log.Println(db)
+
 	app.RunRedisX(redisClient, db)
 
 	appHime := hime.New()
