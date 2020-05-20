@@ -8,7 +8,7 @@ import (
 	"github.com/moonrhythm/hime"
 )
 
-const desc = "เว็บไซต์ คลิปโป้ คลิปหลุด หนังx หนังav หนังr porn เรามีคลิปโป๊ครบทุกแนวไม่ว่าจะเป็นคลิปหลุดข่มขืน xxxนักศึกษา xxxนักเรียน xporn ดูหนังxหนังโป๊คลิปหลุดทางบ้านตั้งกล้องถ่ายและอีกมากมาย"
+const desc = ""
 
 func page(ctx *hime.Context) map[string]interface{} {
 	sess := getSession(ctx)
@@ -20,7 +20,7 @@ func page(ctx *hime.Context) map[string]interface{} {
 		x["Path"] = r.URL.Path
 	}
 
-	x["Tagline"] = "| ดูหนังx หนังav คลิปโป๊ คลิปหลุด หนังโป๊ xxxนักเรียน xxxporn"
+	x["Tagline"] = "| bet"
 	x["URL"] = "https://" + getHost(r) + r.RequestURI
 	x["Meta"] = map[string]string{
 		"Image":       "",
@@ -44,7 +44,7 @@ func getHost(r *http.Request) string {
 
 func setMeta(title, description, image string, width, height int) map[string]string {
 	if title == "" {
-		title = "Doujinxxx"
+		title = "Richboxclub"
 	}
 	if description == "" {
 		description = desc

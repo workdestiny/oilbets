@@ -116,8 +116,8 @@ func main() {
 		CSRFConfig: csrf.Config{
 			Origins: []string{
 				configValue.String("domain"),
-				"mahaporn.com",
-				"mahaporn.local:8080",
+				"richboxclub.com",
+				"richboxclub.local:8080",
 			},
 			IgnoreProto: true,
 		},
