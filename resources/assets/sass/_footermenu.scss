@@ -30,6 +30,9 @@
 .footer-menu {
 	display: none;
 	background-color: $color-yellow-main;
+	a:link {
+		text-decoration: none;
+	}
 }
 
 

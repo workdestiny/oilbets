@@ -38,7 +38,7 @@
 	width: 150px;
 	padding: 0;
 	border: 0;
-	height: 84.38px;
+	height: 84px;
 	border-radius: 8px;
 	color: $color-gray-1;
 	background-color: rgba(53, 57, 61, 0.59);
@@ -50,3 +50,32 @@
 
 	}
 }
+.betwin {
+	z-index: 1;
+	width: 60%;
+	margin-top: -10px !important;
+}
+.betlose {
+	z-index: 1;
+	width: 60%;
+	margin-top: -10px !important;
+}
+
+.refill {
+	z-index: 1;
+	width: 60%;
+	margin-top: -10px !important;
+}
+
+@media (max-width: 768px) {
+	.betwin {
+		width: 100%;
+	}
+	.betlose {
+		width: 100%;
+	}
+
+	.refill {
+		width: 100%;
+	}
+  }

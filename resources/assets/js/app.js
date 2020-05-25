@@ -292,22 +292,19 @@ let pananInstant = new Vue({
 						} else {
 							$('.btnbet').attr("disabled", true)
 							this.showFrontback = res.frontback
-							this.$nextTick(function () {
-								setTimeout(
-									function() {
-										if(finalfrontback === res.frontback) {
-											$('.betwin').addClass('show')
-											$('.textwin').text("จำนวนเงินทั้งหมดของคุณ " + res.wallet + " THB")
-										} else {
-											$('.betlose').addClass('show')
-											$('.textlose').text("จำนวนเงินทั้งหมดของคุณ " + res.wallet + " THB")
-										}
-										$('.wallet').text(res.wallet +" THB")
-										$('.bonus').text(res.bonus +" THB")
-										$('.btnbet').attr("disabled", false)
-
-									},7000);
-							  })
+								setTimeout(function() {
+									console.log("start bet" +this.coin)
+									if(finalfrontback === res.frontback) {
+										$('.betwin').addClass('show')
+										$('.textwin').text("ได้รับเงินจำนวน " + res.price + " THB")
+									} else {
+										$('.betlose').addClass('show')
+										// $('.textlose').text("เสียเงินจำนวน" + res.price + " THB")
+									}
+									$('.wallet').text(res.wallet +" THB")
+									$('.bonus').text(res.bonus +" THB")
+									$('.btnbet').attr("disabled", false)
+							},7000);
 						}
 					}).catch(error => {
 
@@ -322,7 +319,6 @@ let pananInstant = new Vue({
 
 	}
 })
-
 
 // end post instant
 
