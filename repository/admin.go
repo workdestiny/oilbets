@@ -884,3 +884,50 @@ func AddWalletAndBonusUser(q Queryer, userID string, wallet int64, bonus int64) 
 
 	return nil
 }
+
+// AdminListWithdrawMoney list user and WithdrawMoney
+func AdminListWithdrawMoney(q Queryer) ([]*entity.WithdrawMoneyModel, error) {
+
+	rows, err := q.Query(`
+		SELECT wm.id, wm.user_id, users.firstname, users.lastname
+			   users.email->>'email', wm.amount, wm.created_at
+		  FROM withdraw_money as wm
+	 LEFT JOIN users
+			ON users.id = wm.user_id
+		 WHERE wm.status = false
+	  ORDER BY wm.created_at DESC;
+	`)
+	if err != nil {
+		return nil, err
+	}
+
+	var wms []*entity.WithdrawMoneyModel
+	for rows.Next() {
+
+		var wm entity.WithdrawMoneyModel
+		err := rows.Scan(&wm.ID, &wm.UserID, &wm.FirstName, &wm.LastName,
+			&wm.Email, &wm.Amount, &wm.CreatedAt)
+		if err != nil {
+			return nil, err
+		}
+
+		wms = append(wms, &wm)
+	}
+
+	return wms, nil
+}
+
+//AdminUpdateWithdrawMoney input id WithdrawMoney returb err
+func AdminUpdateWithdrawMoney(q Queryer, id string) error {
+
+	_, err := q.Exec(`
+		UPDATE withdraw_money
+		   SET status = true
+		 WHERE id = $1;
+		 `, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

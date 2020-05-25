@@ -3,8 +3,8 @@ package entity
 import (
 	"time"
 
-	"github.com/workdestiny/oilbets/config"
 	"github.com/shopspring/decimal"
+	"github.com/workdestiny/oilbets/config"
 )
 
 //GetViewRevenueModel view and guest model
@@ -51,6 +51,12 @@ type Bookbank struct {
 	Number   string `json:"number"`
 	BankName string `json:"bankName"`
 	Image    string `json:"image"`
+}
+
+type UserBookbank struct {
+	Owner    string `json:"owner"`
+	Number   string `json:"number"`
+	BankName string `json:"bankName"`
 }
 
 // RevenueModel User

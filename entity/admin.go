@@ -24,3 +24,14 @@ const (
 	// RequestVerifyBookBank request
 	RequestVerifyBookBank
 )
+
+//WithdrawMoneyModel is list model
+type WithdrawMoneyModel struct {
+	ID        string
+	UserID    string
+	FirstName string
+	LastName  string
+	Email     string
+	Amount    int64
+	CreatedAt time.Time
+}

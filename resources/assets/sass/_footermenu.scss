@@ -1,0 +1,40 @@
+.footer-submenu{
+	flex-grow: 1;
+	img {
+		margin-top: 2px;
+	}
+	i {
+		margin-top: 8px;
+	}
+
+	p {
+		margin-top: -4px;
+	}
+
+}
+
+.footer-menu-center {
+	flex-grow: 1;
+	img {
+		margin-top: -20px;
+	}
+	p {
+		margin-top: 1px;
+	}
+}
+
+.footer-submenu:hover {
+
+	// background-image: linear-gradient(99deg, rgba(39, 39, 39,0.5) 0%, rgba(21, 21, 21, 0.5) 100%);
+}
+.footer-menu {
+	display: none;
+	background-color: $color-yellow-main;
+}
+
+
+@media (max-width: 992px) {
+	.footer-menu {
+		display: block;
+	}
+  }

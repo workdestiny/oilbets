@@ -23,10 +23,13 @@ routes:
 
   # app
   discover: /discover
+  front.back: /game/headtails
   follow: /follow
   liked: /liked
   category.get: /category/
   addcoin: /addcoin
+  withdraw.money: /withdraw/money
+
   # public: /public
   create.post: /create/post
   create.post.undraft: /create/post/undraft
@@ -113,6 +116,7 @@ routes:
   admin.topic.seo.edit: /admin/topic/seo/edit
   admin.addcoin: /admin/addcoin
   admin.addcoin.route: /addcoin
+  admin.withdraw.money: /withdraw/money
   admin.selectuser: /admin/selectuser
 
 

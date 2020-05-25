@@ -421,6 +421,15 @@ func Register(q Queryer, redis *redis.Client, req *CreateUser, agent string) (st
 		return "", "", err
 	}
 
+	_, err = q.Exec(`
+	INSERT INTO user_bookbank
+				(id, number, bank, owner)
+			VALUES ($1, $2, $3, $4);`,
+		id, "", "", "")
+	if err != nil {
+		return "", "", err
+	}
+
 	//เพิ่มข้อมูล New User To Redis
 	go AddUserToRedis(redis, entity.RedisUserModel{
 		ID:               id,

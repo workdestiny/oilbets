@@ -253,7 +253,9 @@ let pananInstant = new Vue({
 		return {
 			coin: 0,
 			postBetURL: '/ajax/frontback/bet',
-			isCoin: 0
+			isCoin: 0,
+			showFrontback: "",
+			isLoading: false,
 		}
 	},
 
@@ -266,27 +268,51 @@ let pananInstant = new Vue({
 
 	methods: {
 		changeCoin(c, type, finalfrontback) {
-			if (type === "coin" && c > 0) {
+			$('.betwin').removeClass('show')
+			$('.betlose').removeClass('show')
+			$('.refill').removeClass('show')
 
+			if (type === "coin" && c > 0) {
+				this.showFrontback = ""
 				this.coin = c
 				this.isCoin = c
 				console.log("bet coin =" +this.coin  +finalfrontback)
 
 			} else if (type === "bet" && this.isCoin > 0 && this.coin > 0) {
+				this.showFrontback = ""
 				fetchPost('/ajax/frontback/bet', {
 					frontback: finalfrontback,
 					price: this.coin
 					})
 					.then(res => {
-						console.log("start bet" + this.coin)
-						$('.wallet').text(res.wallet)
-						this.coin = 0
-						this.isCoin = 0
+						if (res.noMoney) {
+							$('.refill').addClass('show')
+						} else {
+							$('.btnbet').attr("disabled", true)
+							this.showFrontback = res.frontback
+							this.$nextTick(function () {
+								setTimeout(
+									function() {
+										if(finalfrontback === res.frontback) {
+											$('.betwin').addClass('show')
+										} else {
+											$('.betlose').addClass('show')
+										}
+										$('.wallet').text(res.wallet +" THB")
+										$('.bonus').text(res.bonus +" THB")
+										$('.btnbet').attr("disabled", false)
+
+									},7000);
+							  })
+						}
 					}).catch(error => {
 
 					})
 			}
 		},
+		clickText() {
+			console.log("timing")
+		}
 
 	}
 })

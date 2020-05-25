@@ -6,13 +6,11 @@ import (
 	"image/color"
 	"image/draw"
 	"net/http"
-	"strings"
 	"time"
 	"unicode/utf8"
 
 	"github.com/acoshift/pgsql"
 
-	"github.com/asaskevich/govalidator"
 	"github.com/moonrhythm/hime"
 	"github.com/moonrhythm/session"
 	"github.com/workdestiny/oilbets/config"
@@ -22,30 +20,72 @@ import (
 )
 
 func userGetHandler(ctx *hime.Context) error {
-	id := GetMyID(ctx)
+	user := getUser(ctx)
 
-	listGap, err := repository.ListGap(db, id, config.LimitListGap)
-	must(err)
-
-	listfollowgap, err := repository.ListFollowUser(db, id, config.LimitListFollowUser+1)
-	must(err)
-
-	var next time.Time
-	isNext := false
-
-	if len(listfollowgap) > config.LimitListFollowUser {
-		isNext = true
-		next = listfollowgap[config.LimitListFollowUser-1].CreatedAt
-		listfollowgap = listfollowgap[:config.LimitListFollowUser]
+	hasBookbank := true
+	bookbank, _ := repository.GetUserBookbank(db, user.ID)
+	if bookbank.Number == "" {
+		hasBookbank = false
 	}
 
 	p := page(ctx)
-	p["NextLoad"] = next
-	p["IsNext"] = isNext
-	p["ListGap"] = listGap
-	p["ListFollowGap"] = listfollowgap
-	p["BankList"] = entity.BankListData
+	p["User"] = user
+	p["HasBookbank"] = hasBookbank
+	p["Bookbank"] = bookbank
 	return ctx.View("app/account", p)
+}
+
+//UserWithdrawMoneyGetHandler is money
+func UserWithdrawMoneyGetHandler(ctx *hime.Context) error {
+	user := getUser(ctx)
+	hasBookbank := true
+	bookbank, _ := repository.GetUserBookbank(db, user.ID)
+	if bookbank.Number == "" {
+		hasBookbank = false
+	}
+
+	p := page(ctx)
+	p["HasBookbank"] = hasBookbank
+	p["Bookbank"] = bookbank
+	p["Wallet"] = user.Wallet
+
+	return ctx.View("app/userbookbank", p)
+}
+
+//UserWithdrawMoneyPostHandler is money
+func UserWithdrawMoneyPostHandler(ctx *hime.Context) error {
+	amount := ctx.PostFormValueInt64("amount")
+	user := getUser(ctx)
+
+	f := getSession(ctx).Flash()
+	f.Clear()
+
+	if amount > user.Wallet {
+		f.Add("Errors", "จำนวนเงินใน wallet ไม่พอ")
+		return ctx.RedirectToGet()
+	}
+
+	err := pgsql.RunInTx(db, nil, func(tx *sql.Tx) error {
+
+		_, err := repository.CreateWithdrawMoney(tx, &repository.CreateWithdrawMoneyModel{
+			UserID: user.ID,
+			Amount: amount,
+		})
+		if err != nil {
+			return err
+		}
+
+		err = repository.UpdateWalletUser(tx, user.ID, amount)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+	must(err)
+
+	f.Add("Success", "ดำเนินการเรียบร้อยแล้ว")
+	return ctx.RedirectToGet()
 }
 
 func ajaxUserFollowGapPostHandler(ctx *hime.Context) error {
@@ -91,184 +131,31 @@ func ajaxUserFollowGapPostHandler(ctx *hime.Context) error {
 func userPostHandler(ctx *hime.Context) error {
 
 	f := getSession(ctx).Flash()
+	f.Clear()
 
-	me := getUser(ctx)
-	firstName := ctx.PostFormValueTrimSpace("firstname")
-	lastName := ctx.PostFormValueTrimSpace("lastname")
-	email := strings.ToLower(ctx.PostFormValueTrimSpace("email"))
-	oldPassword := ctx.PostFormValue("old-password")
-	newPassword := ctx.PostFormValue("new-password")
-	repeatPassword := ctx.PostFormValue("repeat-password")
-	changePassword := ctx.PostFormValue("change-password")
-	changeEmail := ctx.PostFormValue("change-email")
+	id := GetMyID(ctx)
+	owner := ctx.PostFormValueTrimSpace("owner")
+	number := ctx.PostFormValueTrimSpace("number")
+	bank := ctx.PostFormValueTrimSpace("bank")
 
-	if utf8.RuneCountInString(firstName) > 50 {
+	if utf8.RuneCountInString(owner) > 50 {
 		f.Add("ErrName", "ชื่อต้องไม่เกิน 50 ตัวอักษร")
+		return ctx.RedirectToGet()
 	}
-
-	if !checkOnlyText(firstName) {
-		f.Add("ErrName", "ไม่อนุญาตอักษรพิเศษใน: ชื่อ")
+	if utf8.RuneCountInString(number) > 20 {
+		f.Add("ErrName", "เลขบัญชี 20 ตัวอักษร")
+		return ctx.RedirectToGet()
 	}
-
-	if !checkReservedWordsName(firstName) {
-		f.Add("ErrName", "ไม่อนุญาตคำเฉพาะใน: ชื่อ")
-	}
-
-	if utf8.RuneCountInString(lastName) > 50 {
-		f.Add("ErrLName", "นามสกุลต้องไม่เกิน 50 ตัวอักษร")
-	}
-
-	if !checkOnlyText(lastName) {
-		f.Add("ErrLName", "ไม่อนุญาตอักษรพิเศษใน: นามสกุล")
-	}
-
-	if !checkReservedWordsName(lastName) {
-		f.Add("ErrLName", "ไม่อนุญาตคำเฉพาะใน: นามสกุล")
-	}
-
-	if email == "" && changePassword != "true" {
-		return ctx.RedirectTo("account")
-	}
-
-	if !govalidator.IsEmail(email) {
-		f.Add("ErrEmail", "อีเมลไม่ถูกรูปแบบ")
-	}
-
-	if oldPassword == "" && newPassword == "" && repeatPassword == "" {
-		changePassword = "false"
-	}
-
-	if changePassword == "true" {
-
-		if oldPassword == "" {
-			f.Add("ErrOldPassword", "กรุณากรอกรหัสผ่าน")
-			f.Set("changePassword", changePassword)
-			f.Set("NewPassword", newPassword)
-			f.Set("RepeatPassword", repeatPassword)
-			return ctx.RedirectToGet()
-		}
-
-		if newPassword == "" {
-			f.Add("ErrInputEmptyNewPassword", "กรุณากรอกรหัสผ่านใหม่")
-			f.Set("changePassword", changePassword)
-			f.Set("OldPassword", oldPassword)
-			f.Set("NewPassword", newPassword)
-			f.Set("RepeatPassword", repeatPassword)
-			return ctx.RedirectToGet()
-		}
-
-		if repeatPassword == "" {
-			f.Add("ErrInputEmptyRepeatPassword", "กรุณายืนยันรหัสผ่านใหม่")
-			f.Set("changePassword", changePassword)
-			f.Set("OldPassword", oldPassword)
-			f.Set("NewPassword", newPassword)
-			f.Set("RepeatPassword", repeatPassword)
-			return ctx.RedirectToGet()
-		}
-
-		if newPassword != repeatPassword {
-			f.Add("ErrPasswordMissMatch", "รหัสผ่านไม่ตรงกัน")
-			f.Set("changePassword", changePassword)
-			f.Set("OldPassword", oldPassword)
-			return ctx.RedirectToGet()
-		}
-
-		if utf8.RuneCountInString(newPassword) < 8 || utf8.RuneCountInString(newPassword) > 20 {
-			f.Add("ErrNewPassword", "รหัสผ่านต้องไม่น้อยกว่า 8 และไม่เกิน 20 ตัวอักษร")
-			f.Set("changePassword", changePassword)
-			f.Set("OldPassword", oldPassword)
-			return ctx.RedirectToGet()
-		}
-
-	}
-
-	if f.Has("ErrName") || f.Has("ErrLName") || f.Has("ErrEmail") || f.Has("ErrPasswordMissMatch") {
-		setFalsh(f, email, firstName, lastName, changePassword)
+	if utf8.RuneCountInString(bank) > 20 {
+		f.Add("ErrName", "ชื่อต้องไม่เกิน 20 ตัวอักษร")
 		return ctx.RedirectToGet()
 	}
 
-	if changeEmail == "true" {
-		err := repository.CheckEmail(db, email)
-		if err != nil {
-			f.Add("ErrEmail", "มีอีเมลนี้ในระบบแล้ว")
-			setFalsh(f, email, firstName, lastName, changePassword)
-			return ctx.RedirectToGet()
-		}
-	}
-
-	if changeEmail == "true" {
-
-		err := pgsql.RunInTx(db, nil, func(tx *sql.Tx) error {
-
-			err := repository.UpdateNewEmail(tx, me.ID, email)
-			if err != nil {
-				return err
-			}
-
-			err = repository.UpdateCodeSendEmailVerify(tx, baseURL, me.ID, email, firstName+" "+lastName)
-			if err != nil {
-				return err
-			}
-
-			return nil
-		})
-		must(err)
-		f.Add("SuccessEmail", true)
-	}
-
-	err := repository.EditNameUser(db, me.ID, firstName, lastName)
-	if err != nil {
-		f.Add("ErrUser", "ไม่สามารถเปลี่ยนข้อมูลได้")
-		return ctx.RedirectToGet()
-	}
-
-	if changePassword == "true" {
-
-		opw, err := repository.CheckOldPassword(db, me.ID)
-		if err == sql.ErrNoRows {
-			f.Add("ErrOldPassword", "รหัสผ่านไม่ถูกต้อง")
-			f.Set("NewPassword", newPassword)
-			f.Set("RepeatPassword", repeatPassword)
-			f.Set("changePassword", changePassword)
-		}
-		must(err)
-
-		if !repository.ComparePassword(opw, oldPassword) {
-			f.Add("ErrOldPassword", "รหัสผ่านไม่ถูกต้อง")
-			f.Set("NewPassword", newPassword)
-			f.Set("RepeatPassword", repeatPassword)
-			f.Set("changePassword", changePassword)
-			return ctx.RedirectToGet()
-		}
-
-		hasPassword, err := repository.HashPassword(newPassword)
-		if err != nil {
-			f.Add("Password", "ไม่สามารถใช้รหัสผ่านนี้ได้")
-			f.Set("changePassword", changePassword)
-			return ctx.RedirectToGet()
-		}
-
-		err = repository.UpdateNewPassword(db, me.ID, hasPassword)
-		if err != nil {
-			f.Add("Password", "ไม่สามารถเปลี่ยนรหัสผ่านได้")
-			f.Set("changePassword", changePassword)
-			return ctx.RedirectToGet()
-		}
-
-	}
-
-	go repository.SetUserToRedis(myRedis, entity.RedisUserModel{
-		ID:               me.ID,
-		Username:         "",
-		FirstName:        firstName,
-		LastName:         lastName,
-		DisplayImage:     me.DisplayImage.Middle,
-		DisplayImageMini: me.DisplayImage.Mini,
-		Level:            entity.UserLevelType(me.GetLevel()),
-	})
+	err := repository.UpdateBookbankUser(db, id, owner, number, bank)
+	must(err)
 
 	addSuccess(f, "แก้ไขข้อมูลเรียบร้อยแล้ว!")
-	return ctx.RedirectTo("account")
+	return ctx.RedirectToGet()
 }
 
 func setFalsh(f *session.Flash, email, firstName, lastName, changePassword string) {

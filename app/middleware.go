@@ -217,7 +217,7 @@ func isPublic(h http.Handler) http.Handler {
 func isUser(h http.Handler) http.Handler {
 	return hime.Handler(func(ctx *hime.Context) error {
 		if GetMyID(ctx) == "" {
-			return ctx.RedirectTo("signin")
+			return ctx.RedirectTo("signin.email")
 		}
 		return ctx.Handle(h)
 	})

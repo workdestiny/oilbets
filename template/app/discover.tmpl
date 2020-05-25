@@ -1,67 +1,74 @@
 {{define "page.title"}}MahaPorn{{end}}
 
 {{define "app-body"}}
-{{if and .User.IsSignin .NonFollow}}
-	{{template "modal-select-topic"}}
-{{end}}
-<div class="container _mgt-20-md" id="panan-container">
+
+<div class="container _mgt-20" id="panan-container">
 	<div class="row">
-		<div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-			<div class="row _fdrt-cl _bgcl-white _bdrd-2px _cl-gray-11 _pdbt-30">
-				<div class="col-12 _pdt-20 _tal-ct">
+		<div class="col-12 _mg-at">
+			<div class="row _fdrt-cl _bdrd-2px _cl-gray-11 _pdbt-30">
+				{{template "list-promotion"}}
+				{{template "list-game"}}
+					<div class="col-7 _mg-at">
 
-						<button class="btn btn-dark _mgt-5" style="width: 150px;" @click="changeCoin(20, 'coin')" :disabled="isCoin === 20"> <img src="https://storage.googleapis.com/powerwork-bucket/icon/coin.png" alt=""> 20 coin</button>
+							<div class="row _fdrt-cl _bgcl-white _bdrd-2px _cl-gray-11" style="background: none !important">
+								<div class="_dp-f _tal-ct _mgt-20 mh-40">
+									<div class="col-4" >
+											<div class="_bdw-1 _mgv-10" style="border-color :gold"></div>
+									</div>
+									<div class="col-4">
+											<span class="fs-20-lg fs-20-md" style="color: gold">เกมส์</span>
+									</div>
+									<div class="col-4">
+											<div class="_bdw-1 _mgv-10" style="border-color :gold"></div>
+									</div>
+								</div>
 
-						<button class="btn btn-dark _mgt-5" style="width: 150px;" @click="changeCoin(50, 'coin')" :disabled="isCoin === 50"> <img src="https://storage.googleapis.com/powerwork-bucket/icon/coin.png" alt=""> 50 coin</button>
+								<div class="row _mgt-10">
+									<div class="col-6 col-lg-3 _pd-5">
+										<a href="{{route "front.back"}}" class="">
+											<img class="_img-ct img-fluid" src="https://storage.googleapis.com/swapgap-bucket/post/5190314163699712-b9500735-9788-4579-a01e-a9f40721c21b" alt="">
+										</a>
+									</div>
+									<div class="col-6 col-lg-3 _pd-5">
+										<a href="{{route "front.back"}}"  class="">
+											<img class="_img-ct img-fluid" src="https://storage.googleapis.com/swapgap-bucket/post/5190314163699712-b9500735-9788-4579-a01e-a9f40721c21b" alt="">
+										</a>
+									</div>
+									<div class="col-6 col-lg-3 _pd-5">
+										<a href="{{route "front.back"}}"  class="">
+											<img class="_img-ct img-fluid" src="https://storage.googleapis.com/swapgap-bucket/post/5190314163699712-b9500735-9788-4579-a01e-a9f40721c21b" alt="">
+										</a>
+									</div>
+									<div class="col-6 col-lg-3 _pd-5">
+										<a href="{{route "front.back"}}"  class="">
+											<img class="_img-ct img-fluid" src="https://storage.googleapis.com/swapgap-bucket/post/5190314163699712-b9500735-9788-4579-a01e-a9f40721c21b" alt="">
+										</a>
+									</div>
+								</div>
 
-						<button class="btn btn-dark _mgt-5" style="width: 150px;" @click="changeCoin(100, 'coin')" :disabled="isCoin === 100"> <img src="https://storage.googleapis.com/powerwork-bucket/icon/coin.png" alt=""> 100 coin</button>
+							</div>
+					</div>
 
-						<button class="btn btn-dark _mgt-5" style="width: 150px;" @click="changeCoin(200, 'coin')" :disabled="isCoin === 200"> <img src="https://storage.googleapis.com/powerwork-bucket/icon/coin.png" alt=""> 200 coin</button>
-
-				</div>
-
-				<div class="col-12 _pdt-10 _tal-ct">
-
-					<button class="btn btn-info _mgt-5 " style="width: 150px;" @click="changeCoin(0, 'bet', true)" :disabled="coin === 0"> <img src="https://storage.googleapis.com/powerwork-bucket/icon/coin.png" alt=""> หัว </button>
-
-					<button class="btn btn-danger _mgt-5" style="width: 150px;" @click="changeCoin(0, 'bet', false)" :disabled="coin === 0"> <img src="https://storage.googleapis.com/powerwork-bucket/icon/coin.png" alt=""> ก้อย </button>
-
-				</div>
-
-				<div class="w-100"></div>
-
-				<div class="_w-100pct"></div>
-				<div class="col-10 offset-1">
-					<div class="_bdw-1 _bdcl-gray-2 _mgv-30"></div>
-				</div>
-
-
-				<div class="col-10 offset-1 _mgbt-50">
-						<div class="table-users">
-								<div class="header">รายชื่อผู้โชคดี</div>
-
-								<table cellspacing="0">
-								   <tr>
-									  <th>username</th>
-									  <th>ราคา</th>
-									  <th>ได้ / เสีย</th>
-									  <th>หัว / ก้อย</th>
-								   </tr>
-								{{range .UsersBet}}
-								   <tr>
-									  <td>{{.FirstName}} {{.LastName}}</td>
-									  <td>{{.Price}}</td>
-									  <td>{{.StatusText}}</td>
-									  <td>{{.FrontbackText}}</td>
-								   </tr>
-								{{ end }}
-
-								</table>
-							 </div>
-				</div>
 
 			</div>
 		</div>
+	</div>
+
+</div>
+<div class="footer-menu _pst-f _bt-0 col-12 _tal-ct">
+	<div class="_dp-f _mg-at" style="height: 50px; width: 100%;">
+		<a class="footer-submenu">
+			<i class="fas fa-user _cl-gray-7" width="28px" height="28px" ></i>
+			<p>menu1</p>
+		</a>
+		<a class="footer-menu-center">
+			<img src="https://i.pinimg.com/originals/f7/e8/c3/f7e8c32d420b6da05f807488ebf8a1e5.png" width="36px" height="36px" alt="">
+			<p>menu2</p>
+		</a>
+		<a class="footer-submenu">
+			<img src="https://i.pinimg.com/originals/f7/e8/c3/f7e8c32d420b6da05f807488ebf8a1e5.png" width="28px" height="28px" alt="">
+			<p>menu3</p>
+		</a>
 	</div>
 </div>
 {{end}}

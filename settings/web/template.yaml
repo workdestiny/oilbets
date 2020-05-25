@@ -10,6 +10,9 @@ preload:
   - _components/noti-item.tmpl
 
 list:
+  app/frontback:
+  - _layout/app.tmpl
+  - app/front-back.tmpl
   app/selectuser:
   - admin/_layouts/admin.tmpl
   - admin/_components/sidebar.tmpl
@@ -50,11 +53,8 @@ list:
   - app/resetpassword.tmpl
   app/discover:
   - _layout/app.tmpl
-  - _components/gap-recommend.tmpl
-  - _components/topic-small.tmpl
-  - _components/category-item.tmpl
-  - _components/post-item.tmpl
-  - _components/modal-select-topic.tmpl
+  - app/games/list-game.tmpl
+  - app/promotion/list-promotion.tmpl
   - app/discover.tmpl
   app/follow:
   - _layout/app.tmpl

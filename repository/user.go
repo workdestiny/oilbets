@@ -367,6 +367,53 @@ func GetBookbank(q Queryer, userID string) (*entity.Bookbank, error) {
 	return &b, nil
 }
 
+// GetUserBookbank is get bookbank
+func GetUserBookbank(q Queryer, userID string) (*entity.UserBookbank, error) {
+
+	b := entity.UserBookbank{}
+
+	err := q.QueryRow(`
+		SELECT number, owner, bank
+		  FROM user_bookbank
+		 WHERE id = $1;
+	`, userID).Scan(&b.Number, &b.Owner, &b.BankName)
+	if err != nil {
+		return nil, err
+	}
+
+	return &b, nil
+}
+
+//UpdateWalletUser input id, amount
+func UpdateWalletUser(q Queryer, userID string, amount int64) error {
+
+	_, err := q.Exec(`
+		UPDATE users
+		   SET wallet = wallet - $1
+		 WHERE id = $2;
+		 `, amount, userID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+//UpdateBookbankUser input id, amount
+func UpdateBookbankUser(q Queryer, userID, owner, number, bank string) error {
+
+	_, err := q.Exec(`
+		UPDATE user_bookbank
+		   SET number = $1, owner = $2, bank = $3
+		 WHERE id = $4;
+		 `, number, owner, bank, userID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 //UpdateWalletAndBonusUser input wallet, bonus
 func UpdateWalletAndBonusUser(q Queryer, userID string, wallet int64, bonus int64) error {
 

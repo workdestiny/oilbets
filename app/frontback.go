@@ -20,7 +20,7 @@ func frontbackBetGetHandler(ctx *hime.Context) error {
 	p := page(ctx)
 	p["UsersBet"] = AddTextFrontback(usersBet)
 
-	return ctx.View("app/discover", p)
+	return ctx.View("app/frontback", p)
 }
 
 func ajaxFrontbackBetPostHandler(ctx *hime.Context) error {

@@ -1036,3 +1036,27 @@ func adminAddCoinPostHandler(ctx *hime.Context) error {
 	f.Add("Success", "เติมเงินเข้าระบบเรียบร้อยแล้ว")
 	return ctx.RedirectToGet()
 }
+
+func adminWithdrawMoneyGetHandler(ctx *hime.Context) error {
+
+	listUser, err := repository.AdminListWithdrawMoney(db)
+	must(err)
+
+	p := page(ctx)
+	p["ListUser"] = listUser
+
+	return ctx.View("app/addcoin", p)
+}
+
+func adminWithdrawMoneyPostHandler(ctx *hime.Context) error {
+	id := ctx.PostFormValue("id")
+
+	f := getSession(ctx).Flash()
+	f.Clear()
+
+	err := repository.AdminUpdateWithdrawMoney(db, id)
+	must(err)
+
+	f.Add("Success", "ดำเนินการเรียบร้อยแล้ว")
+	return ctx.RedirectToGet()
+}

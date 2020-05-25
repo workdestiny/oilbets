@@ -107,14 +107,6 @@ table {
       text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
    }
 
-   img {
-      border: 3px solid;
-      border-color: lighten($baseColor, 50%);
-      height: $imageBig;
-      margin: 0.5rem 0;
-      width: $imageBig;
-   }
-
    td {
       &:first-child {
          background-color: lighten($baseColor, 45%);
