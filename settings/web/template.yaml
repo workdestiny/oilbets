@@ -8,6 +8,7 @@ preload:
   - _components/navbar-transparent.tmpl
   - _components/global.script.tmpl
   - _components/noti-item.tmpl
+  - _components/footer-menu.tmpl
 
 list:
   app/frontback:

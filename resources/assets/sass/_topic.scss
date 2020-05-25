@@ -13,14 +13,23 @@
   &:hover {
 	text-decoration: none;
 	color: black;
-    background-color: gold;
+	background-color: gold;
+	i {
+		color: black !important;
+	}
   }
+
 }
 .item-topic-sm:disabled,
 .item-topic-sm[disabled]{
   background-color: gold;
-  color: black;
+  color: black !important;
 }
+.item-topic-sm i:disabled,
+.item-topic-sm i[disabled]{
+  color: black !important;
+}
+
 .btnbet{
 	display: inline-flex;
 	justify-content: center;
@@ -29,7 +38,7 @@
 	width: 150px;
 	padding: 0;
 	border: 0;
-	height: 80px;
+	height: 84.38px;
 	border-radius: 8px;
 	color: $color-gray-1;
 	background-color: rgba(53, 57, 61, 0.59);
@@ -38,5 +47,6 @@
 	  text-decoration: none;
 	  background-color: gold;
 	  color: black;
+
 	}
 }

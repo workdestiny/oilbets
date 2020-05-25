@@ -297,8 +297,10 @@ let pananInstant = new Vue({
 									function() {
 										if(finalfrontback === res.frontback) {
 											$('.betwin').addClass('show')
+											$('.textwin').text("จำนวนเงินทั้งหมดของคุณ " + res.wallet + " THB")
 										} else {
 											$('.betlose').addClass('show')
+											$('.textlose').text("จำนวนเงินทั้งหมดของคุณ " + res.wallet + " THB")
 										}
 										$('.wallet').text(res.wallet +" THB")
 										$('.bonus').text(res.bonus +" THB")
