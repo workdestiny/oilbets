@@ -2,7 +2,8 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  min-width: 120px;
+  max-width: 120px;
+  width: 120px;
   padding: 0 25px;
   height: 55px;
   border-radius: 8px;
@@ -10,19 +11,22 @@
   background-color: rgba(53, 57, 61, 0.59);
   transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
   &:hover {
-    text-decoration: none;
+	text-decoration: none;
+	color: black;
     background-color: gold;
   }
 }
 .item-topic-sm:disabled,
 .item-topic-sm[disabled]{
   background-color: gold;
+  color: black;
 }
 .btnbet{
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
-	min-width: 100px;
+	max-width: 150px;
+	width: 150px;
 	padding: 0;
 	border: 0;
 	height: 80px;
@@ -33,5 +37,6 @@
 	&:hover {
 	  text-decoration: none;
 	  background-color: gold;
+	  color: black;
 	}
 }

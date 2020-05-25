@@ -287,6 +287,8 @@ let pananInstant = new Vue({
 					.then(res => {
 						if (res.noMoney) {
 							$('.refill').addClass('show')
+							this.coin = 0
+							this.isCoin = 0
 						} else {
 							$('.btnbet').attr("disabled", true)
 							this.showFrontback = res.frontback
@@ -310,8 +312,10 @@ let pananInstant = new Vue({
 					})
 			}
 		},
-		clickText() {
-			console.log("timing")
+		closeAlertbet() {
+			$('.betwin').removeClass('show')
+			$('.betlose').removeClass('show')
+			$('.refill').removeClass('show')
 		}
 
 	}

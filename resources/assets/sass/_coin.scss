@@ -1,0 +1,10 @@
+.coin {
+	height: 300px;
+}
+
+
+@media (max-width: 768px) {
+	.coin {
+		height: 200px;
+	}
+  }

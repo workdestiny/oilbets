@@ -33,6 +33,12 @@ list:
   app/privacy:
   - _layout/app.tmpl
   - app/privacy.tmpl
+  app/wallet:
+  - _layout/app.tmpl
+  - app/wallet.tmpl
+  app/register:
+  - _layout/_blank.tmpl
+  - app/register.tmpl
   app/condition:
   - _layout/app.tmpl
   - app/condition.tmpl

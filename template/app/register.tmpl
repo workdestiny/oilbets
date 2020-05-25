@@ -1,0 +1,40 @@
+{{define "page.title"}}สมัครสมาชิก{{end}}
+
+{{define "app-body"}}
+	<div class="container-sign _bg-si">
+
+		<div class="container _mgt-70">
+			<div class="row">
+				<div class="col-sm-12 offset-sm-0 col-md-10 offset-md-1 col-lg-5 offset-lg-6 col-xl-5 offset-xl-6 _dp-f _fdrt-cl _alit-ct">
+					<h1 class="_tal-ct fs-24">สมัครสมาชิก</h1>
+					<h3 class="_tal-ct fs-14 _mgbt-30 _cl-gray-5">สมัครสมาชิกติดเจ้าหน้าที่ใน Line Ads เท่านั้น</h3>
+					<a href="">
+						<img width="200px" height="200px" src="https://i.pinimg.com/originals/f7/e8/c3/f7e8c32d420b6da05f807488ebf8a1e5.png" alt="">
+					</a>
+					<a class="sign-social fs-14 _tal-ct _dp-b _mgt-25" href="{{route "signin.email"}}">กลับไปเข้าสู่ระบบ</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="word _dp-n _dp-b-lg">
+				<!-- <h3 class="fs-20 fs-28-lg fs-36-xl">Let's publish your own idea.</h3>
+				<h4 class="fs-14 fs-18-xl _cl-gray-6">“มาร่วมสร้างสรรค์ไอเดียและเปิดให้ทุกคนได้รู้จักคุณ”</h3> -->
+			</div>
+		</div>
+
+	</div>
+{{end}}
+
+{{define "main.script"}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+{{if .Flash.Has "Success"}}
+<script>
+	swal({
+		title: "ตรวจสอบ Email",
+		text: {{.Flash.Get "Success"}},
+		icon: "success",
+	});
+</script>
+{{end}}
+{{end}}

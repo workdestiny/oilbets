@@ -43,6 +43,8 @@ func (app *App) Handler() http.Handler {
 	m.HandleMethodNotAllowed = false
 	m.NotFound = hime.Handler(notFoundHandler)
 
+	m.Get(app.Hime.Route("wallet"), hime.Handler(walletGetHandler))
+	m.Get(app.Hime.Route("register"), hime.Handler(registerGetHandler))
 	m.Get(app.Hime.Route("privacy"), hime.Handler(privacyGetHandler))
 	m.Get(app.Hime.Route("condition"), hime.Handler(conditionGetHandler))
 	m.Get(app.Hime.Route("contact"), hime.Handler(contactGetHandler))

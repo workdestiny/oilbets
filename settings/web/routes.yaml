@@ -2,8 +2,10 @@ routes:
   # general
   index: /
   privacy: /privacy
+  register: /register
   condition: /condition
   contact: /contact
+  wallet: /wallet
   notfound: /404
   help.post: /help/post
   test: /test
