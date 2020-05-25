@@ -4,24 +4,24 @@
 
 
 <div class="container _mgt-20-md" id="panan-container">
-	<div class="betwin alert alert-success fade _pst-f _l-0 _r-0 _mg-at _tal-ct" role="alert" style="z-index: 1; width: 60%; margin-top: 15px !important;">
+	<div class="betwin alert alert-success fade _pst-f _l-0 _r-0 _mg-at _tal-ct" role="alert" style="z-index: 1; width: 60%; margin-top: -10px !important;">
 			<strong>คุณชนะ</strong>
 			<button type="button" class="close" @click="closeAlertbet()">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
-		<div class="betlose alert alert-danger fade _pst-f _l-0 _r-0 _mg-at _tal-ct" role="alert" style="z-index: 1; width: 60%; margin-top: 15px !important;">
+		<div class="betlose alert alert-danger fade _pst-f _l-0 _r-0 _mg-at _tal-ct" role="alert" style="z-index: 1; width: 60%; margin-top: -10px !important;">
 			<strong>คุณแพ้</strong>
 			<button type="button" class="close" @click="closeAlertbet()">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
-		<div class="refill alert alert-warning fade _pst-f _l-0 _r-0 _mg-at _tal-ct" role="alert" style="z-index: 1; width: 60%; margin-top: 15px !important;">
+		<div class="refill alert alert-warning fade _pst-f _l-0 _r-0 _mg-at _tal-ct" role="alert" style="z-index: 1; width: 60%; margin-top: -10px !important;">
 			<strong>เงินไม่เพียงพอ กรุณาเติมเงิน</strong>
 			<button type="button" class="close" @click="closeAlertbet()">
 				<span aria-hidden="true">&times;</span>
 			</button>
-		</div>
+	</div>
 
 	<div class="row">
 		<div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
@@ -47,21 +47,18 @@
 
 				</div>
 				<p class="_mgl-30 _mgt-20 fs-24" style="font-weight: bold;">เลือกหน้าของเหรียญ</p>
-				<div class="col-12  _tal-ct">
-
-					<button class="btn btnbet _mgt-5 " @click="changeCoin(0, 'bet', true)" :disabled="coin === 0"> <img src="https://storage.googleapis.com/powerwork-bucket/bet/frontback/coin-front-3d.png" width="150px" height="80px" alt="หัว"></button>
-
-					<button class="btn btnbet _mgt-5" @click="changeCoin(0, 'bet', false)" :disabled="coin === 0"> <img src="https://storage.googleapis.com/powerwork-bucket/bet/frontback/coin-back-3d.png" width="150px" height="80px" alt="ก้อย"></button>
-
+				<div class="col-12 _dp-f _tal-ct">
+					<div class="row _mg-at">
+						<div>
+							<button class="btn btnbet " @click="changeCoin(0, 'bet', true)" :disabled="coin === 0"> <img class="img-fluid" src="https://storage.googleapis.com/powerwork-bucket/bet/frontback/coin-front-3d.png" width="150px" height="100px" alt="หัว"></button>
+							<p class="fs-16 _fw-700 _mgt-10">หัว</p>
+						</div>
+						<div>
+							<button class="btn btnbet" @click="changeCoin(0, 'bet', false)" :disabled="coin === 0"> <img class="img-fluid" src="https://storage.googleapis.com/powerwork-bucket/bet/frontback/coin-back-3d.png" width="150px" height="100px" alt="ก้อย"></button>
+							<p class="fs-16 _fw-700 _mgt-10">ก้อย</p>
+						</div>
+					</div>
 				</div>
-
-				<div class="w-100"></div>
-
-				<div class="_w-100pct"></div>
-				<div class="col-10 offset-1">
-					<div class="_bdw-1 _bdcl-gray-2 _mgv-30"></div>
-				</div>
-
 
 				<div class="col-10 offset-1 _mgbt-50">
 						<div class="table-users">
