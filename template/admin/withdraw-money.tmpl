@@ -2,10 +2,23 @@
 
 {{define "app-body"}}
 
-<div class="container _mgt-20-md" id="panan-container">
+<div class="container _mgt-20-md">
 	<div class="row">
-		<div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+		<div class="col-11 _mg-at">
 			<div class="row _fdrt-cl _bgcl-white _bdrd-2px _cl-gray-11 _pdbt-30">
+
+				<div class="admin-special-menu">
+						<a class="btn btn-info _mg-5" href="{{route "discover"}}">
+							หน้าหลัก
+						</a>
+						<a class="btn btn-info _mg-5" href="{{route "admin.selectuser"}}">
+							เติมเงิน
+						</a>
+						<a class="btn btn-info _mg-5" href="{{route "admin.withdraw.money"}}">
+							ถอนเงิน
+						</a>
+				</div>
+
 				<!-- <form class="form _pdh-20 _pdv-20 _pdh-65-md _pdv-30-md _bgcl-white" action="{{route "admin.withdraw.money"}}" method="GET">
 						<h4 class="fs-16 _cl-gray-11 _fw-700 _tal-ct _mgbt-20">ถอนเงิน</h4>
 						<div class="form-group">
@@ -23,25 +36,34 @@
 						</small>
 
 					</form> -->
-					<div class="container">
+					<div class="container" style="border-radius: 10px;">
 							<div id="">
 								<h2 class="_tal-ct _mgt-20 _mgbt-20 fs-20 fs-30-md">รายชื่อคนถอนเงิน</h2>
 								<table class="_mg-at col-11 table _tal-ct" cellspacing="0">
 									<tr>
-										<th class="fs-10 fs-18-md _pd-5">username</th>
-										<th class="fs-10 fs-18-md _pd-5">จำนวนเงินถอน</th>
+									<th class="fs-10 fs-18-md _pd-5">เบอร์โทรศัพท์</th>
+										<th class="fs-10 fs-18-md _pd-5">จำนวนเงิน</th>
+										<th class="fs-10 fs-18-md _pd-5">ชื่อบัญชี</th>
+										<th class="fs-10 fs-18-md _pd-5">เลขบัญชี</th>
+										<th class="fs-10 fs-18-md _pd-5">ชื่อธนาคาร</th>
 										<th class="fs-10 fs-18-md _pd-5">สถานะ</th>
 									</tr>
-
+									{{range .ListUser}}
 									<tr>
-										<td class="fs-10 fs-18-md">สักนิด สักหน่อย</td>
-										<td class="fs-10 fs-18-md">200000 THB</td>
-										<td class="fs-10 fs-18-md">
-											<i class="fas fa-times-circle _mgr-5" style="color:red;"></i>
-											<i class="fas fa-check-circle" style="color:greenyellow;"></i>
-										</td>
-									</tr>
+										<td class="fs-10 fs-18-md">{{.Email}}</td>
+										<td class="fs-10 fs-18-md">{{.Amount}}</td>
+										<td class="fs-10 fs-18-md">{{.BookbankOwner}}</td>
+										<td class="fs-10 fs-18-md">{{.BookbankNumber}}</td>
+										<td class="fs-10 fs-18-md">{{.BookbankBank}}</td>
+										<form action="{{route "admin.withdraw.money"}}" method="POST">
+											<input type="input" hidden name="id" value="{{.ID}}">
+											<td class="fs-10 fs-18-md">
+												<button type="submit"><i class="fas fa-check-circle fs-18" type="submit" style="color:greenyellow;"></i></button>
+											</td>
+										</form>
 
+									</tr>
+									{{end}}
 								</table>
 							</div>
 					</div>

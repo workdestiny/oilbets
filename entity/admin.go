@@ -27,11 +27,14 @@ const (
 
 //WithdrawMoneyModel is list model
 type WithdrawMoneyModel struct {
-	ID        string
-	UserID    string
-	FirstName string
-	LastName  string
-	Email     string
-	Amount    int64
-	CreatedAt time.Time
+	ID             string
+	UserID         string
+	FirstName      string
+	LastName       string
+	Email          string
+	Amount         int64
+	CreatedAt      time.Time
+	BookbankNumber string
+	BookbankBank   string
+	BookbankOwner  string
 }

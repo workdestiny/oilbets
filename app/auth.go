@@ -40,10 +40,10 @@ func signInPostHandler(ctx *hime.Context) error {
 	email := strings.ToLower(ctx.PostFormValue("email"))
 	password := ctx.PostFormValue("password")
 
-	if !govalidator.IsEmail(email) {
-		f.Add("Errors", "อีเมลไม่ถูกรูปแบบ")
-		return ctx.RedirectToGet()
-	}
+	//if !govalidator.IsEmail(email) {
+	//		f.Add("Errors", "อีเมลไม่ถูกรูปแบบ")
+	//		return ctx.RedirectToGet()
+	//	}
 
 	id, pw, err := repository.Signin(db, email)
 	if err == sql.ErrNoRows {

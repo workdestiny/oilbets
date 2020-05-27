@@ -54,14 +54,14 @@
 										<div class="form-row">
 											<div class="form-group col-12">
 												<label class="_cl-gray-11 _fw-600 fs-14" for="owner">ชื่อบัญชี</label>
-												<input id="owner" class="form-control {{if .Flash.Has "ErrEmail"}}is-invalid{{end}}"
+												<input id="owner" class="form-control {{if .Flash.Has "ErrorsWidthdraw"}}is-invalid{{end}}"
 												name="owner"
 												v-model="newOwner"
 												@input="changeSomeThing"
 												type="text" required>
-												<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
-												{{if and (.Flash.Has "ErrEmail") (not .User.Email)}}
-													<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+												<div class="invalid-feedback">{{.Flash.Get "ErrorsWidthdraw"}}</div>
+												{{if .Flash.Has "ErrorsWidthdraw"}}
+													<div class="invalid-feedback">{{.Flash.Get "ErrorsWidthdraw"}}</div>
 												{{end}}
 											</div>
 										</div>
@@ -73,9 +73,9 @@
 												v-model="newNumber"
 												@input="changeSomeThing"
 												type="email" required>
-												<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
-												{{if and (.Flash.Has "ErrEmail") (not .User.Email)}}
-													<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+												<div class="invalid-feedback">{{.Flash.Get "ErrorsWidthdraw"}}</div>
+												{{if .Flash.Has "ErrorsWidthdraw"}}
+													<div class="invalid-feedback">{{.Flash.Get "ErrorsWidthdraw"}}</div>
 												{{end}}
 											</div>
 										</div>
@@ -87,9 +87,9 @@
 												v-model="newBank"
 												@input="changeSomeThing"
 												type="email" required>
-												<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
-												{{if and (.Flash.Has "ErrEmail") (not .User.Email)}}
-													<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+												<div class="invalid-feedback">{{.Flash.Get "ErrorsWidthdraw"}}</div>
+												{{if .Flash.Has "ErrorsWidthdraw"}}
+													<div class="invalid-feedback">{{.Flash.Get "ErrorsWidthdraw"}}</div>
 												{{end}}
 											</div>
 										</div>

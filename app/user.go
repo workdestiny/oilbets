@@ -39,18 +39,28 @@ func userGetHandler(ctx *hime.Context) error {
 //UserWithdrawMoneyGetHandler is money
 func UserWithdrawMoneyGetHandler(ctx *hime.Context) error {
 	user := getUser(ctx)
-	hasBookbank := true
+	f := getSession(ctx).Flash()
+	f.Clear()
+	// log.Println(user.WithdrawRate)
+	canWithdraw := false
 	bookbank, _ := repository.GetUserBookbank(db, user.ID)
+
 	if bookbank.Number == "" {
-		hasBookbank = false
+		f.Add("ErrorsWidthdraw", "กรุณากรอกข้อมูลธนาคารก่อนถึงจะสามารถถอนเงินได้")
+		return ctx.RedirectTo("account")
+	}
+
+	if user.Wallet >= user.WithdrawRate {
+		canWithdraw = true
 	}
 
 	p := page(ctx)
-	p["HasBookbank"] = hasBookbank
+	// p["HasBookbank"] = hasBookbank
 	p["Bookbank"] = bookbank
 	p["User"] = user
+	p["CanWithdraw"] = canWithdraw
 
-	return ctx.View("app/userbookbank", p)
+	return ctx.View("app/withdraw", p)
 }
 
 //UserWithdrawMoneyPostHandler is money

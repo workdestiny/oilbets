@@ -11,9 +11,14 @@ preload:
   - _components/footer-menu.tmpl
 
 list:
+
   app/frontback:
   - _layout/app.tmpl
   - app/front-back.tmpl
+  app/withdraw:
+  - _layout/app.tmpl
+  - app/with-draw/script.tmpl
+  - app/with-draw/with-draw-user.tmpl
   app/selectuser:
   - admin/_layouts/admin.tmpl
   - admin/_components/sidebar.tmpl

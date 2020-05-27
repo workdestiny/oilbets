@@ -889,11 +889,13 @@ func AddWalletAndBonusUser(q Queryer, userID string, wallet, bonus, withdrawrate
 func AdminListWithdrawMoney(q Queryer) ([]*entity.WithdrawMoneyModel, error) {
 
 	rows, err := q.Query(`
-		SELECT wm.id, wm.user_id, users.firstname, users.lastname
-			   users.email->>'email', wm.amount, wm.created_at
+		SELECT wm.id, wm.user_id, users.firstname, users.lastname,
+			   users.email->>'email', wm.amount, wm.created_at, user_bookbank.number, user_bookbank.bank, user_bookbank.owner
 		  FROM withdraw_money as wm
 	 LEFT JOIN users
 			ON users.id = wm.user_id
+	 LEFT JOIN user_bookbank
+	 		ON user_bookbank.id = users.id
 		 WHERE wm.status = false
 	  ORDER BY wm.created_at DESC;
 	`)
@@ -906,7 +908,7 @@ func AdminListWithdrawMoney(q Queryer) ([]*entity.WithdrawMoneyModel, error) {
 
 		var wm entity.WithdrawMoneyModel
 		err := rows.Scan(&wm.ID, &wm.UserID, &wm.FirstName, &wm.LastName,
-			&wm.Email, &wm.Amount, &wm.CreatedAt)
+			&wm.Email, &wm.Amount, &wm.CreatedAt, &wm.BookbankNumber, &wm.BookbankBank, &wm.BookbankOwner)
 		if err != nil {
 			return nil, err
 		}

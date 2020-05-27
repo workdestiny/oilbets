@@ -5,7 +5,7 @@
   position: fixed;
   top: 0;
   left: -300px;
-  z-index: 999;
+  z-index: 0;
   background: #1d1d1d;
 
   &.toggle {
@@ -176,7 +176,36 @@
   margin: 0;
 }
 
+.admin-special-menu {
+	display: none;
+}
+
 .admin-content {
   margin-left: 260px;
   padding: 30px 50px;
 }
+
+@media (max-width: 768px) {
+	.sidebar-wrapper{
+		display: none;
+	}
+	.admin-content {
+		margin-left: 0;
+		z-index: 1;
+	}
+	.admin-special-menu {
+		display: flex;
+	}
+  }
+  @media (max-width: 992px) {
+	.sidebar-wrapper{
+		display: none;
+	}
+	.admin-content {
+		margin-left: 0;
+		z-index: 1;
+	}
+	.admin-special-menu {
+		display: flex;
+	}
+  }
