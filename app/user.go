@@ -5,6 +5,7 @@ import (
 	"image"
 	"image/color"
 	"image/draw"
+	"log"
 	"net/http"
 	"time"
 	"unicode/utf8"
@@ -47,7 +48,7 @@ func UserWithdrawMoneyGetHandler(ctx *hime.Context) error {
 	p := page(ctx)
 	p["HasBookbank"] = hasBookbank
 	p["Bookbank"] = bookbank
-	p["Wallet"] = user.Wallet
+	p["User"] = user
 
 	return ctx.View("app/userbookbank", p)
 }
@@ -60,8 +61,13 @@ func UserWithdrawMoneyPostHandler(ctx *hime.Context) error {
 	f := getSession(ctx).Flash()
 	f.Clear()
 
+	if user.Wallet < user.WithdrawRate {
+		f.Add("Errors", "จำนวนเงินขั้นต่ำในการถอนเงินไม่ีเพียงพอ")
+		return ctx.RedirectToGet()
+	}
+
 	if amount > user.Wallet {
-		f.Add("Errors", "จำนวนเงินใน wallet ไม่พอ")
+		f.Add("Errors", "จำนวนเงินใน wallet ไม่เพียงพอ")
 		return ctx.RedirectToGet()
 	}
 
@@ -84,7 +90,7 @@ func UserWithdrawMoneyPostHandler(ctx *hime.Context) error {
 	})
 	must(err)
 
-	f.Add("Success", "ดำเนินการเรียบร้อยแล้ว")
+	f.Add("Success", "ดำเนินการเรียบร้อยแล้ว กรุณารอเจ้าหน้าที่ถอนเงินสักครู่")
 	return ctx.RedirectToGet()
 }
 
@@ -133,26 +139,148 @@ func userPostHandler(ctx *hime.Context) error {
 	f := getSession(ctx).Flash()
 	f.Clear()
 
-	id := GetMyID(ctx)
+	me := getUser(ctx)
+	//form := ctx.PostFormValue("form")
+	firstName := ctx.PostFormValueTrimSpace("firstname")
+	lastName := ctx.PostFormValueTrimSpace("lastname")
+	changePassword := ctx.PostFormValue("change-password")
+	oldPassword := ctx.PostFormValue("old-password")
+	newPassword := ctx.PostFormValue("new-password")
+	repeatPassword := ctx.PostFormValue("repeat-password")
 	owner := ctx.PostFormValueTrimSpace("owner")
 	number := ctx.PostFormValueTrimSpace("number")
 	bank := ctx.PostFormValueTrimSpace("bank")
+	log.Println(firstName)
+	log.Println(lastName)
+	log.Println(changePassword)
+	log.Println(oldPassword)
+	log.Println(newPassword)
+	log.Println(repeatPassword)
+	log.Println(owner)
+	log.Println(number)
+	log.Println(bank)
 
+	if changePassword == "true" {
+
+		if oldPassword == "" {
+			f.Add("ErrOldPassword", "กรุณากรอกรหัสผ่าน")
+			f.Set("changePassword", changePassword)
+			f.Set("NewPassword", newPassword)
+			f.Set("RepeatPassword", repeatPassword)
+			return ctx.RedirectToGet()
+		}
+
+		if newPassword == "" {
+			f.Add("ErrInputEmptyNewPassword", "กรุณากรอกรหัสผ่านใหม่")
+			f.Set("changePassword", changePassword)
+			f.Set("OldPassword", oldPassword)
+			f.Set("NewPassword", newPassword)
+			f.Set("RepeatPassword", repeatPassword)
+			return ctx.RedirectToGet()
+		}
+
+		if repeatPassword == "" {
+			f.Add("ErrInputEmptyRepeatPassword", "กรุณายืนยันรหัสผ่านใหม่")
+			f.Set("changePassword", changePassword)
+			f.Set("OldPassword", oldPassword)
+			f.Set("NewPassword", newPassword)
+			f.Set("RepeatPassword", repeatPassword)
+			return ctx.RedirectToGet()
+		}
+
+		if newPassword != repeatPassword {
+			f.Add("ErrPasswordMissMatch", "รหัสผ่านไม่ตรงกัน")
+			f.Set("changePassword", changePassword)
+			f.Set("OldPassword", oldPassword)
+			return ctx.RedirectToGet()
+		}
+
+		if utf8.RuneCountInString(newPassword) < 8 || utf8.RuneCountInString(newPassword) > 20 {
+			f.Add("ErrNewPassword", "รหัสผ่านต้องไม่น้อยกว่า 8 และไม่เกิน 20 ตัวอักษร")
+			f.Set("changePassword", changePassword)
+			f.Set("OldPassword", oldPassword)
+			return ctx.RedirectToGet()
+		}
+
+		opw, err := repository.CheckOldPassword(db, me.ID)
+		if err == sql.ErrNoRows {
+			f.Add("ErrOldPassword", "รหัสผ่านไม่ถูกต้อง")
+			f.Set("NewPassword", newPassword)
+			f.Set("RepeatPassword", repeatPassword)
+			f.Set("changePassword", changePassword)
+		}
+		must(err)
+
+		if !repository.ComparePassword(opw, oldPassword) {
+			f.Add("ErrOldPassword", "รหัสผ่านไม่ถูกต้อง")
+			f.Set("NewPassword", newPassword)
+			f.Set("RepeatPassword", repeatPassword)
+			f.Set("changePassword", changePassword)
+			return ctx.RedirectToGet()
+		}
+
+		hasPassword, err := repository.HashPassword(newPassword)
+		if err != nil {
+			f.Add("Password", "ไม่สามารถใช้รหัสผ่านนี้ได้")
+			f.Set("changePassword", changePassword)
+			return ctx.RedirectToGet()
+		}
+
+		err = repository.UpdateNewPassword(db, me.ID, hasPassword)
+		if err != nil {
+			f.Add("Password", "ไม่สามารถเปลี่ยนรหัสผ่านได้")
+			f.Set("changePassword", changePassword)
+			return ctx.RedirectToGet()
+		}
+
+		addSuccess(f, "แก้ไขข้อมูลเรียบร้อยแล้ว!")
+		return ctx.RedirectTo("account")
+	}
+
+	if utf8.RuneCountInString(firstName) > 50 || utf8.RuneCountInString(firstName) == 0 {
+		f.Add("ErrName", "ต้องใส่ข้อมูลให้ครบและชื่อต้องไม่เกิน 50 ตัวอักษร")
+		return ctx.RedirectToGet()
+	}
+	if utf8.RuneCountInString(lastName) > 50 || utf8.RuneCountInString(lastName) == 0 {
+		f.Add("ErrName", "ต้องใส่ข้อมูลให้ครบและชื่อต้องไม่เกิน 50 ตัวอักษร")
+		return ctx.RedirectToGet()
+	}
 	if utf8.RuneCountInString(owner) > 50 {
 		f.Add("ErrName", "ชื่อต้องไม่เกิน 50 ตัวอักษร")
 		return ctx.RedirectToGet()
 	}
 	if utf8.RuneCountInString(number) > 20 {
-		f.Add("ErrName", "เลขบัญชี 20 ตัวอักษร")
+		f.Add("ErrName", "กรุณาตรวจสอบเลขบัญชี")
 		return ctx.RedirectToGet()
 	}
 	if utf8.RuneCountInString(bank) > 20 {
-		f.Add("ErrName", "ชื่อต้องไม่เกิน 20 ตัวอักษร")
+		f.Add("ErrName", "กรุณาตรวจสอบชื่อธนาคาร")
 		return ctx.RedirectToGet()
 	}
 
-	err := repository.UpdateBookbankUser(db, id, owner, number, bank)
+	err := pgsql.RunInTx(db, nil, func(tx *sql.Tx) error {
+		err := repository.UpdateBookbankUser(tx, me.ID, owner, number, bank)
+		if err != nil {
+			return err
+		}
+
+		err = repository.EditNameUser(tx, me.ID, firstName, lastName)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
 	must(err)
+
+	go repository.SetUserToRedis(myRedis, entity.RedisUserModel{
+		ID:               me.ID,
+		Username:         "",
+		FirstName:        firstName,
+		LastName:         lastName,
+		DisplayImage:     me.DisplayImage.Middle,
+		DisplayImageMini: me.DisplayImage.Mini,
+		Level:            entity.UserLevelType(me.GetLevel()),
+	})
 
 	addSuccess(f, "แก้ไขข้อมูลเรียบร้อยแล้ว!")
 	return ctx.RedirectToGet()

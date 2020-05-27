@@ -49,7 +49,14 @@ new Vue({
 			oldFirstName: {{.User.FirstName}},
 			lastName: {{.Flash.Get "LastName"}} || {{.User.LastName}},
 			oldLastName: {{.User.LastName}},
+			newOwner: {{.Flash.Get "Owner" }} || {{.Bookbank.Owner}},
+			oldOwner: {{.Bookbank.Owner}},
+			newNumber: {{.Flash.Get "Number" }} || {{.Bookbank.Number}},
+			oldNumber: {{.Bookbank.Number}},
+			newBank: {{.Flash.Get "BankName" }} || {{.Bookbank.BankName}},
+			oldBank: {{.Bookbank.BankName}},
 			editAccount: false,
+			editWithDraw: false,
 			dummyPassword: '********',
 			changePassword: {{.Flash.Get "changePassword"}},
 			oldEmail: {{.User.Email}},
@@ -133,7 +140,7 @@ new Vue({
 		},
 
 		changeSomeThing() {
-			if(this.firstName != this.oldFirstName || this.lastName != this.oldLastName || this.changePassword == true || this.oldEmail != this.newEmail) {
+			if(this.firstName != this.oldFirstName || this.lastName != this.oldLastName || this.changePassword == true || this.oldEmail != this.newEmail || this.newOwner != this.oldOwner || this.newNumber != this.oldNumber || this.newBank != this.oldBank) {
 				this.editAccount = true
 			} else {
 				this.editAccount = false
@@ -269,118 +276,13 @@ new Vue({
 				this.$refs.formAccount.submit()
 			}
 		},
+		submitWithDraw() {
+			this.$refs.formWithDraw.submit()
+		},
 
 		reset() {
 			location.reload()
 		},
-
-		nextLoadFollowGap() {
-			axios.post(this.routeListFollow,{
-				id: {{.User.ID}},
-				next: this.nextID
-			},{
-				withCredentials: true
-			}).then(res => {
-				if (res.status === 200) {
-					this.listFollow = this.listFollow.concat(res.data.gap)
-					if(!res.data.isNext){
-						this.noMore = true
-					} else {
-						this.nextID = res.data.next
-					}
-				} else if (res.status === 204) {
-					this.noMore = true
-				}
-			}).catch(err => {
-				return err
-			})
-		},
-
-		setFileIDCard(e, type) {
-			const imageType = ['jpeg', 'jpg', 'png']
-			const files = e.target.files || e.dataTransfer.files
-			const URL = window.URL || window.webkitURL
-			if (!files.length) {
-				return
-			}
-			if ($.inArray(files[0].type.split('/')[1], imageType) === -1) {
-				if (type === 'card') {
-					$(this.$refs.formIDCard).val('')
-				} else if (type === 'face'){
-					$(this.$refs.formFaceIDCard).val('')
-				} else {
-					$(this.$refs.formBookBank).val('')
-				}
-				swal('แจ้งเตือน', 'กรุณาเลือกเฉพาะไฟล์รูปภาพ', 'error').catch(swal.noop)
-				return
-			}
-			if (files[0].size > 10485760) {
-				swal('แจ้งเตือน', 'อัพโหลดรูปไม่เกิน 10 MB', 'error').catch(swal.noop)
-				return
-			}
-			if(type === 'card') {
-				this.imageSrcIDCard = URL.createObjectURL(files[0])
-			} else if (type === 'face'){
-				this.imageSrcFaceIDCard = URL.createObjectURL(files[0])
-			} else {
-				this.imageSrcBookbank = URL.createObjectURL(files[0])
-			}
-		},
-
-		sendVerify(type) {
-			if (this.btnLoading) return
-			this.btnLoading = true
-			let form = new FormData()
-			let route = ""
-			if (type === 'card') {
-				route = this.routeIDCard
-				form.append("idcard", this.$refs.formIDCard.files[0])
-				form.append("face_idcard", this.$refs.formFaceIDCard.files[0])
-			} else {
-				if(this.verifyBookbank.bank_name === '') {
-					this.btnLoading = false
-					alert('กรุณาเลือกธนาคาร')
-					return
-				}
-				route = this.routeBookBank
-				form.append("bookbank_name", this.verifyBookbank.bookbank_name)
-				form.append("bookbank_number", this.verifyBookbank.bookbank_number)
-				form.append("bank_name", this.verifyBookbank.bank_name)
-				form.append("image_bookbank", this.$refs.formBookBank.files[0])
-			}
-			axios({
-					method: 'post',
-					url: route,
-					data: form,
-					config: {
-						withCredentials: true,
-						headers: {'Content-Type': 'multipart/form-data'
-					}
-				}
-			}).then((res) => {
-				this.btnLoading = false
-				if (res.status === 204) {
-					swal({
-						title: 'แจ้งเตือน',
-						text: 'ส่งข้อมูลการอัพเกรดสถานะเรียบร้อยแล้ว กรุณารอการตรวจสอบ',
-						icon: 'success',
-						closeOnClickOutside: false
-					}).then(() => {
-						this.imageSrcIDCard = ''
-						this.imageSrcFaceIDCard = ''
-						this.verifyBookbank.bookbank_name = ''
-						this.verifyBookbank.bookbank_number = ''
-						this.verifyBookbank.bank_name = ''
-						this.imageSrcBookbank = ''
-						$('#verify-idcard').modal('hide')
-						$('#verify-bookbank').modal('hide')
-					}).catch(swal.noop)
-				}
-			}).catch(() => {
-				swal('แจ้งเตือน', 'ไม่สามารถอัพโหลดรูปภาพได้ กรุณาลองใหม่ภายหลัง', 'error').catch(swal.noop)
-				this.btnLoading = false
-			})
-		}
 
 	}
 }) // end upload

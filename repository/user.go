@@ -76,7 +76,7 @@ func GetUserByEmail(q Queryer, email string) *entity.Me {
 			SELECT users.id, users.birthdate, users.count->>'topic', users.count->>'gap',
 			       users.role, users.display->>'mini', users.display->>'middle', users.display->>'normal', users.email->>'email',
 				   users.firstname, users.lastname, users.gender, COALESCE(user_kycs.is_verify_email, 'false'),
-				   COALESCE(user_kycs.is_idcard, 'false'), COALESCE(user_kycs.is_bookbank, 'false'), users.notification, users.wallet, users.bonus
+				   COALESCE(user_kycs.is_idcard, 'false'), COALESCE(user_kycs.is_bookbank, 'false'), users.notification, users.wallet, users.bonus, users.withdraw_rate
 			  FROM users
 		 LEFT JOIN user_kycs
 				ON user_kycs.user_id = users.id
@@ -91,7 +91,7 @@ func GetUserByEmail(q Queryer, email string) *entity.Me {
 		err := rows.Scan(&m.ID, &m.BirthDate, &m.Count.Topic, &m.Count.Gap,
 			&m.Role, &m.DisplayImage.Mini, &m.DisplayImage.Middle, &m.DisplayImage.Normal, &m.Email,
 			&m.FirstName, &m.LastName, &m.Gender, &m.IsVerify,
-			&m.IsVerifyIDCard, &m.IsVerifyBookBank, &m.IsNotification, &m.Wallet, &m.Bonus)
+			&m.IsVerifyIDCard, &m.IsVerifyBookBank, &m.IsNotification, &m.Wallet, &m.Bonus, &m.WithdrawRate)
 		if err != nil {
 			return &m
 		}

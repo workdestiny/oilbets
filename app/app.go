@@ -82,7 +82,7 @@ func (app *App) Handler() http.Handler {
 	admin.Get("/selectuser", hime.Handler(adminSelectUserGetHandler))
 	admin.Get("/addcoin", hime.Handler(adminAddCoinGetHandler))
 	admin.Post("/addcoin", hime.Handler(adminAddCoinPostHandler))
-	admin.Get("/withdraw/money", hime.Handler(adminWithdrawMoneyGetHandler))
+	admin.Get("/withdraw/money", hime.Handler(adminWithdrawTest))
 	admin.Post("/withdraw/money", hime.Handler(adminWithdrawMoneyPostHandler))
 	admin.Get("/verify", hime.Handler(adminVerifyGetHandler))
 	admin.Post("/verify", hime.Handler(adminVerifyPostHandler))

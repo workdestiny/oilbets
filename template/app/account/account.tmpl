@@ -11,7 +11,7 @@
 			{{if and (not .User.IsVerifyIDCard) .User.IsVerify}}
 				{{template "modal-verify-idcard" .}}
 			{{end}}
-			<div class="col-12 col-lg-8 offset-lg-2 _bgcl-white">
+			<div class="col-12 col-lg-8 offset-lg-2 _bgcl-white pd" style="padding-bottom: 80px;">
 				<div class="row">
 					<div class="col-12 col-md-10 offset-md-1">
 						<div class="_bdrd-0 _bdrd-2px-md _bgcl-white _pdv-15 _pdv-32-md">
@@ -53,7 +53,49 @@
 										</div>
 										<div class="form-row">
 											<div class="form-group col-12">
-												<label class="_cl-gray-11 _fw-600 fs-14" for="email">อีเมล</label>
+												<label class="_cl-gray-11 _fw-600 fs-14" for="owner">ชื่อบัญชี</label>
+												<input id="owner" class="form-control {{if .Flash.Has "ErrEmail"}}is-invalid{{end}}"
+												name="owner"
+												v-model="newOwner"
+												@input="changeSomeThing"
+												type="text" required>
+												<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+												{{if and (.Flash.Has "ErrEmail") (not .User.Email)}}
+													<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+												{{end}}
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="form-group col-12">
+												<label class="_cl-gray-11 _fw-600 fs-14" for="number">เลขบัญชี</label>
+												<input id="number" class="form-control {{if .Flash.Has "ErrEmail"}}is-invalid{{end}}"
+												name="number"
+												v-model="newNumber"
+												@input="changeSomeThing"
+												type="email" required>
+												<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+												{{if and (.Flash.Has "ErrEmail") (not .User.Email)}}
+													<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+												{{end}}
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="form-group col-12">
+												<label class="_cl-gray-11 _fw-600 fs-14" for="bank">ชื่อธนาคาร</label>
+												<input id="bank" class="form-control {{if .Flash.Has "ErrEmail"}}is-invalid{{end}}"
+												name="bank"
+												v-model="newBank"
+												@input="changeSomeThing"
+												type="email" required>
+												<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+												{{if and (.Flash.Has "ErrEmail") (not .User.Email)}}
+													<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+												{{end}}
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="form-group col-12">
+												<label class="_cl-gray-11 _fw-600 fs-14" for="email">เบอร์โทรศัพท์</label>
 												<input id="email" class="form-control {{if .Flash.Has "ErrEmail"}}is-invalid{{end}}"
 												name="email"
 												v-model="newEmail"
@@ -139,7 +181,69 @@
 											</div>
 										</div>
 									</form>
+								<!--            form with draw       -->
+									<!-- <form ref="formWithDraw" action="{{route "account"}}" method="POST" autocomplete="off">
+											<div class="form-row">
+												<div class="form-group col-12">
+													<label class="_cl-gray-11 _fw-600 fs-14" for="email">ชื่อธนาคาร</label>
+													<input id="email" class="form-control {{if .Flash.Has "ErrEmail"}}is-invalid{{end}}"
+													name="email"
+													v-model="newEmail"
+													type="email" readonly required>
+													<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+													{{if and (.Flash.Has "ErrEmail") (not .User.Email)}}
+														<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+													{{end}}
+												</div>
+											</div>
+											<div class="form-row">
+													<div class="form-group col-12">
+														<label class="_cl-gray-11 _fw-600 fs-14" for="email">เลขบัญชี</label>
+														<input id="email" class="form-control {{if .Flash.Has "ErrEmail"}}is-invalid{{end}}"
+														name="email"
+														v-model="newEmail"
+														type="email" readonly required>
+														<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+														{{if and (.Flash.Has "ErrEmail") (not .User.Email)}}
+															<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
+														{{end}}
+													</div>
+												</div>
+											<div class="form-row">
+												<div class="col-12">
+													<label class="_cl-gray-11 _fw-600 fs-14" for="password">ชื่อเจ้าของสมุดบัญชี</label>
+												</div>
+											</div>
+											<div class="form-row">
+												<div class="form-group col-8 col-sm-10 col-md-10">
+													<input v-if="changePassword" id="password" class="form-control {{if .Flash.Has "ErrOldPassword"}}is-invalid{{end}}"
+													:class="{ '_bgcl-gray-2': !changePassword }"
+													name="old-password" type="password"
+													{{if or (.Flash.Has "ErrOldPassword") (.Flash.Has "ErrNewPassword") (.Flash.Has "ErrInputEmptyNewPassword") (.Flash.Has "ErrInputEmptyRepeatPassword") (.Flash.Has "ErrPasswordMissMatch")}}
+														value="{{.Flash.Get "OldPassword"}}"
+													{{end}}
+														value=""
+													placeholder="รหัสผ่านเดิม"  required
+													:readonly="!changePassword"
+													>
+													<div class="invalid-feedback">{{.Flash.Get "ErrOldPassword"}}</div>
+													<input v-cloak v-if="!changePassword" class="form-control _bgcl-gray-2" type="password" v-model="dummyPassword" :readonly="!changePassword">
+												</div>
+												<div class="form-group col-4 col-sm-2 col-md-2" id="gtm-button" data-gtm-button="change_password">
+													<a class="btn btn-outline-transparent fs-14 _cl-blue-1 _bdrd-5px _w-100pct _tdcrt-udl-hover" @click.prevent="openChangePassword">แก้ไข</a>
+												</div>
+											</div>
+											<div class="_dp-f _jtfct-fe _mgv-32" v-if="editWithDraw || changePassword">
+												<div v-cloak id="gtm-link" data-gtm-link="cancel">
+													<button type="button" class="fs-14 btn btn-outline-transparent _cl-blue-1 _tdcrt-udl-hover _bdrd-5px _mgr-16" @click="reset">ยกเลิก</button>
+												</div>
+												<div v-cloak id="gtm-link" data-gtm-link="save_info">
+													<button type="button" class="fs-14 btn sw-btn _bgcl-yellow-5 _bgcl-yellow-4-hover _fw-600 _cl-white _bdrd-5px" type="submit" @click="submitWithDraw">ยืนยัน</button>
+												</div>
+											</div>
+										</form> -->
 								</div>
+
 							</div>
 
 						</div>

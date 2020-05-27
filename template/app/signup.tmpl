@@ -22,7 +22,7 @@
 							</div>
 							<div class="form-row">
 								<div class="form-group col-12">
-									<input class="form-control {{if .Flash.Has "ErrEmail"}}is-invalid{{end}}" name="email" value="{{.Flash.Get "Email"}}" type="email" placeholder="อีเมล" required>
+									<input class="form-control {{if .Flash.Has "ErrEmail"}}is-invalid{{end}}" name="email" value="{{.Flash.Get "Email"}}" type="tel" placeholder="เบอร์โทรศัพท์" required>
 									<div class="invalid-feedback">{{.Flash.Get "ErrEmail"}}</div>
 								</div>
 								<div class="form-group col-12">

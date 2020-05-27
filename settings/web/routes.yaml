@@ -118,7 +118,7 @@ routes:
   admin.topic.seo.edit: /admin/topic/seo/edit
   admin.addcoin: /admin/addcoin
   admin.addcoin.route: /addcoin
-  admin.withdraw.money: /withdraw/money
+  admin.withdraw.money: /admin/withdraw/money
   admin.selectuser: /admin/selectuser
 
 

@@ -871,13 +871,13 @@ func AdminUpdateTopicSEOVerify(q Queryer, topicID, title, description, tagline, 
 }
 
 //AddWalletAndBonusUser input wallet, bonus
-func AddWalletAndBonusUser(q Queryer, userID string, wallet int64, bonus int64) error {
+func AddWalletAndBonusUser(q Queryer, userID string, wallet, bonus, withdrawrate int64) error {
 
 	_, err := q.Exec(`
 		UPDATE users
-		   SET wallet = wallet + $1, bonus = bonus + $2
-		 WHERE id = $3;
-		 `, wallet, bonus, userID)
+		   SET wallet = wallet + $1, bonus = bonus + $2, withdraw_rate = $3
+		 WHERE id = $4;
+		 `, wallet, bonus, withdrawrate, userID)
 	if err != nil {
 		return err
 	}

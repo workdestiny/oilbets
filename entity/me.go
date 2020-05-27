@@ -23,6 +23,7 @@ type Me struct {
 	IsVerifyBookBank bool
 	Wallet           int64
 	Bonus            int64
+	WithdrawRate     int64
 }
 
 // IsPost is check if user can post

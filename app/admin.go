@@ -992,6 +992,11 @@ func adminSelectUserGetHandler(ctx *hime.Context) error {
 	return ctx.View("app/selectuser", page(ctx))
 }
 
+func adminWithdrawTest(ctx *hime.Context) error {
+
+	return ctx.View("admin/withdrawmoney", page(ctx))
+}
+
 func adminAddCoinGetHandler(ctx *hime.Context) error {
 	email := ctx.FormValue("email")
 	if email == "" {
@@ -1013,18 +1018,14 @@ func adminAddCoinPostHandler(ctx *hime.Context) error {
 	userID := ctx.PostFormValue("userID")
 	wallet := ctx.PostFormValueInt64("wallet")
 	bonus := ctx.PostFormValueInt64("bonus")
+	withdrawrate := ctx.PostFormValueInt64("withdrawrate")
 
 	f := getSession(ctx).Flash()
 	f.Clear()
 
-	if wallet == 0 {
-		f.Add("Errors", "กรุณากรอกจำนวนเงินให้ถูกต้อง")
-		return ctx.RedirectToGet()
-	}
-
 	err := pgsql.RunInTx(db, nil, func(tx *sql.Tx) error {
 
-		err := repository.AddWalletAndBonusUser(tx, userID, wallet, bonus)
+		err := repository.AddWalletAndBonusUser(tx, userID, wallet, bonus, withdrawrate)
 		if err != nil {
 			return err
 		}
@@ -1045,7 +1046,7 @@ func adminWithdrawMoneyGetHandler(ctx *hime.Context) error {
 	p := page(ctx)
 	p["ListUser"] = listUser
 
-	return ctx.View("app/addcoin", p)
+	return ctx.View("admin/withdrawmoney", p)
 }
 
 func adminWithdrawMoneyPostHandler(ctx *hime.Context) error {

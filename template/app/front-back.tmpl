@@ -60,28 +60,26 @@
 					</div>
 				</div>
 
-				<div class="col-10 offset-1 _mgbt-50">
-						<div class="table-users">
-								<div class="header">รายชื่อผู้โชคดี</div>
-
-								<table cellspacing="0">
-								   <tr>
-									  <th>username</th>
-									  <th>ราคา</th>
-									  <th>ได้ / เสีย</th>
-									  <th>หัว / ก้อย</th>
-								   </tr>
-								{{range .UsersBet}}
-								   <tr>
-									  <td>{{.FirstName}} {{.LastName}}</td>
-									  <td>{{.Price}}</td>
-									  <td>{{.StatusText}}</td>
-									  <td>{{.FrontbackText}}</td>
-								   </tr>
-								{{ end }}
-
-								</table>
-							 </div>
+				<div class="container">
+						<div id="">
+							<h2 class="_tal-ct _mgt-20 _mgbt-20 fs-20 fs-30-md">รายชื่อผู้โชคดี</h2>
+							<table class="_mg-at col-11 table _tal-ct" cellspacing="0">
+								<tr>
+									<th class="fs-10 fs-18-md _pd-5">username</th>
+									<th class="fs-10 fs-18-md _pd-5">ราคา</th>
+									<th class="fs-10 fs-18-md _pd-5">ได้ / เสีย</th>
+									<th class="fs-10 fs-18-md _pd-5">หัว / ก้อย</th>
+								</tr>
+							{{range .UsersBet}}
+								<tr>
+									<td class="fs-10 fs-18-md">{{.FirstName}} {{.LastName}}</td>
+									<td class="fs-10 fs-18-md">{{.Price}}</td>
+									<td class="fs-10 fs-18-md">{{.StatusText}}</td>
+									<td class="fs-10 fs-18-md">{{.FrontbackText}}</td>
+								</tr>
+							{{ end }}
+							</table>
+						</div>
 				</div>
 
 			</div>

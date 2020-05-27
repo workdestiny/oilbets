@@ -167,6 +167,12 @@ list:
 
   # admin
 
+  admin/withdrawmoney:
+  - admin/_layouts/admin.tmpl
+  - admin/_components/sidebar.tmpl
+  - admin/kycs/verify.tmpl
+  - admin/withdraw-money.tmpl
+
   admin/verify:
   - admin/_layouts/admin.tmpl
   - admin/_components/sidebar.tmpl

@@ -570,8 +570,8 @@ func signupPostHandler(ctx *hime.Context) error {
 		f.Add("ErrLName", "ไม่อนุญาตคำเฉพาะใน: นามสกุล")
 	}
 
-	if !govalidator.IsEmail(email) {
-		f.Add("ErrEmail", "อีเมลไม่ถูกรูปแบบ")
+	if utf8.RuneCountInString(email) == 10 {
+		f.Add("ErrEmail", "เบอร์โทรศัพท์ไม่ถูกรูปแบบ")
 	}
 
 	if utf8.RuneCountInString(password) < 8 || utf8.RuneCountInString(password) > 20 {

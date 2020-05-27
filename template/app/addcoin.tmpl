@@ -25,15 +25,25 @@
 								<div class="invalid-feedback">{{.Flash.Get "ErrBio"}}</div>
 						</div>
 						<div class="form-group">
-							<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">จำนวนเงิน</p>
-							<input type="text" class="form-control" name="wallet" placeholder="เติมเงิน" value="" required>
+							<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">ยอดเงินที่สามารถถอนได้</p>
+							<input type="text" class="form-control" name="oldbonus" value="{{.User.WithdrawRate}}" disabled placeholder="เติมโบนัส" required>
+							<div class="invalid-feedback">{{.Flash.Get "ErrBio"}}</div>
+						</div>
+						<div class="form-group">
+							<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">เติมจำนวนเงิน</p>
+							<input type="text" class="form-control" name="wallet" placeholder="เติมเงิน" value="">
 							<!-- <div class="invalid-feedback fs-16" style="color: red;">{{.Flash.Get "Errors"}}</div> -->
 						</div>
 						<div class="form-group">
-								<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">จำนวนเงินโบนัส</p>
-								<input type="text" class="form-control" name="bonus" value="" placeholder="เติมโบนัส" >
+								<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">เติมจำนวนเงินโบนัส</p>
+								<input type="text" class="form-control" name="bonus" value="" placeholder="เติมโบนัส">
 								<!-- <div class="invalid-feedback">{{.Flash.Get "Errors"}}</div> -->
 						</div>
+						<div class="form-group">
+							<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">เติมจำนวนเงินถอน</p>
+							<input type="text" class="form-control" name="withdrawrate" value="{{.User.WithdrawRate}}" placeholder="จำนวนที่ถอนออกได้">
+							<!-- <div class="invalid-feedback">{{.Flash.Get "Errors"}}</div> -->
+					</div>
 						{{if .Flash.Has "Success"}}
 						<div class="alert alert-success fs-14">
 							{{.Flash.Get "Success"}}
