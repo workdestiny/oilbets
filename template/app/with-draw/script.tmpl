@@ -66,6 +66,8 @@ new Vue({
 			nextID: {{.NextLoad}},
 			noMore: false,
 			routeEmailVerify: {{route "ajax.profile.verify.email"}},
+			amount: 0,
+			withDraw: false,
 			verify: {
 				email: '',
 				password: '',
@@ -140,11 +142,11 @@ new Vue({
 		},
 
 		changeSomeThing() {
-			if(this.firstName != this.oldFirstName || this.lastName != this.oldLastName || this.changePassword == true || this.oldEmail != this.newEmail || this.newOwner != this.oldOwner || this.newNumber != this.oldNumber || this.newBank != this.oldBank) {
-				this.editAccount = true
-			} else {
-				this.editAccount = false
-			}
+			 if(this.firstName != this.oldFirstName || this.lastName != this.oldLastName || this.changePassword == true || this.oldEmail != this.newEmail || this.newOwner != this.oldOwner || this.newNumber != this.oldNumber || this.newBank != this.oldBank) {
+			 	this.editAccount = true
+			 } else {
+			 	this.editAccount = false
+			 }
 		},
 
 		verifyEmail() {
@@ -272,8 +274,10 @@ new Vue({
 		},
 
 		submitForm() {
-			if (this.newEmail != "") {
+			if (this.amount >= 100) {
 				this.$refs.formAccount.submit()
+			} else {
+				alert("ถอนเงินขั้นต่ำ100บาท")
 			}
 		},
 		submitWithDraw() {

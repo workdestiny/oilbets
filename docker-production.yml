@@ -2,7 +2,7 @@ version: '3'
 
 services:
   amld_production:
-    image: gcr.io/powerwork/powerwork-mpa-oil:89fd76aa29a015b0fb3ccb5772ed0993347bfb43
+    image: gcr.io/powerwork/powerwork-mpa-oil:37e0736542d94289cbea219e17fd5059229b7c8c
     container_name: menfin_production
     environment:
       - VIRTUAL_HOST=richboxclub.com,www.richboxclub.com

@@ -40,8 +40,7 @@ func userGetHandler(ctx *hime.Context) error {
 func UserWithdrawMoneyGetHandler(ctx *hime.Context) error {
 	user := getUser(ctx)
 	f := getSession(ctx).Flash()
-	f.Clear()
-	// log.Println(user.WithdrawRate)
+
 	canWithdraw := false
 	bookbank, _ := repository.GetUserBookbank(db, user.ID)
 
@@ -72,7 +71,12 @@ func UserWithdrawMoneyPostHandler(ctx *hime.Context) error {
 	f.Clear()
 
 	if user.Wallet < user.WithdrawRate {
-		f.Add("Errors", "จำนวนเงินขั้นต่ำในการถอนเงินไม่ีเพียงพอ")
+		f.Add("Errors", "จำนวนเงินขั้นต่ำในการถอนเงินไม่เพียงพอ")
+		return ctx.RedirectToGet()
+	}
+
+	if amount < 100 {
+		f.Add("Errors", "จำนวนเงินถอน ต้องมากกว่า 100 บาท และเงินถอนต้องเป็นจำนวนเต็มเท่านั้น")
 		return ctx.RedirectToGet()
 	}
 
@@ -99,6 +103,8 @@ func UserWithdrawMoneyPostHandler(ctx *hime.Context) error {
 		return nil
 	})
 	must(err)
+
+	service.SendWithdrawToDiscord(user, amount)
 
 	f.Add("Success", "ดำเนินการเรียบร้อยแล้ว กรุณารอเจ้าหน้าที่ถอนเงินสักครู่")
 	return ctx.RedirectToGet()

@@ -1030,9 +1030,18 @@ func adminAddCoinPostHandler(ctx *hime.Context) error {
 			return err
 		}
 
+		err = repository.SumMainWallet(tx, wallet)
+		if err != nil {
+			return err
+		}
+
 		return nil
 	})
 	must(err)
+
+	user := repository.GetUser(db, userID)
+	total := repository.GetMainWallet(db)
+	service.SendWelletToDiscord(user, wallet, total)
 
 	f.Add("Success", "เติมเงินเข้าระบบเรียบร้อยแล้ว")
 	return ctx.RedirectToGet()

@@ -885,6 +885,21 @@ func AddWalletAndBonusUser(q Queryer, userID string, wallet, bonus, withdrawrate
 	return nil
 }
 
+//SumMainWallet input wallet, bonus
+func SumMainWallet(q Queryer, wallet int64) error {
+
+	_, err := q.Exec(`
+		UPDATE wallet_total
+		   SET total = total + $1
+		 WHERE status = true;
+		 `, wallet)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // AdminListWithdrawMoney list user and WithdrawMoney
 func AdminListWithdrawMoney(q Queryer) ([]*entity.WithdrawMoneyModel, error) {
 
@@ -932,4 +947,20 @@ func AdminUpdateWithdrawMoney(q Queryer, id string) error {
 	}
 
 	return nil
+}
+
+//GetMainWallet get main wallet
+func GetMainWallet(q Queryer) int64 {
+
+	var wallet int64
+	err := q.QueryRow(`
+		SELECT total
+		  FROM wallet_total
+		 WHERE status = true;
+	`).Scan(&wallet)
+	if err != nil {
+		return wallet
+	}
+
+	return wallet
 }

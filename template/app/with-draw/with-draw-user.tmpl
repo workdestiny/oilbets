@@ -50,7 +50,8 @@
 											<div class="form-group col-12">
 												<label class="_cl-gray-11 _fw-600 fs-14" for="owner">จำนวนเงินถอน</label>
 												<input id="owner" class="form-control {{if .Flash.Has "Errors"}}is-invalid{{end}}"
-												name="amount" type="number" required>
+												name="amount" v-model="amount" @input="changeSomeThing" type="text" required>
+												<p class="_fw-600 fs-10 _mg-0" style="color: red;">***ถอนขั้นต่ำ 100  บาท***</p>
 												<div class="invalid-feedback">{{.Flash.Get "Errors"}}</div>
 												{{if .Flash.Has "Errors"}}
 													<div class="invalid-feedback">{{.Flash.Get "Errors"}}</div>
@@ -65,7 +66,7 @@
 
 										<div class="_dp-f _jtfct-fe _mgv-32">
 											<div v-cloak id="gtm-link" data-gtm-link="save_info">
-												<button type="button" class="fs-14 btn sw-btn _bgcl-yellow-5 _bgcl-yellow-4-hover _fw-600 _cl-white _bdrd-5px" type="submit" {{if eq .CanWithdraw false}}disabled{{end}} @click="submitForm">ถอนเงิน</button>
+												<button type="button" class="fs-14 btn sw-btn _bgcl-yellow-5 _bgcl-yellow-4-hover _fw-600 _cl-white _bdrd-5px" type="submit" {{if eq .CanWithdraw false}} disabled {{end}} @click="submitForm">ถอนเงิน</button>
 											</div>
 										</div>
 									</form>

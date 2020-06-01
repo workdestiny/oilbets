@@ -8,7 +8,7 @@ import (
 	"github.com/moonrhythm/hime"
 )
 
-const desc = ""
+const desc = "เว็บพนัน richboxclub ฝากถอนเงินด้วยระบบที่ทันสมัยที่สุด เกมการเดิมพันที่ไม่ซ้ำใคร รับรองจากผู้เล่นทั่วประเทศได้เงินจริงเพราะเรามีเจ้าหน้าที่ดูแลตลอด 24 ชั่วโมง พบกันที่ richboxclub.com ที่เดียว"
 
 func page(ctx *hime.Context) map[string]interface{} {
 	sess := getSession(ctx)
@@ -20,7 +20,7 @@ func page(ctx *hime.Context) map[string]interface{} {
 		x["Path"] = r.URL.Path
 	}
 
-	x["Tagline"] = "| bet"
+	x["Tagline"] = "| เว็บพนันออลไลน์ ฝาก ถอนไวได้เงินจริง ด้วยระบบใหม่ล่าสุด"
 	x["URL"] = "https://" + getHost(r) + r.RequestURI
 	x["Meta"] = map[string]string{
 		"Image":       "",
