@@ -231,17 +231,17 @@ func WalletAndBonus(price, wallet, bonus int64, status bool) (int64, int64) {
 		return wallet + price, bonus
 	}
 
-	sum := wallet - price
-	wallet = wallet - price
+	sum := bonus - price
+	bonus = bonus - price
 
 	if sum > 0 {
 		sum = 0
 	}
 
-	bonus = bonus + sum
+	wallet = wallet + sum
 
-	if wallet < 0 {
-		wallet = 0
+	if bonus < 0 {
+		bonus = 0
 	}
 
 	return wallet, bonus

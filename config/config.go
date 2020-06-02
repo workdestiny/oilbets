@@ -18,7 +18,7 @@ var (
 
 const (
 	//FrontbackWinrate is Win Rate 30% (game Frontback)
-	FrontbackWinrate = 30
+	FrontbackWinrate = 40
 	//LimitDiscover limit post
 	LimitDiscover = 12
 	//LimitPublic limit post
