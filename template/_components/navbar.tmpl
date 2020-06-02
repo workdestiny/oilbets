@@ -78,7 +78,7 @@
 							</div>
 							<div id="gtm-link" data-gtm-link="nbsi_dd_contact">
 								<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "withdraw.money"}}" target="_blank">
-									<i class="far fa-users _mgr-5 _cl-gray-10"></i>
+									<i class="far fa-coins _mgr-5 _cl-gray-10"></i>
 									ถอนเงิน
 								</a>
 							</div>
@@ -124,18 +124,26 @@
 							ตั้งค่าบัญชี
 						</a>
 					</div>
+					<div id="gtm-link" data-gtm-link="nbsi_dd_setting_account">
+						<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "withdraw.money"}}">
+							<i class="far fa-coins _mgr-5 _cl-gray-10"></i>
+							ถอนเงิน
+						</a>
+					</div>
 					<div id="gtm-link" data-gtm-link="nbsi_dd_contact">
 						<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "contact"}}" target="_blank">
 							<i class="far fa-users _mgr-5 _cl-gray-10"></i>
 							ติดต่อเรา
 						</a>
 					</div>
+					{{if .User.IsAdmin}}
 					<div id="gtm-link" data-gtm-link="nbsi_dd_contact">
 						<a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="{{route "admin.selectuser"}}" target="_blank">
 							<i class="far fa-tachometer-alt _mgr-5 _cl-gray-10"></i>
 							Dashboard
 						</a>
 					</div>
+					{{end}}
 					<!-- <a class="dropdown-item _pdv-10 _pdl-15 fs-14" href="#">ช่วยเหลือ</a> -->
 					<form class="dropdown-item _pdl-15" action="{{route "signout"}}" method="POST">
 						<div id="gtm-link" data-gtm-link="nbsi_dd_signout">
