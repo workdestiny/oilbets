@@ -570,7 +570,7 @@ func signupPostHandler(ctx *hime.Context) error {
 		f.Add("ErrLName", "ไม่อนุญาตคำเฉพาะใน: นามสกุล")
 	}
 
-	if utf8.RuneCountInString(email) == 10 {
+	if utf8.RuneCountInString(email) != 10 {
 		f.Add("ErrEmail", "เบอร์โทรศัพท์ไม่ถูกรูปแบบ")
 	}
 
