@@ -80,12 +80,12 @@ func forgotGetHandler(ctx *hime.Context) error {
 
 func resetpasswordGetHandler(ctx *hime.Context) error {
 
-	email := strings.ToLower(ctx.FormValue("email"))
+	//email := strings.ToLower(ctx.FormValue("email"))
 	code := ctx.FormValue("code")
 
-	if !govalidator.IsEmail(email) {
-		return ctx.RedirectTo("notfound")
-	}
+	// if !govalidator.IsEmail(email) {
+	// 	return ctx.RedirectTo("notfound")
+	// }
 
 	if code == "" {
 		return ctx.RedirectTo("notfound")
