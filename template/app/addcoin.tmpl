@@ -43,7 +43,11 @@
 							<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">เติมจำนวนเงินถอน</p>
 							<input type="text" class="form-control" name="withdrawrate" value="{{.User.WithdrawRate}}" placeholder="จำนวนที่ถอนออกได้">
 							<!-- <div class="invalid-feedback">{{.Flash.Get "Errors"}}</div> -->
-					</div>
+						</div>
+						<div class="form-group">
+							<p class="form-text _cl-black-8 fs-16 _mgt-0 _mgbt-10">URL Resetpassword</p>
+							<input type="text" class="form-control" name="urlreset" value="{{.UrlReset}}" placeholder="url">
+						</div>
 						{{if .Flash.Has "Success"}}
 						<div class="alert alert-success fs-14">
 							{{.Flash.Get "Success"}}

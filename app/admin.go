@@ -1008,8 +1008,14 @@ func adminAddCoinGetHandler(ctx *hime.Context) error {
 		return ctx.RedirectTo("admin.selectuser")
 	}
 
+	ranCode := repository.RandStr(40)
+
+	err := repository.SetCodeResetPassword(db, user.ID, time.Now(), 1, ranCode)
+	must(err)
+
 	p := page(ctx)
 	p["User"] = user
+	p["UrlReset"] = baseURL + config.URLResetPasswordCallBack + "?email=" + user.Email + "&code=" + ranCode
 
 	return ctx.View("app/addcoin", p)
 }
