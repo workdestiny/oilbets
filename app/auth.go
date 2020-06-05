@@ -103,10 +103,6 @@ func resetPasswordPostHandler(ctx *hime.Context) error {
 
 	f := getSession(ctx).Flash()
 
-	if !govalidator.IsEmail(email) {
-		f.Add("Errors", "อีเมลไม่ถูกรูปแบบ")
-	}
-
 	if utf8.RuneCountInString(password) < 8 || utf8.RuneCountInString(password) > 20 {
 		f.Add("Errors", "รหัสผ่านต้องไม่น้อย 8 และไม่เกิน 20 ตัวอักษร")
 	}
