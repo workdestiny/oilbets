@@ -24,10 +24,17 @@
 .item-topic-sm[disabled]{
   background-color: gold;
   color: black !important;
+  i {
+	color: black !important;
+	}
 }
 .item-topic-sm i:disabled,
 .item-topic-sm i[disabled]{
   color: black !important;
+  background-color: gold;
+  i {
+	color: black !important;
+}
 }
 
 .btnbet{
@@ -50,6 +57,17 @@
 
 	}
 }
+.disabled {
+
+}
+.btn-transparent {
+	background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
 .betwin {
 	z-index: 1;
 	width: 60%;
@@ -69,13 +87,13 @@
 
 @media (max-width: 768px) {
 	.betwin {
-		width: 100%;
+		width: 100% !important;
 	}
 	.betlose {
-		width: 100%;
+		width: 100% !important;
 	}
 
 	.refill {
-		width: 100%;
+		width: 100% !important;
 	}
   }

@@ -8,9 +8,11 @@ html {
 body {
   color: #fff;
   &.sw-body-primary {
-    background: #141414 repeat;
-    background-position: top center;
-    background-attachment: fixed;
+	// background: #141414 repeat;
+	background: url('https://storage.googleapis.com/powerwork-bucket/bg/BG-1-ps.jpg') no-repeat center center fixed;
+    // background-position: top center;
+	// background-attachment: fixed;
+	background-size: cover;
   }
 }
 

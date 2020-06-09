@@ -1,0 +1,61 @@
+._pdl-200 {
+	padding-left: 200px;
+}
+._pdr-200 {
+	padding-right: 200px;
+}
+
+.bg-copy{
+	background-image: url('https://storage.googleapis.com/powerwork-bucket/bg/%E0%B8%81%E0%B8%A3%E0%B8%AD%E0%B8%9A.png');
+	background-size: 100% 100%;
+}
+
+.descrition-kumpee {
+	top: 20px !important;
+	padding: 80px 60px;
+}
+
+.header-font {
+	font-size: 20px;
+}
+.detail-font {
+	font-size: 16px;
+}
+
+._mh-1200 {
+	min-height: 1200px;
+}
+
+@media (max-width: 992px) {
+	.header-font {
+		font-size: 18px;
+	}
+	.detail-font {
+		font-size: 14px;
+	}
+	.descrition-kumpee {
+		top: 0 !important;
+		padding: 60px 60px;
+	}
+  }
+
+@media (max-width: 568px) {
+	.header-font {
+		font-size: 12px;
+	}
+	.detail-font {
+		font-size: 10px;
+	}
+	.descrition-kumpee {
+		top: 30px !important;
+		padding: 60px 60px 60px 60px;
+	}
+	._mh-1200 {
+		min-height: 900px;
+	}
+}
+
+.stoke {
+	-webkit-text-stroke-width: 0.2px;
+	-webkit-text-stroke-color: #E2AE22;
+}

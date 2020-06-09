@@ -1,0 +1,91 @@
+
+{{define "main.style"}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.5/cropper.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/css/lightbox.min.css">
+{{end}}
+
+{{define "main.script"}}
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.5/cropper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/js/lightbox.min.js"></script>
+
+
+<script>
+new Vue({
+	el: '#app',
+	data() {
+		return {
+			coin: 0,
+			postBetURL: '/ajax/frontback/bet',
+			isCoin: 0,
+			showFrontback: "",
+			isLoading: false,
+		}
+	},
+
+	mounted() {
+
+	},
+
+	computed: {
+
+	},
+
+	methods: {
+		changeCoin(c, type, finalfrontback) {
+			$('.betwin').removeClass('show')
+			$('.betlose').removeClass('show')
+			$('.refill').removeClass('show')
+			if(this.isLoading) return
+
+			if (type === "coin" && c > 0) {
+				this.showFrontback = ""
+				this.coin = c
+				this.isCoin = c
+
+			} else if (type === "bet" && this.isCoin > 0 && this.coin > 0) {
+				this.showFrontback = ""
+				this.isLoading = true
+
+				axios.post('/ajax/frontback/bet', {
+					frontback: finalfrontback,
+					price: this.coin
+					}, { withCredentials: true }).then(res => {
+						console.log(res.data.noMoney)
+						if (res.data.noMoney) {
+							$('.refill').addClass('show')
+							this.coin = 0
+							this.isCoin = 0
+							this.isLoading = false
+							window.location.href = "https://www.richboxclub.com/wallet";
+						} else {
+							this.showFrontback = res.data.frontback
+								setTimeout(() => {
+									if(finalfrontback === res.data.frontback) {
+										$('.betwin').addClass('show')
+										$('.textwin').text("ได้รับเงินจำนวน " + res.data.price + " THB")
+
+									} else {
+										$('.betlose').addClass('show')
+									}
+									this.isLoading = false
+									$('.wallet').text(res.data.wallet +" THB")
+									$('.bonus').text(res.data.bonus +" THB")
+									$('.btn-transparent').attr("disabled", false)
+							},7000);
+						}
+					}).catch(error => {
+
+					})
+			}
+		},
+		closeAlertbet() {
+			$('.betwin').removeClass('show')
+			$('.betlose').removeClass('show')
+			$('.refill').removeClass('show')
+		}
+
+	}
+}) // end upload
+</script>
+{{end}}
