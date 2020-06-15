@@ -72,6 +72,8 @@ func (app *App) Handler() http.Handler {
 	m.Get(app.Hime.Route("withdraw.money"), isUser(hime.Handler(UserWithdrawMoneyGetHandler)))
 	m.Post(app.Hime.Route("withdraw.money"), isUser(hime.Handler(UserWithdrawMoneyPostHandler)))
 	m.Post(app.Hime.Route("ajax.frontback.bet"), isUser(hime.Handler(ajaxFrontbackBetPostHandler)))
+	m.Post(app.Hime.Route("ajax.highlow.bet"), isUser(hime.Handler(ajaxHighlowBetPostHandler)))
+	m.Post(app.Hime.Route("ajax.highlow.withdraw"), isUser(hime.Handler(ajaxHighlowBetWithdrawPostHandler)))
 
 	admin := httprouter.New()
 	admin.HandleMethodNotAllowed = false

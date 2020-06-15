@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/acoshift/pgsql"
 	"github.com/moonrhythm/hime"
@@ -43,7 +44,7 @@ func ajaxFrontbackBetPostHandler(ctx *hime.Context) error {
 		res.NoMoney = true
 		return ctx.Status(http.StatusOK).JSON(&res)
 	}
-
+	rand.Seed(time.Now().UnixNano())
 	frontback, err := repository.GetFrontback(db, req.Price)
 	if err == sql.ErrNoRows {
 		//new table
@@ -57,7 +58,7 @@ func ajaxFrontbackBetPostHandler(ctx *hime.Context) error {
 		cb.Price = req.Price
 
 		//bet random win lose
-		if rand.Intn(100) <= config.FrontbackWinrate {
+		if rand.Intn(100)+1 <= config.FrontbackWinrate {
 			c.Lose = 0
 			c.Win = 1
 			cb.Status = true
@@ -107,7 +108,7 @@ func ajaxFrontbackBetPostHandler(ctx *hime.Context) error {
 		cb.Price = req.Price
 
 		//bet random win lose
-		if rand.Intn(100) <= config.FrontbackWinrate {
+		if rand.Intn(100)+1 <= config.FrontbackWinrate {
 			c.Lose = 0
 			c.Win = 1
 			cb.Status = true
@@ -186,7 +187,7 @@ func ajaxFrontbackBetPostHandler(ctx *hime.Context) error {
 	cb.Price = req.Price
 
 	//bet random win lose
-	if rand.Intn(100) <= config.FrontbackWinrate {
+	if rand.Intn(100)+1 <= config.FrontbackWinrate {
 		frontback.Win = frontback.Win + 1
 		frontback.Lose = frontback.Lose - 1
 		cb.Status = true

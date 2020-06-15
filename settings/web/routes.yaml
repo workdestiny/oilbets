@@ -94,6 +94,8 @@ routes:
   ajax.gap.revenue.register: /ajax/gap/revenue/register
   ajax.topic.list: /ajax/topic/list
   ajax.frontback.bet: /ajax/frontback/bet
+  ajax.highlow.bet: /ajax/highlow/bet
+  ajax.highlow.withdraw: /ajax/highlow/withdraw
 
   # admin
   admin: /admin

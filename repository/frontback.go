@@ -12,7 +12,8 @@ func ListFrontbackUserBet(q Queryer, limit int) ([]entity.FrontbackUserBet, erro
 				   fb.frontback, fb.created_at, users.firstname, users.lastname
 			  FROM front_back_bet as fb
 		 LEFT JOIN users
-			    ON users.id = fb.user_id
+				ON users.id = fb.user_id
+			 WHERE fb.status = true
 		  ORDER BY fb.created_at DESC LIMIT $1
 		`, limit)
 	if err != nil {
