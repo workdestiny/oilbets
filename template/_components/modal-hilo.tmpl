@@ -1,0 +1,130 @@
+{{define "modal-hilo"}}
+<!-- Modal -->
+<div class="modal fade" id="modal-bet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title _cl-gray-10" id="exampleModalLabel">เลือกเลข</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<h6 class="_cl-gray-10 fs-26">เลข</h6>
+			<div v-if="type === 'one'" class="row">
+				<div class="_dp-f">
+					<button class="btn btn-info _mgr-10" value="3" @click="selectDice(3, price)" :disabled="dice === 3">1</button>
+					<button class="btn btn-info _mgr-10" value="9" @click="selectDice(9, price)" :disabled="dice === 9">1-2</button>
+					<button class="btn btn-info _mgr-10" value="10" @click="selectDice(10, price)" :disabled="dice === 10">1-3</button>
+					<button class="btn btn-info _mgr-10" value="11" @click="selectDice(11, price)" :disabled="dice === 11">1-4</button>
+					<button class="btn btn-info _mgr-10" value="12" @click="selectDice(12, price)" :disabled="dice === 12">1-5</button>
+					<button class="btn btn-info" value="13" @click="selectDice(13, price)" :disabled="dice === 13">1-6</button>
+				</div>
+			</div>
+
+			<div v-if="type === 'two'" class="row">
+				<div class="_dp-f">
+					<button class="btn btn-info _mgr-10" value="4" @click="selectDice(4, price)" :disabled="dice === 4">2</button>
+					<button class="btn btn-info _mgr-10" value="9" @click="selectDice(9, price)" :disabled="dice === 9">2-1</button>
+					<button class="btn btn-info _mgr-10" value="14" @click="selectDice(14, price)" :disabled="dice === 14">2-3</button>
+					<button class="btn btn-info _mgr-10" value="15" @click="selectDice(15, price)" :disabled="dice === 15">2-4</button>
+					<button class="btn btn-info _mgr-10" value="16" @click="selectDice(16, price)" :disabled="dice === 16">2-5</button>
+					<button class="btn btn-info _mgr-10" value="17" @click="selectDice(17, price)" :disabled="dice === 17">2-6</button>
+				</div>
+			</div>
+
+			<div v-if="type === 'three'" class="row">
+				<div class="_dp-f">
+					<button class="btn btn-info _mgr-10" value="5" @click="selectDice(5, price)" :disabled="dice === 5">3</button>
+					<button class="btn btn-info _mgr-10" value="10" @click="selectDice(10, price)" :disabled="dice === 10">3-1</button>
+					<button class="btn btn-info _mgr-10" value="14" @click="selectDice(14, price)" :disabled="dice === 14">3-2</button>
+					<button class="btn btn-info _mgr-10" value="18" @click="selectDice(18, price)" :disabled="dice === 18">3-4</button>
+					<button class="btn btn-info _mgr-10" value="19" @click="selectDice(19, price)" :disabled="dice === 19">3-5</button>
+					<button class="btn btn-info" value="20" @click="selectDice(20, price)" :disabled="dice === 20">3-6</button>
+				</div>
+			</div>
+
+			<div v-if="type === 'four'" class="row">
+				<div class="_dp-f">
+					<button class="btn btn-info _mgr-10" value="6" @click="selectDice(6, price)" :disabled="dice === 6">4</button>
+					<button class="btn btn-info _mgr-10" value="11" @click="selectDice(11, price)" :disabled="dice === 11">4-1</button>
+					<button class="btn btn-info _mgr-10" value="15" @click="selectDice(15, price)" :disabled="dice === 15">4-2</button>
+					<button class="btn btn-info _mgr-10" value="18" @click="selectDice(18, price)" :disabled="dice === 18">4-3</button>
+					<button class="btn btn-info _mgr-10" value="21" @click="selectDice(21, price)" :disabled="dice === 21">4-5</button>
+					<button class="btn btn-info _mgr-10" value="22" @click="selectDice(22, price)" :disabled="dice === 22">4-6</button>
+				</div>
+			</div>
+
+			<div v-if="type === 'five'" class="row">
+				<div class="_dp-f">
+					<button class="btn btn-info _mgr-10" value="7" @click="selectDice(7, price)" :disabled="dice === 7">5</button>
+					<button class="btn btn-info _mgr-10" value="12" @click="selectDice(12, price)" :disabled="dice === 12">5-1</button>
+					<button class="btn btn-info _mgr-10" value="16" @click="selectDice(16, price)" :disabled="dice === 16">5-2</button>
+					<button class="btn btn-info _mgr-10" value="19" @click="selectDice(19, price)" :disabled="dice === 19">5-3</button>
+					<button class="btn btn-info _mgr-10" value="21" @click="selectDice(21, price)" :disabled="dice === 21">5-4</button>
+					<button class="btn btn-info _mgr-10" value="23" @click="selectDice(23, price)" :disabled="dice === 23">5-6</button>
+
+				</div>
+			</div>
+
+			<div v-if="type === 'six'" class="row">
+				<div class="_dp-f">
+					<button class="btn btn-info _mgr-10" value="8" @click="selectDice(8, price)" :disabled="dice === 8">6</button>
+					<button class="btn btn-info _mgr-10" value="13" @click="selectDice(13, price)" :disabled="dice === 13">6-1</button>
+					<button class="btn btn-info _mgr-10" value="17" @click="selectDice(17, price)" :disabled="dice === 17">6-2</button>
+					<button class="btn btn-info _mgr-10" value="20" @click="selectDice(20, price)" :disabled="dice === 20">6-3</button>
+					<button class="btn btn-info _mgr-10" value="22" @click="selectDice(22, price)" :disabled="dice === 22">6-4</button>
+					<button class="btn btn-info _mgr-10" value="23" @click="selectDice(23, price)" :disabled="dice === 23">6-5</button>
+				</div>
+			</div>
+
+			<div v-if="type === 'hi'" class="row">
+					<div class="_dp-f">
+						<button class="btn btn-info _mgr-10" value="24" @click="selectDice(24, price)" :disabled="dice === 24">สูง 1</button>
+						<button class="btn btn-info _mgr-10" value="25" @click="selectDice(25, price)" :disabled="dice === 25">สูง 2</button>
+						<button class="btn btn-info _mgr-10" value="26" @click="selectDice(26, price)" :disabled="dice === 26">สูง 3</button>
+						<button class="btn btn-info _mgr-10" value="27" @click="selectDice(27, price)" :disabled="dice === 27">สูง 4</button>
+						<button class="btn btn-info _mgr-10" value="28" @click="selectDice(28, price)" :disabled="dice === 28">สูง 5</button>
+						<button class="btn btn-info _mgr-10" value="29" @click="selectDice(29, price)" :disabled="dice === 29">สูง 6</button>
+					</div>
+			</div>
+
+			<div v-if="type === 'lo'" class="row">
+					<div class="_dp-f">
+						<button class="btn btn-info _mgr-10" value="30" @click="selectDice(30, price)" :disabled="dice === 30">ต่ำ 1</button>
+						<button class="btn btn-info _mgr-10" value="31" @click="selectDice(31, price)" :disabled="dice === 31">ต่ำ 2</button>
+						<button class="btn btn-info _mgr-10" value="32" @click="selectDice(32, price)" :disabled="dice === 32">ต่ำ 3</button>
+						<button class="btn btn-info _mgr-10" value="33" @click="selectDice(33, price)" :disabled="dice === 33">ต่ำ 4</button>
+						<button class="btn btn-info _mgr-10" value="34" @click="selectDice(34, price)" :disabled="dice === 34">ต่ำ 5</button>
+						<button class="btn btn-info _mgr-10" value="35" @click="selectDice(35, price)" :disabled="dice === 35">ต่ำ 6</button>
+					</div>
+			</div>
+
+			<div v-if="type === 'hilo'" class="row">
+				<div class="_dp-f">
+					<button class="btn btn-info _mgr-10" value="1" @click="selectDice(1, price)" :disabled="dice === 1">ต่ำ</button>
+
+					<button class="btn btn-info _mgr-10" value="0" @click="selectDice(0, price)" :disabled="dice === 0">สูง</button>
+
+					<button class="btn btn-info" value="2" @click="selectDice(2, price)" :disabled="dice === 2">11 ไฮโล</button>
+				</div>
+			</div>
+
+			<h6 v-if="dice !== ''" class="_cl-gray-10 fs-26">ราคา</h6>
+			<div v-if="dice !== ''" class="row">
+				<div class="_dp-f">
+					<button class="btn btn-info _mgr-10" value="0" @click="selectDice(dice, 50)" :disabled="price === 50">50</button>
+					<button class="btn btn-info _mgr-10" value="1" @click="selectDice(dice, 100)" :disabled="price === 100">100</button>
+					<button class="btn btn-info" value="2" @click="selectDice(dice, 200)" :disabled="price === 200">200</button>
+				</div>
+			</div>
+
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" @click="closeModal">ปิด</button>
+			<button type="button" class="btn btn-primary" @click="submitBet">ตกลง</button>
+		</div>
+		</div>
+	</div>
+</div>
+{{end}}

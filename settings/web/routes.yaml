@@ -26,6 +26,8 @@ routes:
   # app
   discover: /discover
   front.back: /game/headtails
+  highlow: /game/hilo
+  highlow.get: /game/hilo/
   follow: /follow
   liked: /liked
   category.get: /category/
@@ -95,6 +97,7 @@ routes:
   ajax.topic.list: /ajax/topic/list
   ajax.frontback.bet: /ajax/frontback/bet
   ajax.highlow.bet: /ajax/highlow/bet
+  ajax.highlow.bet.update: /ajax/highlow/bet/update
   ajax.highlow.withdraw: /ajax/highlow/withdraw
 
   # admin

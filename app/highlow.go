@@ -9,47 +9,55 @@ import (
 
 	"github.com/acoshift/pgsql"
 	"github.com/moonrhythm/hime"
+	"github.com/workdestiny/oilbets/config"
 	"github.com/workdestiny/oilbets/entity"
 	"github.com/workdestiny/oilbets/repository"
 )
 
 func highlowBetGetHandler(ctx *hime.Context) error {
 
-	//ข้อมูลกระดาน
-	highlow, err := repository.GetLiveHighlow(db)
+	id, err := repository.GetLiveHighlowID(db)
 	must(err)
 
-	//เวลา
-	countdown := highlowDuration(highlow.CreatedAt, highlow.Open)
+	return ctx.RedirectTo("highlow.get", id)
+}
 
-	//จำนวนผู้เล่น
-	count, err := repository.CheckCountHighlowUserBet(db, highlow.ID)
+func getHighlowBetGetHandler(ctx *hime.Context) error {
+	highlowID := getParams(ctx, "highlowID")
+	//ข้อมูลกระดาน
+	highlow, err := repository.GetLiveHighlow(db, highlowID)
+	if err == sql.ErrNoRows {
+		return ctx.RedirectTo("notfound")
+	}
 	must(err)
 
 	//รายการผู้เล่น
 	listUser, err := repository.ListHighlowUserBet(db, highlow.ID, 20)
 	must(err)
 
-	//รายการเล่น
-	listMyBet, err := repository.ListHighlowMyBet(db, highlow.ID, GetMyID(ctx), 20)
+	//เช็คจำนวนเงินในระบบ hl
+	hMoney, err := repository.GetHasMoney(db, getUserID(ctx))
 	must(err)
 
 	p := page(ctx)
 	p["Highlow"] = highlow
-	p["Countdown"] = countdown
-	p["CountUser"] = count
 	p["ListUser"] = listUser
-	p["ListMyBet"] = listMyBet
+	p["HasMoney"] = hMoney
+	p["User"] = getUser(ctx)
 
 	return ctx.View("app/highlow", p)
 }
 
-func highlowDuration(t time.Time, open bool) int64 {
+func highlowDuration(t time.Time, open bool) int {
 	if !open {
-		return 300
+		return config.HighlowCountdown
 	}
-	now := time.Now()
-	return now.Sub(t).Nanoseconds()
+	now := time.Now().UTC()
+	iv := config.HighlowCountdown - now.Sub(t).Seconds()
+	if iv <= 0 {
+		iv = 0
+	}
+	return int(iv)
 }
 
 func ajaxHighlowBetPostHandler(ctx *hime.Context) error {
@@ -135,9 +143,58 @@ func ajaxHighlowBetPostHandler(ctx *hime.Context) error {
 	return ctx.Status(http.StatusOK).JSON(&res)
 }
 
+func ajaxHighlowBetUpdatePostHandler(ctx *hime.Context) error {
+
+	user := getUser(ctx)
+	if user.ID == "" {
+		return ctx.Status(http.StatusBadRequest).JSON(nil)
+	}
+
+	var req entity.RequestHighlowBet
+	err := bindJSON(ctx.Request.Body, &req)
+	if err != nil {
+		return ctx.Status(http.StatusBadRequest).JSON(nil)
+	}
+
+	highlow, err := repository.GetLiveHighlow(db, req.HighlowID)
+	if err == sql.ErrNoRows {
+		return ctx.Status(http.StatusBadRequest).JSON(nil)
+	}
+	must(err)
+
+	var res entity.ResponseHighlowUpdate
+	//เวลา
+	countdown := highlowDuration(highlow.UpdatedAt, highlow.Open)
+
+	//จำนวนผู้เล่น
+	count, err := repository.CheckCountHighlowUserBet(db, highlow.ID)
+	must(err)
+
+	//รายการผู้เล่น
+	listUser, err := repository.ListHighlowUserBet(db, highlow.ID, 20)
+	must(err)
+
+	//รายการเล่น
+	listMyBet, err := repository.ListHighlowMyBet(db, highlow.ID, user.ID, 20)
+	must(err)
+
+	//เช็คจำนวนเงินในระบบ hl
+	hMoney, err := repository.GetHasMoney(db, user.ID)
+	must(err)
+
+	res.Highlow = highlow
+	res.Countdown = countdown
+	res.CountUser = count
+	res.ListUser = listUser
+	res.ListMyBet = listMyBet
+	res.HasMoney = hMoney
+
+	return ctx.Status(http.StatusOK).JSON(&res)
+}
+
 //BotAlgorithmHighlowBet bot hl
 func BotAlgorithmHighlowBet(highlowID string) {
-	time.Sleep(30 * time.Second)
+	time.Sleep(config.HighlowCountdown * time.Second)
 
 	//ออกผล
 	rand.Seed(time.Now().UnixNano())
@@ -499,27 +556,20 @@ func ajaxHighlowBetWithdrawPostHandler(ctx *hime.Context) error {
 		return ctx.Status(http.StatusBadRequest).JSON(nil)
 	}
 
-	var req entity.RequestHighlowBet
-	err := bindJSON(ctx.Request.Body, &req)
-	if err != nil {
-		return ctx.Status(http.StatusBadRequest).JSON(nil)
-	}
-
-	_, err = repository.GetHighlow(db, req.HighlowID)
-	if err != nil {
-		return ctx.Status(http.StatusBadRequest).JSON(nil)
-	}
-
 	var res entity.ResponseFrontback
-	err = pgsql.RunInTx(db, nil, func(tx *sql.Tx) error {
+	err := pgsql.RunInTx(db, nil, func(tx *sql.Tx) error {
 
 		//get total sum money user
-		total, err := repository.GetTotalWinHighlowMyBet(tx, req.HighlowID, user.ID)
+		total, err := repository.GetTotalWinHighlowMyBet(tx, user.ID)
 		if err != nil {
 			return err
 		}
 
-		res.Wallet = total
+		if total == 0 {
+			return NewAppError("total0")
+		}
+
+		res.Wallet = total + user.Wallet
 
 		//update is withdraw
 		err = repository.UpdateHighlowIsWithdrawUser(tx, user.ID)
@@ -535,6 +585,9 @@ func ajaxHighlowBetWithdrawPostHandler(ctx *hime.Context) error {
 
 		return nil
 	})
+	if IsAppError(err) {
+		return ctx.Status(http.StatusOK).JSON(&res)
+	}
 	must(err)
 	return ctx.Status(http.StatusOK).JSON(&res)
 }

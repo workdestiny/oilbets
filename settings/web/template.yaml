@@ -11,7 +11,11 @@ preload:
   - _components/footer-menu.tmpl
 
 list:
-
+  app/highlow:
+  - _layout/app.tmpl
+  - _components/modal-hilo.tmpl
+  - app/highlow/highlow.tmpl
+  - app/highlow/script.tmpl
   app/frontback:
   - _layout/app.tmpl
   - app/front-back/front-back.tmpl

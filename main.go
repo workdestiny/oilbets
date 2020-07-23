@@ -78,6 +78,7 @@ func main() {
 	log.Println(db)
 
 	app.RunRedisX(redisClient, db)
+	app.RunBotAlgorithmHighlowBet(db)
 
 	appHime := hime.New()
 

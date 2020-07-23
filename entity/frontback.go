@@ -40,3 +40,5 @@ type ResponseFrontback struct {
 	Frontback bool  `json:"frontback"`
 	NoMoney   bool  `json:"noMoney"`
 }
+
+

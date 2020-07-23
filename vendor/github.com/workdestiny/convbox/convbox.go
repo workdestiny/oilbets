@@ -12,7 +12,6 @@ const (
 
 //ShortNumber use convert number (integer) to short number (string)
 func ShortNumber(count int) string {
-
 	number := strconv.Itoa(count)
 	if len(number) > 6 {
 		m := number[0 : len(number)-6]

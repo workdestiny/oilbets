@@ -22,6 +22,7 @@ func page(ctx *hime.Context) map[string]interface{} {
 
 	x["Tagline"] = "| เว็บพนันออลไลน์ ฝาก ถอนไวได้เงินจริง ด้วยระบบใหม่ล่าสุด"
 	x["URL"] = "https://" + getHost(r) + r.RequestURI
+	x["Domain"] = "http://" + getHost(r)
 	x["Meta"] = map[string]string{
 		"Image":       "",
 		"Description": desc,

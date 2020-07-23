@@ -5,12 +5,15 @@ import (
 	"database/sql"
 	"encoding/gob"
 	"log"
+	"math/rand"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/acoshift/csrf"
 	"github.com/acoshift/httprouter"
 	"github.com/acoshift/middleware"
+	"github.com/acoshift/pgsql"
 	"github.com/acoshift/webstatic"
 
 	"github.com/go-redis/redis"
@@ -18,6 +21,7 @@ import (
 	"github.com/moonrhythm/session"
 	"github.com/workdestiny/oilbets/config"
 	"github.com/workdestiny/oilbets/entity"
+	"github.com/workdestiny/oilbets/repository"
 )
 
 // Handler is return Handler
@@ -69,10 +73,13 @@ func (app *App) Handler() http.Handler {
 	m.Get(app.Hime.Route("notfound"), hime.Handler(notFoundHandler))
 	m.Get(app.Hime.Route("account"), isUser(hime.Handler(userGetHandler)))
 	m.Post(app.Hime.Route("account"), isUser(hime.Handler(userPostHandler)))
+	m.Get(app.Hime.Route("highlow"), isUser(hime.Handler(highlowBetGetHandler)))
+	m.Get(app.Hime.Route("highlow.get", ":highlowID"), isUser(hime.Handler(getHighlowBetGetHandler)))
 	m.Get(app.Hime.Route("withdraw.money"), isUser(hime.Handler(UserWithdrawMoneyGetHandler)))
 	m.Post(app.Hime.Route("withdraw.money"), isUser(hime.Handler(UserWithdrawMoneyPostHandler)))
 	m.Post(app.Hime.Route("ajax.frontback.bet"), isUser(hime.Handler(ajaxFrontbackBetPostHandler)))
 	m.Post(app.Hime.Route("ajax.highlow.bet"), isUser(hime.Handler(ajaxHighlowBetPostHandler)))
+	m.Post(app.Hime.Route("ajax.highlow.bet.update"), isUser(hime.Handler(ajaxHighlowBetUpdatePostHandler)))
 	m.Post(app.Hime.Route("ajax.highlow.withdraw"), isUser(hime.Handler(ajaxHighlowBetWithdrawPostHandler)))
 
 	admin := httprouter.New()
@@ -220,4 +227,364 @@ func RunRedisX(rds *redis.Client, postgre *sql.DB) {
 	}
 
 	log.Println("Init Redis Success!!")
+}
+
+//RunBotAlgorithmHighlowBet bot hl
+func RunBotAlgorithmHighlowBet(postgre *sql.DB) {
+	highlowID, err := repository.GetLiveOpenHighlowID(postgre)
+	if err == sql.ErrNoRows {
+		return
+	}
+	must(err)
+	//ออกผล
+	rand.Seed(time.Now().UnixNano())
+	r1 := rand.Intn(6) + 1
+	r2 := rand.Intn(6) + 1
+	r3 := rand.Intn(6) + 1
+
+	//ปิดกระดาน
+	err = pgsql.RunInTx(postgre, nil, func(tx *sql.Tx) error {
+
+		err := repository.UpdateCloseHighlow(tx, highlowID, r1, r2, r3)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	must(err)
+
+	log.Println(r1, r2, r3)
+
+	//ตรวจผลรางวัล
+	var lucky []int
+	//สูง ต่ำ 11
+	sum := r1 + r2 + r3
+	if sum == 11 {
+		lucky = append(lucky, 2)
+	}
+	if sum < 11 {
+		lucky = append(lucky, 1)
+		//ต่ำตรงเลข
+		if r1 == 1 || r2 == 1 || r3 == 1 {
+			lucky = append(lucky, 30)
+		}
+		if r1 == 2 || r2 == 2 || r3 == 2 {
+			lucky = append(lucky, 31)
+		}
+		if r1 == 3 || r2 == 3 || r3 == 3 {
+			lucky = append(lucky, 32)
+		}
+		if r1 == 4 || r2 == 4 || r3 == 4 {
+			lucky = append(lucky, 33)
+		}
+		if r1 == 5 || r2 == 5 || r3 == 5 {
+			lucky = append(lucky, 34)
+		}
+		if r1 == 6 || r2 == 6 || r3 == 6 {
+			lucky = append(lucky, 35)
+		}
+	}
+	if sum > 11 {
+		lucky = append(lucky, 0)
+		//สูงตรงเลข
+		if r1 == 1 || r2 == 1 || r3 == 1 {
+			lucky = append(lucky, 24)
+		}
+		if r1 == 2 || r2 == 2 || r3 == 2 {
+			lucky = append(lucky, 25)
+		}
+		if r1 == 3 || r2 == 3 || r3 == 3 {
+			lucky = append(lucky, 26)
+		}
+		if r1 == 4 || r2 == 4 || r3 == 4 {
+			lucky = append(lucky, 27)
+		}
+		if r1 == 5 || r2 == 5 || r3 == 5 {
+			lucky = append(lucky, 28)
+		}
+		if r1 == 6 || r2 == 6 || r3 == 6 {
+			lucky = append(lucky, 29)
+		}
+	}
+
+	//ตรงเลข
+	if r1 == 1 || r2 == 1 || r3 == 1 {
+		lucky = append(lucky, 3)
+	}
+	if r1 == 2 || r2 == 2 || r3 == 2 {
+		lucky = append(lucky, 4)
+	}
+	if r1 == 3 || r2 == 3 || r3 == 3 {
+		lucky = append(lucky, 5)
+	}
+	if r1 == 4 || r2 == 4 || r3 == 4 {
+		lucky = append(lucky, 6)
+	}
+	if r1 == 5 || r2 == 5 || r3 == 5 {
+		lucky = append(lucky, 7)
+	}
+	if r1 == 6 || r2 == 6 || r3 == 6 {
+		lucky = append(lucky, 8)
+	}
+
+	//โต๊ด
+	if r1 == 1 || r2 == 1 || r3 == 1 {
+		if r1 == 2 || r2 == 2 || r3 == 2 {
+			lucky = append(lucky, 9)
+		}
+		if r1 == 3 || r2 == 3 || r3 == 3 {
+			lucky = append(lucky, 10)
+		}
+		if r1 == 4 || r2 == 4 || r3 == 4 {
+			lucky = append(lucky, 11)
+		}
+		if r1 == 5 || r2 == 5 || r3 == 5 {
+			lucky = append(lucky, 12)
+		}
+		if r1 == 6 || r2 == 6 || r3 == 6 {
+			lucky = append(lucky, 13)
+		}
+	}
+
+	if r1 == 2 || r2 == 2 || r3 == 2 {
+		if r1 == 1 || r2 == 1 || r3 == 1 {
+			lucky = append(lucky, 9)
+		}
+		if r1 == 3 || r2 == 3 || r3 == 3 {
+			lucky = append(lucky, 14)
+		}
+		if r1 == 4 || r2 == 4 || r3 == 4 {
+			lucky = append(lucky, 15)
+		}
+		if r1 == 5 || r2 == 5 || r3 == 5 {
+			lucky = append(lucky, 16)
+		}
+		if r1 == 6 || r2 == 6 || r3 == 6 {
+			lucky = append(lucky, 17)
+		}
+	}
+
+	if r1 == 3 || r2 == 3 || r3 == 3 {
+		if r1 == 1 || r2 == 1 || r3 == 1 {
+			lucky = append(lucky, 10)
+		}
+		if r1 == 2 || r2 == 2 || r3 == 2 {
+			lucky = append(lucky, 14)
+		}
+		if r1 == 4 || r2 == 4 || r3 == 4 {
+			lucky = append(lucky, 18)
+		}
+		if r1 == 5 || r2 == 5 || r3 == 5 {
+			lucky = append(lucky, 19)
+		}
+		if r1 == 6 || r2 == 6 || r3 == 6 {
+			lucky = append(lucky, 20)
+		}
+	}
+
+	if r1 == 4 || r2 == 4 || r3 == 4 {
+		if r1 == 1 || r2 == 1 || r3 == 1 {
+			lucky = append(lucky, 11)
+		}
+		if r1 == 2 || r2 == 2 || r3 == 2 {
+			lucky = append(lucky, 15)
+		}
+		if r1 == 3 || r2 == 3 || r3 == 3 {
+			lucky = append(lucky, 19)
+		}
+		if r1 == 5 || r2 == 5 || r3 == 5 {
+			lucky = append(lucky, 21)
+		}
+		if r1 == 6 || r2 == 6 || r3 == 6 {
+			lucky = append(lucky, 22)
+		}
+	}
+
+	if r1 == 5 || r2 == 5 || r3 == 5 {
+		if r1 == 1 || r2 == 1 || r3 == 1 {
+			lucky = append(lucky, 12)
+		}
+		if r1 == 2 || r2 == 2 || r3 == 2 {
+			lucky = append(lucky, 16)
+		}
+		if r1 == 3 || r2 == 3 || r3 == 3 {
+			lucky = append(lucky, 19)
+		}
+		if r1 == 4 || r2 == 4 || r3 == 4 {
+			lucky = append(lucky, 21)
+		}
+		if r1 == 6 || r2 == 6 || r3 == 6 {
+			lucky = append(lucky, 23)
+		}
+	}
+
+	if r1 == 6 || r2 == 6 || r3 == 6 {
+		if r1 == 1 || r2 == 1 || r3 == 1 {
+			lucky = append(lucky, 13)
+		}
+		if r1 == 2 || r2 == 2 || r3 == 2 {
+			lucky = append(lucky, 17)
+		}
+		if r1 == 3 || r2 == 3 || r3 == 3 {
+			lucky = append(lucky, 20)
+		}
+		if r1 == 4 || r2 == 4 || r3 == 4 {
+			lucky = append(lucky, 22)
+		}
+		if r1 == 5 || r2 == 5 || r3 == 5 {
+			lucky = append(lucky, 23)
+		}
+	}
+
+	log.Println("Lucky : ", lucky)
+
+	//ตรวจคนถูกรางวัล และให้รางวัล
+	for _, v := range lucky {
+		//case ตัวเลข 3 - 8
+		if v == 3 || v == 4 || v == 5 || v == 6 || v == 7 || v == 8 {
+			//เปลี่ยนสถานะ รายการที่ชนะ
+			vSum := 1
+			if v == 3 {
+				if r1 == 1 {
+					vSum++
+				}
+				if r2 == 1 {
+					vSum++
+				}
+				if r3 == 1 {
+					vSum++
+				}
+			}
+			if v == 4 {
+				if r1 == 2 {
+					vSum++
+				}
+				if r2 == 2 {
+					vSum++
+				}
+				if r3 == 2 {
+					vSum++
+				}
+			}
+			if v == 5 {
+				if r1 == 3 {
+					vSum++
+				}
+				if r2 == 3 {
+					vSum++
+				}
+				if r3 == 3 {
+					vSum++
+				}
+			}
+			if v == 6 {
+				if r1 == 4 {
+					vSum++
+				}
+				if r2 == 4 {
+					vSum++
+				}
+				if r3 == 4 {
+					vSum++
+				}
+			}
+			if v == 7 {
+				if r1 == 5 {
+					vSum++
+				}
+				if r2 == 5 {
+					vSum++
+				}
+				if r3 == 5 {
+					vSum++
+				}
+			}
+			if v == 8 {
+				if r1 == 6 {
+					vSum++
+				}
+				if r2 == 6 {
+					vSum++
+				}
+				if r3 == 6 {
+					vSum++
+				}
+			}
+			//อัพเดทคนถูกรางวัล
+			err := pgsql.RunInTx(postgre, nil, func(tx *sql.Tx) error {
+
+				err := repository.UpdateWinNumberHighlowBet(tx, highlowID, v, vSum)
+				if err != nil {
+					return err
+				}
+				return nil
+			})
+			log.Println(err)
+			must(err)
+		}
+
+		//case สูงต่ำ 0, 1
+		if v == 0 || v == 1 {
+			//อัพเดทคนถูกรางวัล
+			err := pgsql.RunInTx(postgre, nil, func(tx *sql.Tx) error {
+
+				err := repository.UpdateWinHLHighlowBet(tx, highlowID, v)
+				if err != nil {
+					return err
+				}
+				return nil
+			})
+			must(err)
+			log.Println(err)
+		}
+
+		//case 11
+		if v == 2 {
+			//อัพเดทคนถูกรางวัล
+			err := pgsql.RunInTx(postgre, nil, func(tx *sql.Tx) error {
+
+				err := repository.UpdateWin11HighlowBet(tx, highlowID, v)
+				if err != nil {
+					return err
+				}
+				return nil
+			})
+			must(err)
+			log.Println(err)
+		}
+
+		//case โต๊ด
+		if v == 9 || v == 10 || v == 11 || v == 12 || v == 13 || v == 14 || v == 15 || v == 16 || v == 17 || v == 18 || v == 19 || v == 20 || v == 21 || v == 22 || v == 23 {
+			//อัพเดทคนถูกรางวัล
+			err := pgsql.RunInTx(postgre, nil, func(tx *sql.Tx) error {
+
+				err := repository.UpdateDuoNumberHighlowBet(tx, highlowID, v)
+				if err != nil {
+					return err
+				}
+				return nil
+			})
+			must(err)
+			log.Println(err)
+		}
+
+		//สูงต่ำเลข
+		if v == 24 || v == 25 || v == 26 || v == 27 || v == 28 || v == 29 || v == 30 || v == 31 || v == 32 || v == 33 || v == 34 || v == 35 {
+			//อัพเดทคนถูกรางวัล
+			err := pgsql.RunInTx(postgre, nil, func(tx *sql.Tx) error {
+
+				err := repository.UpdateHLNumberHighlowBet(tx, highlowID, v)
+				if err != nil {
+					return err
+				}
+				return nil
+			})
+			must(err)
+			log.Println(err)
+		}
+	}
+
+	//เปิดกระดานต่อไป
+	_, err = repository.CreateHighlow(postgre)
+	must(err)
 }

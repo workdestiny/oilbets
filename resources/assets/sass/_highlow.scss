@@ -1,0 +1,323 @@
+
+.dice{
+	// background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSB2_wWEb2Xio377CAAw1dbnuJ-gFvk2kxZNAVsn7lVWrSz_nWM&usqp=CAU');
+	// background-size: 100% 100%;
+	cursor: pointer;
+	transition: .5s ease;
+	padding: 3px;
+	.hilo-coin {
+		position: absolute;
+		top: 35%;
+		right: 35%;
+		left: 35%;
+		bottom: 35%;
+		width: 50px;
+		height: 50px;
+		text-align: center;
+		.money {
+			position: absolute;
+			left: 30%;
+			right: 30%;
+			top: 30%;
+			bottom: 30%;
+			font-size: 14px;
+		}
+	}
+	.box {
+		z-index: 0;
+	}
+	.size-bank {
+		background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/card/Cash-2.png');
+		background-size: 100% 100%;
+		width: 50px;
+		max-height: 30px;
+	}
+	.right-dice {
+		position: absolute;
+		right: -20px;
+		top: 45%;
+		z-index: 1;
+	}
+	.bottom-dice {
+		position: absolute;
+		left: 43%;
+		bottom: -8px;
+		transform: rotate(90deg);
+		z-index: 1;
+	}
+	.left-dice {
+		position: absolute;
+		left: 10px;
+		top:45%;
+		z-index: 1;
+	}
+	.right-bottom-dice {
+		position: absolute;
+		right: 15px;
+		bottom: 15px;
+		transform: rotate(35deg);
+		z-index: 1;
+	}
+	.right-top-dice {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+		transform: rotate(-35deg);
+		z-index: 1;
+	}
+	.left-top-dice {
+		position: absolute;
+		top: 15px;
+		left: 15px;
+		transform: rotate(35deg);
+		z-index: 1;
+	}
+	.left-bottom-dice {
+		position: absolute;
+		bottom: 15px;
+		left: 15px;
+		transform: rotate(-35deg);
+		z-index: 1;
+	}
+}
+
+.dice:nth-child(1) {
+	margin-top: 5px;
+}
+.dice:nth-child(2) {
+	margin-top: 5px;
+}
+.dice:nth-child(3) {
+	margin-top: 5px;
+}
+
+.top-left-bg {
+	background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/top/T-L-01.jpg');
+	background-size: 100% 100%;
+	min-height: 80px;
+}
+.top-right-bg {
+	background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/top/T-R-01.jpg');
+	background-size: 100% 100%;
+	min-height: 80px;
+}
+.low-side-bg {
+	background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/mobile-sidebar/Mobile-L.png');
+	background-size: 100% 100%;
+}
+.hi-side-bg {
+	background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/mobile-sidebar/Mobile-R.png');
+	background-size: 100% 100%;
+}
+.hi-bg {
+	background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/center/R-01.jpg');
+	background-size: 100% 100%;
+}
+
+.left-bg {
+	background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/center/L-01.jpg');
+	background-size: 100% 100%;
+}
+
+.center-bg {
+	background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/center/BG-01.jpg');
+	background-size: 100% 100%;
+	padding: 12px;
+}
+
+.show-result{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.bottom-left-bg {
+	background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/bottom/B-001.jpg');
+	background-size: 100% 100%;
+	min-height: 150px;
+}
+.bottom-center-bg {
+	background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/bottom/B-002.jpg');
+	background-size: 100% 100%;
+	min-height: 150px;
+}
+.bottom-right-bg {
+	background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/bottom/B-003.jpg');
+	background-size: 100% 100%;
+	min-height: 150px;
+}
+
+.btn-newboard {
+	display: none;
+}
+
+.board-mobile {
+	display: none;
+}
+
+.text-hi {
+	color: red;
+	font-size: 28px;
+}
+
+.text-11 {
+	color: black;
+	font-size: 28px;
+}
+
+.text-lo {
+	color: black;
+	font-size: 28px;
+}
+
+
+.hi {
+	position: absolute;
+	left: 33%;
+	top: -20px;
+
+}
+.lo {
+	position: absolute;
+	right: 33%;
+	top: -20px;
+}
+
+._mgt-side-board {
+	margin-top: 91px;
+}
+._mgt-side-board-mobile {
+	margin-top: 100px;
+}
+
+.side-dice {
+	display: flex;
+	cursor: pointer;
+	max-height: 42px !important;
+	line-height:50px;
+	align-self: center;
+	.side-text {
+		flex-grow: 1;
+	}
+	.icon-right{
+		width: 25px;
+		height: 25px;
+		align-self: center;
+		}
+}
+
+.side-dice:hover {
+	opacity: 0.2;
+}
+.text-count {
+	display: none;
+}
+.dice .n1{
+ display: none;
+}
+.dice .n12 {
+	display: none;
+}
+.dice .n13 {
+	display: none;
+}
+.dice .n14 {
+	display: none;
+}
+.dice .n15 {
+	display: none;
+}
+.dice .n16 {
+	display: none;
+}
+.dice .n2 {
+	display: none;
+}
+.dice .n23 {
+	display: none;
+}
+.dice .n24 {
+	display: none;
+}
+.dice .n25 {
+	display: none;
+}
+.dice .n26 {
+	display: none;
+}
+
+.dice .n3 {
+	display: none;
+}
+.dice .n34 {
+	display: none;
+}
+.dice .n35 {
+	display: none;
+}
+.dice .n36 {
+	display: none;
+}
+
+.dice .n4 {
+	display: none;
+}
+
+.dice .n45 {
+	display: none;
+}
+
+.dice .n46 {
+	display: none;
+}
+
+.dice .n5 {
+	display: none;
+}
+.dice .n56 {
+	display: none;
+}
+
+.dice .n6 {
+	display: none;
+}
+.text-lo{
+	display: none;
+}
+.text-hi{
+	display: none;
+}
+.text-11{
+	display: none;
+}
+
+.dice-result{
+	background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/bottom/B-001.jpg');
+	background-size: 100% 100%;
+}
+.dice-result-1 {
+
+}
+.dice-result-2 {
+
+}
+.dice-result-3 {
+}
+@media (max-width: 768px) {
+	.board-mobile {
+		display: flex;
+	}
+	.dice .size-bank {
+		width: 40px;
+		height: 25px;
+	}
+	.dice .bottom-dice {
+		left: 40%;
+	}
+
+	.hidden-mobile {
+		display: none;
+	}
+
+  }

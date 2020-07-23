@@ -4,63 +4,65 @@ import "time"
 
 //HighlowBet entity model
 type HighlowBet struct {
-	ID        string
-	Dice      int
-	Dice2     int
-	Dice3     int
-	Total     int64
-	Status    bool
-	Open      bool
-	CreatedAt time.Time
-	High      int64
-	Low       int64
-	N11       int64
-	N1        int64
-	N2        int64
-	N3        int64
-	N4        int64
-	N5        int64
-	N6        int64
-	N12       int64
-	N13       int64
-	N14       int64
-	N15       int64
-	N16       int64
-	N23       int64
-	N24       int64
-	N25       int64
-	N26       int64
-	N34       int64
-	N35       int64
-	N36       int64
-	N45       int64
-	N46       int64
-	N56       int64
-	High1     int64
-	High2     int64
-	High3     int64
-	High4     int64
-	High5     int64
-	High6     int64
-	Low1      int64
-	Low2      int64
-	Low3      int64
-	Low4      int64
-	Low5      int64
-	Low6      int64
+	ID        string    `json:"id"`
+	Dice      int       `json:"dice"`
+	Dice2     int       `json:"dice2"`
+	Dice3     int       `json:"dice3"`
+	Total     int64     `json:"total"`
+	Status    bool      `json:"status"`
+	Open      bool      `json:"open"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	High      string    `json:"high"`
+	Low       string    `json:"low"`
+	N11       string    `json:"n11"`
+	N1        string    `json:"n1"`
+	N2        string    `json:"n2"`
+	N3        string    `json:"n3"`
+	N4        string    `json:"n4"`
+	N5        string    `json:"n5"`
+	N6        string    `json:"n6"`
+	N12       string    `json:"n12"`
+	N13       string    `json:"n13"`
+	N14       string    `json:"n14"`
+	N15       string    `json:"n15"`
+	N16       string    `json:"n16"`
+	N23       string    `json:"n23"`
+	N24       string    `json:"n24"`
+	N25       string    `json:"n25"`
+	N26       string    `json:"n26"`
+	N34       string    `json:"n34"`
+	N35       string    `json:"n35"`
+	N36       string    `json:"n36"`
+	N45       string    `json:"n45"`
+	N46       string    `json:"n46"`
+	N56       string    `json:"n56"`
+	High1     string    `json:"high1"`
+	High2     string    `json:"high2"`
+	High3     string    `json:"high3"`
+	High4     string    `json:"high4"`
+	High5     string    `json:"high5"`
+	High6     string    `json:"high6"`
+	Low1      string    `json:"low1"`
+	Low2      string    `json:"low2"`
+	Low3      string    `json:"low3"`
+	Low4      string    `json:"low4"`
+	Low5      string    `json:"low5"`
+	Low6      string    `json:"low6"`
 }
 
 //HighlowUserBet is
 type HighlowUserBet struct {
-	ID        string
-	UserID    string
-	FirstName string
-	LastName  string
-	Price     int64
-	Bet       int64
-	Status    bool
-	Total     int64
-	CreatedAt time.Time
+	ID        string    `json:"id"`
+	UserID    string    `json:"user_id"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	Price     int64     `json:"price"`
+	Bet       int64     `json:"bet"`
+	BetString string    `json:"bet_string"`
+	Status    bool      `json:"status"`
+	Total     int64     `json:"total"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 //RequestHighlowBet model
@@ -80,6 +82,14 @@ type ResponseHighlow struct {
 	NoMoney   bool  `json:"noMoney"`
 }
 
+type ResponseHighlowUpdate struct {
+	Highlow   HighlowBet       `json:"highlow"`
+	Countdown int              `json:"countdown"`
+	CountUser int              `json:"count_user"`
+	ListUser  []HighlowUserBet `json:"list_user"`
+	ListMyBet []HighlowUserBet `json:"list_mybet"`
+	HasMoney  int              `json:"has_money"`
+}
 type TypeHighlowBet int
 
 const (

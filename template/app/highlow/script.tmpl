@@ -1,0 +1,359 @@
+
+{{define "main.style"}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.5/cropper.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/css/lightbox.min.css">
+{{end}}
+
+{{define "main.script"}}
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.5/cropper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/js/lightbox.min.js"></script>
+
+
+<script>
+var timeLeft =
+{{if eq .Highlow.Status false}}
+		{{if eq .Highlow.Open true}}
+			{{.Countdown}}
+		{{else}}
+			false
+		{{end}}
+
+{{else}}
+		true
+{{end}};
+var startPage = false;
+var timerId = setInterval(countdown, 1000);
+var timeSpam = 20;
+
+function countdown() {
+	if (timeLeft === true) {
+		clearTimeout(timerId);
+		$('.some-div').text('กระดานสิ้นสุดแล้ว');
+		ajaxRefresh();
+		$('.btn-newboard').show();
+	} else if(timeLeft === false){
+		clearTimeout(timerId);
+		$('.some-div').text('กำลังรอผู้เล่น...');
+	} else {
+		if (timeLeft == -1) {
+        clearTimeout(timerId);
+		ajaxRefresh();
+		$('.some-div').text('กระดานสิ้นสุดแล้ว');
+		$('.btn-newboard').show();
+        // doSomething();
+		} else if (timeSpam == 0) {
+			// ajax
+			$('.some-div').text(convertHMS(timeLeft));
+			ajaxRefresh();
+			console.log(timeLeft);
+			timeSpam = 20;
+			timeLeft--;
+		} else if (startPage === false) {
+			$('.some-div').text(convertHMS(timeLeft));
+			ajaxRefresh();
+			startPage = true
+			console.log('getData')
+			timeSpam--;
+			timeLeft--;
+		} else {
+			$('.some-div').text(convertHMS(timeLeft));
+			console.log(timeLeft);
+			timeSpam--;
+			timeLeft--;
+		}
+	}
+
+}
+
+
+function ajaxRefresh() {
+	var ajaxUpdate = {{route "ajax.highlow.bet.update"}};
+	var highlowID = {{.Highlow.ID}};
+	axios.post(ajaxUpdate, {
+		highlow_id: highlowID
+		}, { withCredentials: true }).then(res => {
+			timeLeft = res.data.countdown;
+			if(parseInt(res.data.highlow.n1) > 0) {
+				$('.n1').show();
+				$('.text-n1').text(res.data.highlow.n1);
+			}
+			if(parseInt(res.data.highlow.n12) > 0) {
+				$('.n12').show();
+				$('.text-n12').text(res.data.highlow.n12);
+			}
+			if(parseInt(res.data.highlow.n13) > 0) {
+				$('.n13').show();
+				$('.text-n13').text(res.data.highlow.n13);
+			}
+			if(parseInt(res.data.highlow.n14) > 0) {
+				$('.n14').show();
+				$('.text-n14').text(res.data.highlow.n14);
+			}
+			if(parseInt(res.data.highlow.n15) > 0) {
+				$('.n15').show();
+				$('.text-n15').text(res.data.highlow.n15);
+			}
+			if(parseInt(res.data.highlow.n16) > 0) {
+				$('.n16').show();
+				$('.text-n16').text(res.data.highlow.n16);
+			}
+			if(parseInt(res.data.highlow.n2) > 0) {
+				$('.n2').show();
+				$('.text-n2').text(res.data.highlow.n2);
+			}
+			if(parseInt(res.data.highlow.n23) > 0) {
+				$('.n23').show();
+				$('.text-n23').text(res.data.highlow.n23);
+			}
+			if(parseInt(res.data.highlow.n24) > 0) {
+				$('.n24').show();
+				$('.text-n24').text(res.data.highlow.n24);
+			}
+			if(parseInt(res.data.highlow.n25) > 0) {
+				$('.n25').show();
+				$('.text-n25').text(res.data.highlow.n25);
+			}
+			if(parseInt(res.data.highlow.n26) > 0) {
+				$('.n26').show();
+				$('.text-n26').text(res.data.highlow.n26);
+			}
+			if(parseInt(res.data.highlow.n3) > 0) {
+				$('.n3').show();
+				$('.text-n3').text(res.data.highlow.n3);
+			}
+			if(parseInt(res.data.highlow.n34) > 0) {
+				$('.n34').show();
+				$('.text-n34').text(res.data.highlow.n34);
+			}
+			if(parseInt(res.data.highlow.n35) > 0) {
+				$('.n35').show();
+				$('.text-n35').text(res.data.highlow.n35);
+			}
+			if(parseInt(res.data.highlow.n36) > 0) {
+				$('.n36').show();
+				$('.text-n36').text(res.data.highlow.n36);
+			}
+			if(parseInt(res.data.highlow.n4) > 0) {
+				$('.n4').show();
+				$('.text-n4').text(res.data.highlow.n4);
+			}
+			if(parseInt(res.data.highlow.n45) > 0) {
+				$('.n45').show();
+				$('.text-n45').text(res.data.highlow.n45);
+			}
+			if(parseInt(res.data.highlow.n46) > 0) {
+				$('.n46').show();
+				$('.text-n46').text(res.data.highlow.n46);
+			}
+			if(parseInt(res.data.highlow.n5) > 0) {
+				$('.n5').show();
+				$('.text-n5').text(res.data.highlow.n5);
+			}
+			if(parseInt(res.data.highlow.n56) > 0) {
+				$('.n56').show();
+				$('.text-n56').text(res.data.highlow.n56);
+			}
+			if(parseInt(res.data.highlow.n6) > 0) {
+				$('.n6').show();
+				$('.text-n6').text(res.data.highlow.n6);
+			}
+			if(parseInt(res.data.highlow.low1) > 0) {
+				$('.text-l-1').text(res.data.highlow.low1);
+			}
+			if(parseInt(res.data.highlow.low2) > 0) {
+				$('.text-l-2').text(res.data.highlow.low2);
+			}
+			if(parseInt(res.data.highlow.low3) > 0) {
+				$('.text-l-3').text(res.data.highlow.low3);
+			}
+			if(parseInt(res.data.highlow.low4) > 0) {
+				$('.text-l-4').text(res.data.highlow.low4);
+			}
+			if(parseInt(res.data.highlow.low5) > 0) {
+				$('.text-l-5').text(res.data.highlow.low5);
+			}
+			if(parseInt(res.data.highlow.low6) > 0) {
+				$('.text-l-6').text(res.data.highlow.low6);
+			}
+			if(parseInt(res.data.highlow.high1) > 0) {
+				$('.text-h-1').text(res.data.highlow.high1);
+			}
+
+			if(parseInt(res.data.highlow.high2) > 0) {
+				$('.text-h-2').text(res.data.highlow.high2);
+			}
+			if(parseInt(res.data.highlow.high3) > 0) {
+				$('.text-h-3').text(res.data.highlow.high3);
+			}
+
+			if(parseInt(res.data.highlow.high4) > 0) {
+				$('.text-h-4').text(res.data.highlow.high4);
+			}
+			if(parseInt(res.data.highlow.high5) > 0) {
+				$('.text-h-5').text(res.data.highlow.high5);
+			}
+			if(parseInt(res.data.highlow.high6) > 0) {
+				$('.text-h-6').text(res.data.highlow.high6);
+			}
+			if(parseInt(res.data.highlow.high) > 0) {
+				$('.text-hi').show();
+				$('.text-hi').text(res.data.highlow.high);
+			}
+			if(parseInt(res.data.highlow.low) > 0) {
+				$('.text-lo').show();
+				$('.text-lo').text(res.data.highlow.low);
+			}
+			if(parseInt(res.data.highlow.n11) > 0) {
+				$('.text-11').show();
+				$('.text-11').text(res.data.highlow.n11);
+			}
+			if(res.data.count_user > 0) {
+				$('.text-count').show();
+				$('.text-count').text(res.data.count_user + " คน");
+			}
+			if(res.data.highlow.total > 0) {
+				$('.text-total').show();
+				$('.text-total').text(res.data.highlow.total + " บาท");
+			}
+
+			if(res.data.has_money > 0) {
+				$('.btn-takemoney').text("รับเงิน " +res.data.has_money + " บาท")
+			}
+
+			if(res.data.highlow.dice === 0) {
+				$('.dice-result-1').hide();
+			} else if (res.data.highlow.dice === 1) {
+				$('.dice-result-1').attr("src", "https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/01.png");
+			} else if (res.data.highlow.dice === 2) {
+				$('.dice-result-1').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/02.png');
+			} else if (res.data.highlow.dice === 3) {
+				$('.dice-result-1').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/03.png');
+			} else if (res.data.highlow.dice === 4) {
+				$('.dice-result-1').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/04.png');
+			} else if (res.data.highlow.dice === 5) {
+				$('.dice-result-1').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/05.png');
+			} else if (res.data.highlow.dice === 6) {
+				$('.dice-result-1').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/06.png');
+			}
+
+			if(res.data.highlow.dice2 === 0) {
+				$('.dice-result-2').hide();
+			} else if (res.data.highlow.dice2 === 1) {
+				$('.dice-result-2').attr("src", "https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/01.png");
+			} else if (res.data.highlow.dice2 === 2) {
+				$('.dice-result-2').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/02.png');
+			} else if (res.data.highlow.dice2 === 3) {
+				$('.dice-result-2').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/03.png');
+			} else if (res.data.highlow.dice2 === 4) {
+				$('.dice-result-2').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/04.png');
+			} else if (res.data.highlow.dice2 === 5) {
+				$('.dice-result-2').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/05.png');
+			} else if (res.data.highlow.dice2 === 6) {
+				$('.dice-result-2').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/06.png');
+			}
+
+			if(res.data.highlow.dice3 === 0) {
+				$('.dice-result-3').hide();
+			} else if (res.data.highlow.dice3 === 1) {
+				$('.dice-result-3').attr("src", "https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/01.png");
+			} else if (res.data.highlow.dice3 === 2) {
+				$('.dice-result-3').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/02.png');
+			} else if (res.data.highlow.dice3 === 3) {
+				$('.dice-result-3').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/03.png');
+			} else if (res.data.highlow.dice3 === 4) {
+				$('.dice-result-3').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/04.png');
+			} else if (res.data.highlow.dice3 === 5) {
+				$('.dice-result-3').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/05.png');
+			} else if (res.data.highlow.dice3 === 6) {
+				$('.dice-result-3').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/06.png');
+			}
+
+			console.log(res.data)
+		})
+}
+
+function convertHMS(value) {
+    const sec = parseInt(value, 10); // convert value to number if it's string
+    let hours   = Math.floor(sec / 3600); // get hours
+    let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
+    let seconds = sec - (hours * 3600) - (minutes * 60); //  get seconds
+    // add 0 if value < 10
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    return minutes+':'+seconds; // Return is HH : MM : SS
+}
+
+function doSomething() {
+    alert("Hi");
+}
+</script>
+
+<script>
+new Vue({
+	el: '#app',
+	data() {
+		return {
+			dice: "",
+			type: "",
+			price: "",
+			hiloID: {{.Highlow.ID}},
+			ajaxBet: {{route "ajax.highlow.bet"}},
+			ajaxGetMoney: {{route "ajax.highlow.withdraw"}}
+		}
+	},
+
+	mounted() {
+
+	},
+
+	computed: {
+
+	},
+
+	methods: {
+		openModal(val) {
+			this.type = val
+				$('#modal-bet').modal({
+					keyboard: false,
+					backdrop: 'static'
+				})
+		},
+		selectDice(val,price) {
+			this.dice = val
+			this.price = price
+		},
+		submitBet() {
+			axios.post(this.ajaxBet, {
+					bet: this.dice,
+					price: this.price,
+					highlow_id: this.hiloID
+				}, { withCredentials: true }).then(res => {
+					console.log(res.data)
+					ajaxRefresh()
+					$('.wallet').text(res.data.wallet +" THB")
+					$('.bonus').text(res.data.bonus +" THB")
+					clearTimeout(timerId);
+					timerId = setInterval(countdown, 1000);
+					this.closeModal()
+				})
+		},
+		closeModal() {
+			this.dice = ""
+			this.price = ""
+			$('#modal-bet').modal('hide')
+		},
+		nextBoard() {
+			window.location.href = "{{.Domain}}{{route "highlow"}}";
+		},
+		getMoney() {
+			axios.post(this.ajaxGetMoney
+				, { withCredentials: true }).then(res => {
+					console.log(res.data)
+				})
+		},
+	}
+}) // end upload
+</script>
+{{end}}
