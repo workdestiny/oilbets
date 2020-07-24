@@ -149,7 +149,21 @@
 }
 
 .btn-newboard {
-	display: none;
+	margin-top: 10px;
+}
+
+.btn-newboard:disabled {
+	background: black;
+	border-color: black;
+	color: gray;
+}
+
+.btn-takemoney {
+	margin-top: 10px;
+}
+
+.total {
+	align-self: center;
 }
 
 .board-mobile {
@@ -282,13 +296,9 @@
 .dice .n6 {
 	display: none;
 }
-.text-lo{
-	display: none;
-}
-.text-hi{
-	display: none;
-}
-.text-11{
+
+
+.container-dice-result {
 	display: none;
 }
 
@@ -296,14 +306,17 @@
 	background-image: url('https://storage.googleapis.com/powerwork-bucket/hi-lo/bottom/B-001.jpg');
 	background-size: 100% 100%;
 }
-.dice-result-1 {
 
+.nhi {
+	display: none;
 }
-.dice-result-2 {
+.nlo {
+	display: none;
+}
+.n11 {
+	display: none;
+}
 
-}
-.dice-result-3 {
-}
 @media (max-width: 768px) {
 	.board-mobile {
 		display: flex;

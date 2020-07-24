@@ -35,6 +35,10 @@ func getHighlowBetGetHandler(ctx *hime.Context) error {
 	listUser, err := repository.ListHighlowUserBet(db, highlow.ID, 20)
 	must(err)
 
+	//รายการของฉัน
+	listMyBet, err := repository.ListHighlowMyBet(db, highlow.ID, getUserID(ctx), 20)
+	must(err)
+
 	//เช็คจำนวนเงินในระบบ hl
 	hMoney, err := repository.GetHasMoney(db, getUserID(ctx))
 	must(err)
@@ -42,6 +46,7 @@ func getHighlowBetGetHandler(ctx *hime.Context) error {
 	p := page(ctx)
 	p["Highlow"] = highlow
 	p["ListUser"] = listUser
+	p["ListMyBet"] = listMyBet
 	p["HasMoney"] = hMoney
 	p["User"] = getUser(ctx)
 

@@ -113,9 +113,13 @@
 			<h6 v-if="dice !== ''" class="_cl-gray-10 fs-26">ราคา</h6>
 			<div v-if="dice !== ''" class="row">
 				<div class="_dp-f">
-					<button class="btn btn-info _mgr-10" value="0" @click="selectDice(dice, 50)" :disabled="price === 50">50</button>
-					<button class="btn btn-info _mgr-10" value="1" @click="selectDice(dice, 100)" :disabled="price === 100">100</button>
-					<button class="btn btn-info" value="2" @click="selectDice(dice, 200)" :disabled="price === 200">200</button>
+					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 10)" :disabled="price === 10">10</button>
+					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 20)" :disabled="price === 20">20</button>
+					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 50)" :disabled="price === 50">50</button>
+					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 100)" :disabled="price === 100">100</button>
+					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 200)" :disabled="price === 200">200</button>
+					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 500)" :disabled="price === 500">500</button>
+					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 1000)" :disabled="price === 1000">1000</button>
 				</div>
 			</div>
 

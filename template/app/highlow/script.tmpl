@@ -30,8 +30,8 @@ function countdown() {
 	if (timeLeft === true) {
 		clearTimeout(timerId);
 		$('.some-div').text('กระดานสิ้นสุดแล้ว');
+		$('.btn-newboard').prop('disabled', false);
 		ajaxRefresh();
-		$('.btn-newboard').show();
 	} else if(timeLeft === false){
 		clearTimeout(timerId);
 		$('.some-div').text('กำลังรอผู้เล่น...');
@@ -40,6 +40,7 @@ function countdown() {
         clearTimeout(timerId);
 		ajaxRefresh();
 		$('.some-div').text('กระดานสิ้นสุดแล้ว');
+		$('.btn-newboard').prop('disabled', false);
 		$('.btn-newboard').show();
         // doSomething();
 		} else if (timeSpam == 0) {
@@ -197,16 +198,18 @@ function ajaxRefresh() {
 				$('.text-h-6').text(res.data.highlow.high6);
 			}
 			if(parseInt(res.data.highlow.high) > 0) {
-				$('.text-hi').show();
+				$('.nhi').show();
 				$('.text-hi').text(res.data.highlow.high);
+				console.log(res.data.highlow.high)
 			}
 			if(parseInt(res.data.highlow.low) > 0) {
-				$('.text-lo').show();
+				$('.nlo').show();
+				$('.container-dice-result').show();
 				$('.text-lo').text(res.data.highlow.low);
 			}
 			if(parseInt(res.data.highlow.n11) > 0) {
-				$('.text-11').show();
-				$('.text-11').text(res.data.highlow.n11);
+				$('.n11').show();
+				$('.text-n11').text(res.data.highlow.n11);
 			}
 			if(res.data.count_user > 0) {
 				$('.text-count').show();
@@ -218,54 +221,72 @@ function ajaxRefresh() {
 			}
 
 			if(res.data.has_money > 0) {
-				$('.btn-takemoney').text("รับเงิน " +res.data.has_money + " บาท")
+				$('.text-takemoney').text(res.data.has_money)
 			}
 
 			if(res.data.highlow.dice === 0) {
 				$('.dice-result-1').hide();
 			} else if (res.data.highlow.dice === 1) {
+				$('.dice-result-1').show();
 				$('.dice-result-1').attr("src", "https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/01.png");
 			} else if (res.data.highlow.dice === 2) {
+				$('.dice-result-1').show();
 				$('.dice-result-1').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/02.png');
 			} else if (res.data.highlow.dice === 3) {
+				$('.dice-result-1').show();
 				$('.dice-result-1').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/03.png');
 			} else if (res.data.highlow.dice === 4) {
+				$('.dice-result-1').show();
 				$('.dice-result-1').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/04.png');
 			} else if (res.data.highlow.dice === 5) {
+				$('.dice-result-1').show();
 				$('.dice-result-1').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/05.png');
 			} else if (res.data.highlow.dice === 6) {
+				$('.dice-result-1').show();
 				$('.dice-result-1').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/06.png');
 			}
 
 			if(res.data.highlow.dice2 === 0) {
 				$('.dice-result-2').hide();
 			} else if (res.data.highlow.dice2 === 1) {
+				$('.dice-result-2').show();
 				$('.dice-result-2').attr("src", "https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/01.png");
 			} else if (res.data.highlow.dice2 === 2) {
+				$('.dice-result-2').show();
 				$('.dice-result-2').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/02.png');
 			} else if (res.data.highlow.dice2 === 3) {
+				$('.dice-result-2').show();
 				$('.dice-result-2').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/03.png');
 			} else if (res.data.highlow.dice2 === 4) {
+				$('.dice-result-2').show();
 				$('.dice-result-2').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/04.png');
 			} else if (res.data.highlow.dice2 === 5) {
+				$('.dice-result-2').show();
 				$('.dice-result-2').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/05.png');
 			} else if (res.data.highlow.dice2 === 6) {
+				$('.dice-result-2').show();
 				$('.dice-result-2').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/06.png');
 			}
 
 			if(res.data.highlow.dice3 === 0) {
 				$('.dice-result-3').hide();
 			} else if (res.data.highlow.dice3 === 1) {
+				$('.dice-result-3').show();
 				$('.dice-result-3').attr("src", "https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/01.png");
 			} else if (res.data.highlow.dice3 === 2) {
+				$('.dice-result-3').show();
 				$('.dice-result-3').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/02.png');
 			} else if (res.data.highlow.dice3 === 3) {
+				$('.dice-result-3').show();
 				$('.dice-result-3').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/03.png');
 			} else if (res.data.highlow.dice3 === 4) {
+				$('.dice-result-3').show();
 				$('.dice-result-3').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/04.png');
 			} else if (res.data.highlow.dice3 === 5) {
+				$('.dice-result-3').show();
 				$('.dice-result-3').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/05.png');
 			} else if (res.data.highlow.dice3 === 6) {
+				$('.dice-result-3').show();
 				$('.dice-result-3').attr('src', 'https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/06.png');
 			}
 
@@ -297,7 +318,7 @@ new Vue({
 		return {
 			dice: "",
 			type: "",
-			price: "",
+			price: 0,
 			hiloID: {{.Highlow.ID}},
 			ajaxBet: {{route "ajax.highlow.bet"}},
 			ajaxGetMoney: {{route "ajax.highlow.withdraw"}}
@@ -325,33 +346,51 @@ new Vue({
 			this.price = price
 		},
 		submitBet() {
-			axios.post(this.ajaxBet, {
+			if(this.price === 0) {
+				return
+			} else {
+				axios.post(this.ajaxBet, {
 					bet: this.dice,
 					price: this.price,
 					highlow_id: this.hiloID
 				}, { withCredentials: true }).then(res => {
 					console.log(res.data)
-					ajaxRefresh()
-					$('.wallet').text(res.data.wallet +" THB")
-					$('.bonus').text(res.data.bonus +" THB")
-					clearTimeout(timerId);
-					timerId = setInterval(countdown, 1000);
-					this.closeModal()
+					if (res.status === 200) {
+						ajaxRefresh()
+						$('.wallet').text(res.data.wallet +" THB")
+						$('.bonus').text(res.data.bonus +" THB")
+						clearTimeout(timerId);
+						timerId = setInterval(countdown, 1000);
+						this.closeModal()
+					}
 				})
+			}
+
 		},
 		closeModal() {
 			this.dice = ""
-			this.price = ""
+			this.price = 0
 			$('#modal-bet').modal('hide')
 		},
 		nextBoard() {
 			window.location.href = "{{.Domain}}{{route "highlow"}}";
 		},
 		getMoney() {
-			axios.post(this.ajaxGetMoney
+			if(parseInt($('.text-takemoney').text()) === 0) {
+				console.log("nomoney")
+			} else {
+				axios.post(this.ajaxGetMoney
 				, { withCredentials: true }).then(res => {
-					console.log(res.data)
+					console.log(res)
+
+					if(res.status === 200) {
+					$('.text-takemoney').text("0")
+					$('.wallet').text(res.data.wallet +" THB")
+					$('.bonus').text(res.data.bonus +" THB")
+					}
 				})
+			}
+
 		},
 	}
 }) // end upload

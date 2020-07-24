@@ -8,19 +8,33 @@
 
 	<div class="row">
 		<div class="col-12 col-lg-8 _mg-at">
-			<div class="row _fdrt-cl  _bdrd-2px _cl-gray-11 _pdbt-30" style="background-color: rgba(255, 255, 255, 0.6);">
 
+
+			<div class="row _fdrt-cl  _bdrd-2px _cl-gray-11 _pdbt-30" style="background-color: rgba(255, 255, 255, 0.6);">
+				<div class="col-12 row _mgt-20 _mgbt-20 container-dice-result">
+					<div class="col-8 _dp-f _tal-ct _mg-at">
+						<div class="col-4">
+							<img class="img-fluid dice-result-1" src="">
+						</div>
+						<div class="col-4">
+							<img class="img-fluid dice-result-2" src="">
+						</div>
+						<div class="col-4">
+							<img class="img-fluid dice-result-3" src="">
+						</div>
+					</div>
+				</div>
 				<div class="col-md-8 col-sm-12 _mg-at _pd-0 row">
-					<div class="col-4 top-left-bg _tal-ct">
-						<button class="btn btn-success btn-newboard" @click="nextBoard">เริ่มกระดานใหม่</button>
-						<span class="fs-18 _cl-gray-10 some-div"></span>
+					<div class="col-4 top-left-bg _tal-ct newboard">
+						<button class="btn btn-success btn-newboard" disabled @click="nextBoard">เริ่มกระดานใหม่</button>
+						<span class="fs-18 _cl-gray-10 _fw-700 some-div"></span>
 					</div>
-					<div class="col-4 _tal-ct">
-						<p class="fs-18 _cl-gray-10 text-total">{{.Highlow.Total}}</p>
+					<div class="col-4 _tal-ct total">
+						<span class="fs-18 _cl-gray-10 text-total _fw-700">{{.Highlow.Total}}</span>
 					</div>
-					<div class="col-4 top-right-bg _tal-ct">
-						<button class="btn btn-danger btn-takemoney" @click="getMoney">รับเงิน {{.HasMoney}} บาท</button>
-						<p class="fs-18 _cl-gray-10 text-count"></p>
+					<div class="col-4 top-right-bg _tal-ct body-takemoney">
+						<button class="btn btn-danger btn-takemoney" @click="getMoney">รับเงิน <span class="text-takemoney">{{.HasMoney}}</span> บาท</button>
+						<p class="fs-18 _cl-gray-10 text-count _fw-700"></p>
 					</div>
 
 				</div>
@@ -63,27 +77,23 @@
 							</div>
 
 							<div class="size-bank right-dice n12">
-								<i class="fas fa-coins fs-16 _mgr-2"></i>
+
 								<span class="text-n12 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N12}}</span>
 							</div>
 
 							<div class="size-bank left-dice n13">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n13 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N13}}</span>
 							</div>
 
 							<div class="size-bank bottom-dice n14">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n14 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N14}}</span>
 							</div>
 
 							<div class="size-bank right-bottom-dice n15">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n15 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N15}}</span>
 							</div>
 
 							<div class="size-bank left-top-dice n16">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n16 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N16}}</span>
 							</div>
 
@@ -96,17 +106,14 @@
 							</div>
 
 							<div class="size-bank right-dice n23">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n23 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N23}}</span>
 							</div>
 
 							<div class="size-bank left-bottom-dice n24">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n24 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N24}}</span>
 							</div>
 
 							<div class="size-bank bottom-dice n25">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n25 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N25}}</span>
 							</div>
 
@@ -120,12 +127,10 @@
 							</div>
 
 							<div class="size-bank right-top-dice n34">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n34 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N34}}</span>
 							</div>
 
 							<div class="size-bank bottom-dice n36">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n36 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N36}}</span>
 							</div>
 
@@ -138,12 +143,10 @@
 							</div>
 
 							<div class="size-bank right-dice n45">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n45 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N45}}</span>
 							</div>
 
 							<div class="size-bank left-dice n46">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n46 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N46}}</span>
 							</div>
 
@@ -157,12 +160,11 @@
 
 
 							<div class="size-bank right-top-dice n35">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n35 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N35}}</span>
 							</div>
 
 							<div class="size-bank right-dice n56">
-									<i class="fas fa-coins fs-16"></i>
+
 									<span class="text-n56 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N56}}</span>
 							</div>
 
@@ -175,7 +177,6 @@
 							</div>
 
 							<div class="size-bank left-top-dice n26">
-								<i class="fas fa-coins fs-16"></i>
 								<span class="text-n26 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N26}}</span>
 							</div>
 						</div>
@@ -213,95 +214,82 @@
 				<div class="col-md-8 col-sm-12 _mg-at _pd-0 row">
 						<div class="col-4 _mg-0 _pd-0 dice _tal-ct" @click="openModal('hilo')">
 							<img class="img-fluid box" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/bottom/B-001.jpg" alt="1">
-							<div class="hilo-coin n5">
+							<div class="hilo-coin nlo">
 								<img class="img-fluid" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/coin/Coin-200x200.png" alt="5">
-								<span class="money text-lo _cl-gray-11 fs-16 _fw-700">{{.Highlow.Low}}</span>
+								<span class="money text-lo _cl-gray-11 fs-16 _fw-700">0</span>
 							</div>
 						</div>
 						<div class="col-4 _mg-0 _pd-0 dice _tal-ct" @click="openModal('hilo')">
 							<img class="img-fluid box" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/bottom/B-002.jpg" alt="2">
-							<div class="hilo-coin n5">
+							<div class="hilo-coin n11">
 								<img class="img-fluid" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/coin/Coin-200x200.png" alt="5">
-								<span class="money text-n11 _cl-gray-11 fs-16 _fw-700">{{.Highlow.N11}}</span>
+								<span class="money text-n11 _cl-gray-11 fs-16 _fw-700">0</span>
 							</div>
 						</div>
 						<div class="col-4 _mg-0 _pd-0 dice _tal-ct" @click="openModal('hilo')">
 							<img class="img-fluid box" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/bottom/B-003.jpg" alt="3">
-							<div class="hilo-coin n5">
+							<div class="hilo-coin nhi">
 								<img class="img-fluid" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/coin/Coin-200x200.png" alt="5">
-								<span class="money text-hi _cl-gray-11 fs-16 _fw-700">{{.Highlow.High}}</span>
+								<span class="money text-hi _cl-gray-11 fs-16 _fw-700">0</span>
 							</div>
 						</div>
 				</div>
 
 				<div class="row board-mobile col-sm-12 _mg-at _pd-0">
 					<div class="col-6 low-side-bg">
-							<div class="side-dice _mgt-side-board-mobile">
+							<div class="side-dice _mgt-side-board-mobile" @click="openModal('lo')">
 								<img class="icon-right" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/01.png" alt="1">
 								<span class="side-text _tal-r text-l-1">{{.Highlow.Low1}}</span>
 							</div>
-							<div class="side-dice">
+							<div class="side-dice" @click="openModal('lo')">
 								<img class="icon-right" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/02.png" alt="2">
 								<span class="side-text _tal-r text-l-2">{{.Highlow.Low2}}</span>
 							</div>
-							<div class="side-dice">
+							<div class="side-dice" @click="openModal('lo')">
 								<img class="icon-right" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/03.png" alt="3">
 								<span class="side-text _tal-r text-l-3">{{.Highlow.Low3}}</span>
 							</div>
-							<div class="side-dice">
+							<div class="side-dice" @click="openModal('lo')">
 								<img class="icon-right" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/04.png" alt="4">
 								<span class="side-text _tal-r text-l-4">{{.Highlow.Low4}}</span>
 							</div>
-							<div class="side-dice">
+							<div class="side-dice" @click="openModal('lo')">
 								<img class="icon-right" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/05.png" alt="5">
 								<span class="side-text _tal-r text-l-5">{{.Highlow.Low5}}</span>
 							</div>
-							<div class="side-dice">
+							<div class="side-dice" @click="openModal('lo')">
 								<img class="icon-right" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/06.png" alt="6">
 								<span class="side-text _tal-r text-l-6">{{.Highlow.Low6}}</span>
 							</div>
 					</div>
 					<div class="col-6 hi-side-bg">
-							<div class="side-dice _mgt-side-board-mobile">
+							<div class="side-dice _mgt-side-board-mobile" @click="openModal('hi')">
 								<span class="side-text _tal-l text-h-1">{{.Highlow.High1}}</span>
 								<img class="icon-right" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/01.png" alt="1">
 							</div>
-							<div class="side-dice">
+							<div class="side-dice" @click="openModal('hi')">
 								<span class="side-text _tal-l text-h-2">{{.Highlow.High2}}</span>
 								<img class="icon-right" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/02.png" alt="2">
 							</div>
-							<div class="side-dice">
+							<div class="side-dice" @click="openModal('hi')">
 								<span class="side-text _tal-l text-h-3">{{.Highlow.High3}}</span>
 								<img class="icon-right" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/03.png" alt="3">
 							</div>
-							<div class="side-dice">
+							<div class="side-dice" @click="openModal('hi')">
 								<span class="side-text _tal-l text-h-4">{{.Highlow.High4}}</span>
 								<img class="icon-right" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/04.png" alt="4">
 							</div>
-							<div class="side-dice">
+							<div class="side-dice" @click="openModal('hi')">
 								<span class="side-text _tal-l text-h-5">{{.Highlow.High5}}</span>
 								<img class="icon-right" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/05.png" alt="5">
 							</div>
-							<div class="side-dice">
+							<div class="side-dice" @click="openModal('hi')">
 								<span class="side-text _tal-l text-h-6">{{.Highlow.High6}}</span>
 								<img class="icon-right" src="https://storage.googleapis.com/powerwork-bucket/hi-lo/dice-new/icon/06.png" alt="6">
 							</div>
 					</div>
 				</div>
 
-				<div class="row _mgt-20">
-					<div class="col-8 _dp-f _tal-ct _mg-at">
-						<div class="col-4">
-							<img class="img-fluid dice-result-1" src="">
-						</div>
-						<div class="col-4">
-							<img class="img-fluid dice-result-2" src="">
-						</div>
-						<div class="col-4">
-							<img class="img-fluid dice-result-3" src="">
-						</div>
-					</div>
-				</div>
 				<div class="row _mgt-20">
 						<div class="col-12">
 								<div>
@@ -352,7 +340,7 @@
 										<tr>
 											<td class="fs-10 fs-18-md">{{.FirstName}} {{.LastName}}</td>
 											<td class="fs-10 fs-18-md">{{.Price}}</td>
-											<td class="fs-10 fs-18-md">{{.Status}}</td>
+											<td class="fs-10 fs-18-md">{{.BetString}}</td>
 										</tr>
 										{{end}}
 									</table>
