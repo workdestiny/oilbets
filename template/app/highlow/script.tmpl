@@ -25,36 +25,48 @@ var timeLeft =
 var startPage = false;
 var timerId = setInterval(countdown, 1000);
 var timeSpam = 20;
-
+var srcReady = 'https://storage.googleapis.com/powerwork-bucket/hi-lo/anime-dice/%E0%B9%80%E0%B8%82%E0%B8%A2%E0%B9%88%E0%B8%B2.gif';
+var srcOpen = 'https://storage.googleapis.com/powerwork-bucket/hi-lo/anime-dice/OpendiceNew.gif';
 function countdown() {
 	if (timeLeft === true) {
 		clearTimeout(timerId);
 		$('.some-div').text('กระดานสิ้นสุดแล้ว');
 		$('.btn-newboard').prop('disabled', false);
+		$('.container-dice-result').show();
 		ajaxRefresh();
 	} else if(timeLeft === false){
 		clearTimeout(timerId);
 		$('.some-div').text('กำลังรอผู้เล่น...');
+		$('.show-anime').show();
+		$('.anime-bet').attr('src', srcOpenç);
+		setTimeout(function() {
+			$('.show-anime').hide();
+		}, 1500);
 	} else {
 		if (timeLeft == -1) {
         clearTimeout(timerId);
+		$('.show-anime').show()
+		$('.anime-bet').attr('src', srcOpen);
+		setTimeout(function() {
+				$('.show-anime').hide()
+            }, 1500);
 		ajaxRefresh();
 		$('.some-div').text('กระดานสิ้นสุดแล้ว');
 		$('.btn-newboard').prop('disabled', false);
 		$('.btn-newboard').show();
+		$('.container-dice-result').show();
         // doSomething();
 		} else if (timeSpam == 0) {
 			// ajax
 			$('.some-div').text(convertHMS(timeLeft));
 			ajaxRefresh();
-			console.log(timeLeft);
 			timeSpam = 20;
 			timeLeft--;
 		} else if (startPage === false) {
 			$('.some-div').text(convertHMS(timeLeft));
 			ajaxRefresh();
 			startPage = true
-			console.log('getData')
+			console.log('startpage')
 			timeSpam--;
 			timeLeft--;
 		} else {

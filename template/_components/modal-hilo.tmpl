@@ -12,18 +12,18 @@
 		<div class="modal-body">
 			<h6 class="_cl-gray-10 fs-26">เลข</h6>
 			<div v-if="type === 'one'" class="row">
-				<div class="_dp-f">
+				<div>
 					<button class="btn btn-info _mgr-10" value="3" @click="selectDice(3, price)" :disabled="dice === 3">1</button>
 					<button class="btn btn-info _mgr-10" value="9" @click="selectDice(9, price)" :disabled="dice === 9">1-2</button>
 					<button class="btn btn-info _mgr-10" value="10" @click="selectDice(10, price)" :disabled="dice === 10">1-3</button>
 					<button class="btn btn-info _mgr-10" value="11" @click="selectDice(11, price)" :disabled="dice === 11">1-4</button>
 					<button class="btn btn-info _mgr-10" value="12" @click="selectDice(12, price)" :disabled="dice === 12">1-5</button>
-					<button class="btn btn-info" value="13" @click="selectDice(13, price)" :disabled="dice === 13">1-6</button>
+					<button class="btn btn-info _mgr-10" value="13" @click="selectDice(13, price)" :disabled="dice === 13">1-6</button>
 				</div>
 			</div>
 
 			<div v-if="type === 'two'" class="row">
-				<div class="_dp-f">
+				<div>
 					<button class="btn btn-info _mgr-10" value="4" @click="selectDice(4, price)" :disabled="dice === 4">2</button>
 					<button class="btn btn-info _mgr-10" value="9" @click="selectDice(9, price)" :disabled="dice === 9">2-1</button>
 					<button class="btn btn-info _mgr-10" value="14" @click="selectDice(14, price)" :disabled="dice === 14">2-3</button>
@@ -34,18 +34,18 @@
 			</div>
 
 			<div v-if="type === 'three'" class="row">
-				<div class="_dp-f">
+				<div>
 					<button class="btn btn-info _mgr-10" value="5" @click="selectDice(5, price)" :disabled="dice === 5">3</button>
 					<button class="btn btn-info _mgr-10" value="10" @click="selectDice(10, price)" :disabled="dice === 10">3-1</button>
 					<button class="btn btn-info _mgr-10" value="14" @click="selectDice(14, price)" :disabled="dice === 14">3-2</button>
 					<button class="btn btn-info _mgr-10" value="18" @click="selectDice(18, price)" :disabled="dice === 18">3-4</button>
 					<button class="btn btn-info _mgr-10" value="19" @click="selectDice(19, price)" :disabled="dice === 19">3-5</button>
-					<button class="btn btn-info" value="20" @click="selectDice(20, price)" :disabled="dice === 20">3-6</button>
+					<button class="btn btn-info _mgr-10" value="20" @click="selectDice(20, price)" :disabled="dice === 20">3-6</button>
 				</div>
 			</div>
 
 			<div v-if="type === 'four'" class="row">
-				<div class="_dp-f">
+				<div>
 					<button class="btn btn-info _mgr-10" value="6" @click="selectDice(6, price)" :disabled="dice === 6">4</button>
 					<button class="btn btn-info _mgr-10" value="11" @click="selectDice(11, price)" :disabled="dice === 11">4-1</button>
 					<button class="btn btn-info _mgr-10" value="15" @click="selectDice(15, price)" :disabled="dice === 15">4-2</button>
@@ -56,7 +56,7 @@
 			</div>
 
 			<div v-if="type === 'five'" class="row">
-				<div class="_dp-f">
+				<div>
 					<button class="btn btn-info _mgr-10" value="7" @click="selectDice(7, price)" :disabled="dice === 7">5</button>
 					<button class="btn btn-info _mgr-10" value="12" @click="selectDice(12, price)" :disabled="dice === 12">5-1</button>
 					<button class="btn btn-info _mgr-10" value="16" @click="selectDice(16, price)" :disabled="dice === 16">5-2</button>
@@ -68,7 +68,7 @@
 			</div>
 
 			<div v-if="type === 'six'" class="row">
-				<div class="_dp-f">
+				<div>
 					<button class="btn btn-info _mgr-10" value="8" @click="selectDice(8, price)" :disabled="dice === 8">6</button>
 					<button class="btn btn-info _mgr-10" value="13" @click="selectDice(13, price)" :disabled="dice === 13">6-1</button>
 					<button class="btn btn-info _mgr-10" value="17" @click="selectDice(17, price)" :disabled="dice === 17">6-2</button>
@@ -79,7 +79,7 @@
 			</div>
 
 			<div v-if="type === 'hi'" class="row">
-					<div class="_dp-f">
+					<div>
 						<button class="btn btn-info _mgr-10" value="24" @click="selectDice(24, price)" :disabled="dice === 24">สูง 1</button>
 						<button class="btn btn-info _mgr-10" value="25" @click="selectDice(25, price)" :disabled="dice === 25">สูง 2</button>
 						<button class="btn btn-info _mgr-10" value="26" @click="selectDice(26, price)" :disabled="dice === 26">สูง 3</button>
@@ -90,7 +90,7 @@
 			</div>
 
 			<div v-if="type === 'lo'" class="row">
-					<div class="_dp-f">
+					<div>
 						<button class="btn btn-info _mgr-10" value="30" @click="selectDice(30, price)" :disabled="dice === 30">ต่ำ 1</button>
 						<button class="btn btn-info _mgr-10" value="31" @click="selectDice(31, price)" :disabled="dice === 31">ต่ำ 2</button>
 						<button class="btn btn-info _mgr-10" value="32" @click="selectDice(32, price)" :disabled="dice === 32">ต่ำ 3</button>
@@ -101,7 +101,7 @@
 			</div>
 
 			<div v-if="type === 'hilo'" class="row">
-				<div class="_dp-f">
+				<div>
 					<button class="btn btn-info _mgr-10" value="1" @click="selectDice(1, price)" :disabled="dice === 1">ต่ำ</button>
 
 					<button class="btn btn-info _mgr-10" value="0" @click="selectDice(0, price)" :disabled="dice === 0">สูง</button>
@@ -110,16 +110,16 @@
 				</div>
 			</div>
 
-			<h6 v-if="dice !== ''" class="_cl-gray-10 fs-26">ราคา</h6>
+			<h6 v-if="dice !== ''" class="_cl-gray-10 fs-26 _mgbt-0">ราคา</h6>
 			<div v-if="dice !== ''" class="row">
-				<div class="_dp-f">
-					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 10)" :disabled="price === 10">10</button>
-					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 20)" :disabled="price === 20">20</button>
-					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 50)" :disabled="price === 50">50</button>
-					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 100)" :disabled="price === 100">100</button>
-					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 200)" :disabled="price === 200">200</button>
-					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 500)" :disabled="price === 500">500</button>
-					<button class="btn btn-info _mgr-10" @click="selectDice(dice, 1000)" :disabled="price === 1000">1000</button>
+				<div>
+					<button class="btn btn-info _mgr-10 _mgt-10" @click="selectDice(dice, 10)" :disabled="price === 10">10</button>
+					<button class="btn btn-info _mgr-10 _mgt-10" @click="selectDice(dice, 20)" :disabled="price === 20">20</button>
+					<button class="btn btn-info _mgr-10 _mgt-10" @click="selectDice(dice, 50)" :disabled="price === 50">50</button>
+					<button class="btn btn-info _mgr-10 _mgt-10" @click="selectDice(dice, 100)" :disabled="price === 100">100</button>
+					<button class="btn btn-info _mgr-10 _mgt-10" @click="selectDice(dice, 200)" :disabled="price === 200">200</button>
+					<button class="btn btn-info _mgr-10 _mgt-10" @click="selectDice(dice, 500)" :disabled="price === 500">500</button>
+					<button class="btn btn-info _mgr-10 _mgt-10" @click="selectDice(dice, 1000)" :disabled="price === 1000">1000</button>
 				</div>
 			</div>
 
