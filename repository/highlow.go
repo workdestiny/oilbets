@@ -330,7 +330,7 @@ func UpdateDuoNumberHighlowBet(q Queryer, id string, n int) error {
 
 	_, err := q.Exec(`
 		UPDATE high_low_bet
-		   SET status = true, total = price * 6
+		   SET status = true, total = price * 5
 		 WHERE highlow_id = $1 AND bet = $2;
 		 `, id, n)
 	if err != nil {
