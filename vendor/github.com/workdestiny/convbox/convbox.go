@@ -22,6 +22,24 @@ func ShortNumber(count int) string {
 		return m + "." + m1 + "ล้าน"
 	}
 
+	if len(number) > 5 {
+		m := number[0 : len(number)-5]
+		m1 := number[len(number)-5 : len(number)-4]
+		if m1 == "0" {
+			return m + "แสน"
+		}
+		return m + "." + m1 + "แสน"
+	}
+
+	if len(number) > 4 {
+		m := number[0 : len(number)-4]
+		m1 := number[len(number)-4 : len(number)-3]
+		if m1 == "0" {
+			return m + "หมื่น"
+		}
+		return m + "." + m1 + "หมื่น"
+	}
+
 	if len(number) > 3 {
 		m := number[0 : len(number)-3]
 		m1 := number[len(number)-3 : len(number)-2]
