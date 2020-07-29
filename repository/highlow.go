@@ -459,7 +459,7 @@ func UpdateHighlowIsWithdrawUser(q Queryer, userID string) error {
 	_, err := q.Exec(`
 		UPDATE high_low_bet
 		   SET is_withdraw = true
-		 WHERE user_id = $1;
+		 WHERE user_id = $1 AND status = true;
 		 `, userID)
 	if err != nil {
 		return err
