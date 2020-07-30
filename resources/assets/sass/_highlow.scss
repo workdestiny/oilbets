@@ -154,7 +154,7 @@
 
 #overlay {
 	position: fixed; /* Sit on top of the page content */
-	display: none; /* Hidden by default */
+	display: block; /* Hidden by default */
 	width: 100%; /* Full width (cover the whole page) */
 	height: 100%; /* Full height (cover the whole page) */
 	top: 0;
@@ -165,7 +165,9 @@
 	z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
 	cursor: pointer; /* Add a pointer on hover */
   }
-
+.anime-bet {
+	margin-top: 50px;
+}
 .btn-newboard:disabled {
 	background: black;
 	border-color: rgb(136, 72, 72);
@@ -347,4 +349,19 @@
 		display: none;
 	}
 
+  }
+@media (max-width: 568px) {
+
+	.btn-newboard{
+		font-size: 12px;
+	}
+	.btn-takemoney {
+		font-size: 12px;
+	}
+	.some-div {
+		font-size: 12px;
+	}
+	.anime-bet {
+		margin-top: 80px;
+	}
   }

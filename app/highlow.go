@@ -17,6 +17,22 @@ import (
 func highlowBetGetHandler(ctx *hime.Context) error {
 
 	id, err := repository.GetLiveHighlowID(db)
+	if err == sql.ErrNoRows {
+		err := pgsql.RunInTx(db, nil, func(tx *sql.Tx) error {
+			id, _ := repository.GetLiveHighlowID(tx)
+			if id != "" {
+				return nil
+			}
+			//เปิดกระดานต่อไป
+			_, err = repository.CreateHighlow(db)
+			if err != nil {
+				return err
+			}
+			return nil
+		})
+		must(err)
+		return ctx.RedirectToGet()
+	}
 	must(err)
 
 	return ctx.RedirectTo("highlow.get", id)

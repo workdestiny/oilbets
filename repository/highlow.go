@@ -369,7 +369,6 @@ func CreateHighlow(q Queryer) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	return id, nil
 }
 
