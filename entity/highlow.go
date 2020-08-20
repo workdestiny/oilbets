@@ -51,6 +51,48 @@ type HighlowBet struct {
 	Low6      string    `json:"low6"`
 }
 
+//HighlowLinkBet in
+type HighlowLinkBet struct {
+	ID    string `json:"id"`
+	Total int64  `json:"total"`
+	High  int    `json:"high"`
+	Low   int    `json:"low"`
+	N11   int    `json:"n11"`
+	N1    int    `json:"n1"`
+	N2    int    `json:"n2"`
+	N3    int    `json:"n3"`
+	N4    int    `json:"n4"`
+	N5    int    `json:"n5"`
+	N6    int    `json:"n6"`
+	N12   int    `json:"n12"`
+	N13   int    `json:"n13"`
+	N14   int    `json:"n14"`
+	N15   int    `json:"n15"`
+	N16   int    `json:"n16"`
+	N23   int    `json:"n23"`
+	N24   int    `json:"n24"`
+	N25   int    `json:"n25"`
+	N26   int    `json:"n26"`
+	N34   int    `json:"n34"`
+	N35   int    `json:"n35"`
+	N36   int    `json:"n36"`
+	N45   int    `json:"n45"`
+	N46   int    `json:"n46"`
+	N56   int    `json:"n56"`
+	High1 int    `json:"high1"`
+	High2 int    `json:"high2"`
+	High3 int    `json:"high3"`
+	High4 int    `json:"high4"`
+	High5 int    `json:"high5"`
+	High6 int    `json:"high6"`
+	Low1  int    `json:"low1"`
+	Low2  int    `json:"low2"`
+	Low3  int    `json:"low3"`
+	Low4  int    `json:"low4"`
+	Low5  int    `json:"low5"`
+	Low6  int    `json:"low6"`
+}
+
 //HighlowUserBet is
 type HighlowUserBet struct {
 	ID        string    `json:"id"`
@@ -216,21 +258,21 @@ var HighlowBetRate = map[TypeHighlowBet]int64{
 	N4:    2,
 	N5:    2,
 	N6:    2,
-	N12:   6,
-	N13:   6,
-	N14:   6,
-	N15:   6,
-	N16:   6,
-	N23:   6,
-	N24:   6,
-	N25:   6,
-	N26:   6,
-	N34:   6,
-	N35:   6,
-	N36:   6,
-	N45:   6,
-	N46:   6,
-	N56:   6,
+	N12:   5,
+	N13:   5,
+	N14:   5,
+	N15:   5,
+	N16:   5,
+	N23:   5,
+	N24:   5,
+	N25:   5,
+	N26:   5,
+	N34:   5,
+	N35:   5,
+	N36:   5,
+	N45:   5,
+	N46:   5,
+	N56:   5,
 	High1: 4,
 	High2: 4,
 	High3: 4,

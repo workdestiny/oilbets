@@ -5,10 +5,8 @@ import (
 	"database/sql"
 	"encoding/gob"
 	"log"
-	"math/rand"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/acoshift/csrf"
 	"github.com/acoshift/httprouter"
@@ -237,10 +235,7 @@ func RunBotAlgorithmHighlowBet(postgre *sql.DB) {
 	}
 	must(err)
 	//ออกผล
-	rand.Seed(time.Now().UnixNano())
-	r1 := rand.Intn(6) + 1
-	r2 := rand.Intn(6) + 1
-	r3 := rand.Intn(6) + 1
+	r1, r2, r3 := RandomRoll(highlowID, postgre)
 
 	//ปิดกระดาน
 	err = pgsql.RunInTx(postgre, nil, func(tx *sql.Tx) error {

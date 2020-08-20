@@ -218,10 +218,7 @@ func BotAlgorithmHighlowBet(highlowID string) {
 	time.Sleep(config.HighlowCountdown * time.Second)
 
 	//ออกผล
-	rand.Seed(time.Now().UnixNano())
-	r1 := rand.Intn(6) + 1
-	r2 := rand.Intn(6) + 1
-	r3 := rand.Intn(6) + 1
+	r1, r2, r3 := RandomRoll(highlowID, db)
 
 	//ปิดกระดาน
 	err := pgsql.RunInTx(db, nil, func(tx *sql.Tx) error {
@@ -611,4 +608,2369 @@ func ajaxHighlowBetWithdrawPostHandler(ctx *hime.Context) error {
 	}
 	must(err)
 	return ctx.Status(http.StatusOK).JSON(&res)
+}
+
+//RandomRoll roll random
+func RandomRoll(highlowID string, postgre *sql.DB) (int, int, int) {
+	rand.Seed(time.Now().UnixNano())
+	if rand.Intn(100)+1 >= config.HighlowWinrate {
+		return rand.Intn(6) + 1, rand.Intn(6) + 1, rand.Intn(6) + 1
+	}
+
+	var r1, r2, r3 int
+	highlow, err := repository.GetHighlowLink(postgre, highlowID)
+	must(err)
+
+	cost := 100000
+	for i := 1; i <= 216; i++ {
+		total, s1, s2, s3 := TotalRollCase(i, &highlow)
+		log.Println("Cost: %s  Total: %s", cost, total)
+		log.Println("Roll: %s %s %s", r1, r2, r3)
+		if cost > total {
+			cost = total
+			r1 = s1
+			r2 = s2
+			r3 = s3
+		}
+	}
+	return r1, r2, r3
+}
+
+//TotalRollCase showcase
+func TotalRollCase(i int, h *entity.HighlowLinkBet) (int, int, int, int) {
+	total := 0
+	switch i {
+	case 1:
+		// 1 1 1
+		total += h.N1 * 3
+		total += h.Low
+		total += h.Low1
+		return total, 1, 1, 1
+	case 2:
+		// 1 1 2
+		total += h.N1 * 2
+		total += h.N2
+		total += h.N12 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		return total, 1, 1, 2
+	case 3:
+		// 1 1 3
+		total += h.N1 * 2
+		total += h.N3
+		total += h.N13 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		return total, 1, 1, 3
+	case 4:
+		// 1 1 4
+		total += h.N1 * 2
+		total += h.N4
+		total += h.N14 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low4 * 3
+		return total, 1, 1, 4
+	case 5:
+		// 1 1 5
+		total += h.N1 * 2
+		total += h.N5
+		total += h.N15 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low5 * 3
+		return total, 1, 1, 5
+	case 6:
+		// 1 1 6
+		total += h.N1 * 2
+		total += h.N6
+		total += h.N16 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low6 * 3
+		return total, 1, 1, 6
+	case 7:
+		// 1 2 1
+		total += h.N1 * 2
+		total += h.N2
+		total += h.N12 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		return total, 1, 2, 1
+	case 8:
+		// 1 2 2
+		total += h.N1
+		total += h.N2 * 2
+		total += h.N12 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		return total, 1, 2, 2
+	case 9:
+		// 1 2 3
+		total += h.N1
+		total += h.N2
+		total += h.N3
+		total += h.N12 * 4
+		total += h.N13 * 4
+		total += h.N23 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		return total, 1, 2, 3
+	case 10:
+		// 1 2 4
+		total += h.N1
+		total += h.N2
+		total += h.N4
+		total += h.N12 * 4
+		total += h.N14 * 4
+		total += h.N24 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low4 * 3
+		return total, 1, 2, 4
+	case 11:
+		// 1 2 5
+		total += h.N1
+		total += h.N2
+		total += h.N5
+		total += h.N12 * 4
+		total += h.N15 * 4
+		total += h.N25 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low5 * 3
+		return total, 1, 2, 5
+	case 12:
+		// 1 2 6
+		total += h.N1
+		total += h.N2
+		total += h.N6
+		total += h.N12 * 4
+		total += h.N16 * 4
+		total += h.N26 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low6 * 3
+		return total, 1, 2, 6
+	case 13:
+		// 1 3 1
+		total += h.N1 * 2
+		total += h.N3
+		total += h.N13 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		return total, 1, 3, 1
+	case 14:
+		// 1 3 2
+		total += h.N1
+		total += h.N2
+		total += h.N3
+		total += h.N12 * 4
+		total += h.N13 * 4
+		total += h.N23 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		return total, 1, 3, 2
+	case 15:
+		// 1 3 3
+		total += h.N3 * 2
+		total += h.N1
+		total += h.N13 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		return total, 1, 3, 3
+	case 16:
+		// 1 3 4
+		total += h.N1
+		total += h.N3
+		total += h.N4
+		total += h.N13 * 4
+		total += h.N14 * 4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 1, 3, 4
+	case 17:
+		// 1 3 5
+		total += h.N1
+		total += h.N3
+		total += h.N5
+		total += h.N13 * 4
+		total += h.N15 * 4
+		total += h.N35 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low5 * 3
+		return total, 1, 3, 5
+	case 18:
+		// 1 3 6
+		total += h.N1
+		total += h.N3
+		total += h.N6
+		total += h.N13 * 4
+		total += h.N16 * 4
+		total += h.N36 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low6 * 3
+		return total, 1, 3, 6
+	case 19:
+		// 1 4 1
+		total += h.N1 * 2
+		total += h.N4
+		total += h.N14 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low4 * 3
+		return total, 1, 4, 1
+	case 20:
+		// 1 4 2
+		total += h.N1
+		total += h.N2
+		total += h.N4
+		total += h.N12 * 4
+		total += h.N14 * 4
+		total += h.N24 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low4 * 3
+		return total, 1, 4, 2
+	case 21:
+		// 1 4 3
+		total += h.N1
+		total += h.N3
+		total += h.N4
+		total += h.N13 * 4
+		total += h.N14 * 4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 1, 4, 3
+	case 22:
+		// 1 4 4
+		total += h.N1
+		total += h.N4 * 2
+		total += h.N14 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low4 * 3
+		return total, 1, 4, 4
+	case 23:
+		// 1 4 5
+		total += h.N1
+		total += h.N4
+		total += h.N5
+		total += h.N14 * 4
+		total += h.N15 * 4
+		total += h.N45 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low4 * 3
+		total += h.Low5 * 3
+		return total, 1, 4, 5
+	case 24:
+		// 1 4 6
+		total += h.N1
+		total += h.N4
+		total += h.N6
+		total += h.N14 * 4
+		total += h.N16 * 4
+		total += h.N46 * 4
+		total += h.N11 * 5
+		return total, 1, 4, 6
+	case 25:
+		// 1 5 1
+		total += h.N1 * 2
+		total += h.N5
+		total += h.N15 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low5 * 3
+		return total, 1, 5, 1
+	case 26:
+		//1 5 2
+		total += h.N1
+		total += h.N2
+		total += h.N5
+		total += h.N12 * 4
+		total += h.N15 * 4
+		total += h.N25 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low5 * 3
+		return total, 1, 5, 2
+	case 27:
+		// 1 5 3
+		total += h.N1
+		total += h.N3
+		total += h.N5
+		total += h.N13 * 4
+		total += h.N15 * 4
+		total += h.N35 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low5 * 3
+		return total, 1, 5, 3
+	case 28:
+		// 1 5 4
+		total += h.N1
+		total += h.N4
+		total += h.N5
+		total += h.N14 * 4
+		total += h.N15 * 4
+		total += h.N45 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low4 * 3
+		total += h.Low5 * 3
+		return total, 1, 5, 4
+	case 29:
+		// 1 5 5
+		total += h.N1
+		total += h.N5 * 2
+		total += h.N15 * 4
+		total += h.N11 * 5
+		return total, 1, 5, 5
+	case 30:
+		// 1 5 6
+		total += h.N1
+		total += h.N5
+		total += h.N6
+		total += h.N15 * 4
+		total += h.N16 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High1 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 1, 5, 6
+	case 31:
+		// 1 6 1
+		total += h.N1 * 2
+		total += h.N6
+		total += h.N16 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low6 * 3
+		return total, 1, 6, 1
+	case 32:
+		// 1 6 2
+		total += h.N1
+		total += h.N2
+		total += h.N6
+		total += h.N12 * 4
+		total += h.N16 * 4
+		total += h.N26 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low6 * 3
+		return total, 1, 6, 2
+	case 33:
+		// 1 6 3
+		total += h.N1
+		total += h.N3
+		total += h.N6
+		total += h.N13 * 4
+		total += h.N16 * 4
+		total += h.N36 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low6 * 3
+		return total, 1, 6, 3
+	case 34:
+		// 1 6 4
+		total += h.N1
+		total += h.N4
+		total += h.N6
+		total += h.N14 * 4
+		total += h.N16 * 4
+		total += h.N46 * 4
+		total += h.N11 * 5
+		return total, 1, 6, 4
+	case 35:
+		// 1 6 5
+		total += h.N1
+		total += h.N5
+		total += h.N6
+		total += h.N15 * 4
+		total += h.N16 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High1 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 1, 6, 5
+	case 36:
+		// 1 6 6
+		total += h.N1
+		total += h.N6 * 2
+		total += h.N16 * 4
+		total += h.High
+		total += h.High1 * 3
+		total += h.High6 * 3
+		return total, 1, 6, 6
+	case 37:
+		// 2 1 1
+		total += h.N1 * 2
+		total += h.N2
+		total += h.N12 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		return total, 2, 1, 1
+	case 38:
+		// 2 1 2
+		total += h.N1
+		total += h.N2 * 2
+		total += h.N12 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		return total, 2, 1, 2
+	case 39:
+		// 2 1 3
+		total += h.N1
+		total += h.N2
+		total += h.N3
+		total += h.N12 * 4
+		total += h.N13 * 4
+		total += h.N23 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		return total, 2, 1, 3
+	case 40:
+		// 2 1 4
+		total += h.N1
+		total += h.N2
+		total += h.N4
+		total += h.N12 * 4
+		total += h.N14 * 4
+		total += h.N24 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low4 * 3
+		return total, 2, 1, 4
+	case 41:
+		// 2 1 5
+		total += h.N1
+		total += h.N2
+		total += h.N5
+		total += h.N12 * 4
+		total += h.N15 * 4
+		total += h.N25 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low5 * 3
+		return total, 2, 1, 5
+	case 42:
+		// 2 1 6
+		total += h.N1
+		total += h.N2
+		total += h.N6
+		total += h.N12 * 4
+		total += h.N16 * 4
+		total += h.N26 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low6 * 3
+		return total, 2, 1, 6
+	case 43:
+		// 2 2 1
+		total += h.N1
+		total += h.N2 * 2
+		total += h.N12 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		return total, 2, 2, 1
+	case 44:
+		// 2 2 2
+		total += h.N2 * 3
+		total += h.Low
+		total += h.Low2 * 3
+		return total, 2, 2, 2
+	case 45:
+		// 2 2 3
+		total += h.N2 * 2
+		total += h.N3
+		total += h.N23 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		return total, 2, 2, 3
+	case 46:
+		// 2 2 4
+		total += h.N2 * 2
+		total += h.N4
+		total += h.N24 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low4 * 3
+		return total, 2, 2, 4
+	case 47:
+		// 2 2 5
+		total += h.N2 * 2
+		total += h.N5
+		total += h.N25 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low5 * 3
+		return total, 2, 2, 5
+	case 48:
+		// 2 2 6
+		total += h.N2 * 2
+		total += h.N6
+		total += h.N26 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low6 * 3
+		return total, 2, 2, 6
+	case 49:
+		// 2 3 1
+		total += h.N1
+		total += h.N2
+		total += h.N3
+		total += h.N12 * 4
+		total += h.N13 * 4
+		total += h.N23 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		return total, 2, 3, 1
+	case 50:
+		//  2 3 2
+		total += h.N2 * 2
+		total += h.N3
+		total += h.N23 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		return total, 2, 3, 2
+	case 51:
+		// 2 3 3
+		total += h.N2
+		total += h.N3 * 2
+		total += h.N23 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		return total, 2, 3, 3
+	case 52:
+		// 2 3 4
+		total += h.N2
+		total += h.N3
+		total += h.N4
+		total += h.N23 * 4
+		total += h.N24 * 4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 2, 3, 4
+	case 53:
+		// 2 3 5
+		total += h.N2
+		total += h.N3
+		total += h.N5
+		total += h.N23 * 4
+		total += h.N25 * 4
+		total += h.N35 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		total += h.Low5 * 3
+		return total, 2, 3, 5
+	case 54:
+		// 2 3 6
+		total += h.N2
+		total += h.N3
+		total += h.N6
+		total += h.N23 * 4
+		total += h.N26 * 4
+		total += h.N36 * 4
+		total += h.N11 * 5
+		return total, 2, 3, 6
+	case 55:
+		// 2 4 1
+		total += h.N1
+		total += h.N2
+		total += h.N4
+		total += h.N12 * 4
+		total += h.N14 * 4
+		total += h.N24 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low4 * 3
+		return total, 2, 4, 1
+	case 56:
+		// 2 4 2
+		total += h.N2 * 2
+		total += h.N4
+		total += h.N24 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low4 * 3
+		return total, 2, 4, 2
+	case 57:
+		// 2 4 3
+		total += h.N2
+		total += h.N3
+		total += h.N4
+		total += h.N23 * 4
+		total += h.N24 * 4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 2, 4, 3
+	case 58:
+		// 2 4 4
+		total += h.N2
+		total += h.N4 * 2
+		total += h.N24 * 4
+		total += h.Low
+		total += h.Low4 * 3
+		return total, 2, 4, 4
+	case 59:
+		// 2 4 5
+		total += h.N2
+		total += h.N4
+		total += h.N5
+		total += h.N24 * 4
+		total += h.N25 * 4
+		total += h.N45 * 4
+		total += h.N11 * 5
+		return total, 2, 4, 5
+	case 60:
+		// 2 4 6
+		total += h.N2
+		total += h.N4
+		total += h.N6
+		total += h.N24 * 4
+		total += h.N26 * 4
+		total += h.N46 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 2, 4, 6
+	case 61:
+		// 2 5 1
+		total += h.N1
+		total += h.N2
+		total += h.N5
+		total += h.N12 * 4
+		total += h.N15 * 4
+		total += h.N25 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low5 * 3
+		return total, 2, 5, 1
+	case 62:
+		// 2 5 2
+		total += h.N2 * 2
+		total += h.N5
+		total += h.N25 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low5 * 3
+		return total, 2, 5, 2
+	case 63:
+		// 2 5 3
+		total += h.N2
+		total += h.N3
+		total += h.N5
+		total += h.N23 * 4
+		total += h.N25 * 4
+		total += h.N35 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		total += h.Low5 * 3
+		return total, 2, 5, 3
+	case 64:
+		// 2 5 4
+		total += h.N2
+		total += h.N4
+		total += h.N5
+		total += h.N24 * 4
+		total += h.N25 * 4
+		total += h.N45 * 4
+		total += h.N11 * 5
+		return total, 2, 5, 4
+	case 65:
+		// 2 5 5
+		total += h.N2
+		total += h.N5 * 2
+		total += h.N25 * 4
+		total += h.High
+		total += h.High2 * 3
+		return total, 2, 5, 5
+	case 66:
+		// 2 5 6
+		total += h.N2
+		total += h.N5
+		total += h.N6
+		total += h.N25 * 4
+		total += h.N26 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 2, 5, 6
+	case 67:
+		// 2 6 1
+		total += h.N1
+		total += h.N2
+		total += h.N6
+		total += h.N12 * 4
+		total += h.N16 * 4
+		total += h.N26 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low6 * 3
+		return total, 2, 6, 1
+	case 68:
+		// 2 6 2
+		total += h.N2 * 2
+		total += h.N6
+		total += h.N26 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low6 * 3
+		return total, 2, 6, 2
+	case 69:
+		// 2 6 3
+		total += h.N2
+		total += h.N3
+		total += h.N6
+		total += h.N23 * 4
+		total += h.N26 * 4
+		total += h.N36 * 4
+		total += h.N11 * 5
+		return total, 2, 6, 3
+	case 70:
+		// 2 6 4
+		total += h.N2
+		total += h.N4
+		total += h.N6
+		total += h.N24 * 4
+		total += h.N26 * 4
+		total += h.N46 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 2, 6, 4
+	case 71:
+		// 2 6 5
+		total += h.N2
+		total += h.N5
+		total += h.N6
+		total += h.N25 * 4
+		total += h.N26 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 2, 6, 5
+	case 72:
+		// 2 6 6
+		total += h.N2
+		total += h.N6 * 2
+		total += h.N26 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High6 * 3
+		return total, 2, 6, 6
+	case 73:
+		// 3 1 1
+		total += h.N1 * 2
+		total += h.N3
+		total += h.N13 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		return total, 3, 1, 1
+	case 74:
+		// 3 1 2
+		total += h.N1
+		total += h.N2
+		total += h.N3
+		total += h.N12 * 4
+		total += h.N13 * 4
+		total += h.N23 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		return total, 3, 1, 2
+	case 75:
+		// 3 1 3
+		total += h.N3 * 2
+		total += h.N1
+		total += h.N13 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		return total, 3, 1, 3
+	case 76:
+		// 3 1 4
+		total += h.N1
+		total += h.N3
+		total += h.N4
+		total += h.N13 * 4
+		total += h.N14 * 4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 3, 1, 4
+	case 77:
+		// 3 1 5
+		total += h.N1
+		total += h.N3
+		total += h.N5
+		total += h.N13 * 4
+		total += h.N15 * 4
+		total += h.N35 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low5 * 3
+		return total, 3, 1, 5
+	case 78:
+		// 3 1 6
+		total += h.N1
+		total += h.N3
+		total += h.N6
+		total += h.N13 * 4
+		total += h.N16 * 4
+		total += h.N36 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low6 * 3
+		return total, 3, 1, 6
+	case 79:
+		// 3 2 1
+		total += h.N1
+		total += h.N2
+		total += h.N3
+		total += h.N12 * 4
+		total += h.N13 * 4
+		total += h.N23 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		return total, 3, 2, 1
+	case 80:
+		// 3 2 2
+		total += h.N2 * 2
+		total += h.N3
+		total += h.N23 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		return total, 3, 2, 2
+	case 81:
+		// 3 2 3
+		total += h.N2
+		total += h.N3 * 2
+		total += h.N23 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		return total, 3, 2, 3
+	case 82:
+		// 3 2 4
+		total += h.N2
+		total += h.N3
+		total += h.N4
+		total += h.N23 * 4
+		total += h.N24 * 4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 3, 2, 4
+	case 83:
+		// 3 2 5
+		total += h.N2
+		total += h.N3
+		total += h.N5
+		total += h.N23 * 4
+		total += h.N25 * 4
+		total += h.N35 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		total += h.Low5 * 3
+		return total, 3, 2, 5
+	case 84:
+		// 3 2 6
+		total += h.N2
+		total += h.N3
+		total += h.N6
+		total += h.N23 * 4
+		total += h.N26 * 4
+		total += h.N36 * 4
+		total += h.N11 * 5
+		return total, 3, 2, 6
+	case 85:
+		// 3 3 2
+		total += h.N2
+		total += h.N3 * 2
+		total += h.N23 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		return total, 3, 3, 2
+	case 86:
+		// 3 3 3
+		total += h.N3 * 3
+		total += h.Low
+		total += h.Low3 * 3
+		return total, 3, 3, 3
+	case 87:
+		// 3 3 4
+		total += h.N3 * 2
+		total += h.N4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 3, 3, 4
+	case 88:
+		// 3 3 5
+		total += h.N3 * 2
+		total += h.N5
+		total += h.N35 * 4
+		total += h.N11
+		return total, 3, 3, 5
+	case 89:
+		// 3 3 6
+		total += h.N3 * 2
+		total += h.N6
+		total += h.N36 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High6 * 3
+		return total, 3, 3, 6
+	case 90:
+		// 3 4 1
+		total += h.N1
+		total += h.N3
+		total += h.N4
+		total += h.N13 * 4
+		total += h.N14 * 4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 3, 4, 1
+	case 91:
+		// 3 4 2
+		total += h.N2
+		total += h.N3
+		total += h.N4
+		total += h.N23 * 4
+		total += h.N24 * 4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 3, 4, 2
+	case 92:
+		// 3 4 3
+		total += h.N3 * 2
+		total += h.N4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 3, 4, 3
+	case 93:
+		// 3 4 4
+		total += h.N3
+		total += h.N4 * 2
+		total += h.N34 * 4
+		total += h.N11
+		return total, 3, 4, 4
+	case 94:
+		// 3 4 5
+		total += h.N3
+		total += h.N4
+		total += h.N5
+		total += h.N34 * 4
+		total += h.N35 * 4
+		total += h.N45 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High4 * 3
+		total += h.High5 * 3
+		return total, 3, 4, 5
+	case 95:
+		// 3 4 6
+		total += h.N3
+		total += h.N4
+		total += h.N6
+		total += h.N34 * 4
+		total += h.N36 * 4
+		total += h.N46 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 3, 4, 6
+	case 96:
+		// 3 5 1
+		total += h.N1
+		total += h.N3
+		total += h.N5
+		total += h.N13 * 4
+		total += h.N15 * 4
+		total += h.N35 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low5 * 3
+		return total, 3, 5, 1
+	case 97:
+		// 3 5 2
+		total += h.N2
+		total += h.N3
+		total += h.N5
+		total += h.N23 * 4
+		total += h.N25 * 4
+		total += h.N35 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		total += h.Low5 * 3
+		return total, 3, 5, 2
+	case 98:
+		// 3 5 4
+		total += h.N3
+		total += h.N4
+		total += h.N5
+		total += h.N34 * 4
+		total += h.N35 * 4
+		total += h.N45 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High4 * 3
+		total += h.High5 * 3
+		return total, 3, 5, 4
+	case 99:
+		// 3 5 5
+		total += h.N3
+		total += h.N5 * 2
+		total += h.N35 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High5 * 3
+		return total, 3, 5, 5
+	case 100:
+		// 3 5 6
+		total += h.N3
+		total += h.N5
+		total += h.N6
+		total += h.N35 * 4
+		total += h.N36 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 3, 5, 6
+	case 101:
+		// 3 6 1
+		total += h.N1
+		total += h.N3
+		total += h.N6
+		total += h.N13 * 4
+		total += h.N16 * 4
+		total += h.N36 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low6 * 3
+		return total, 3, 6, 1
+	case 102:
+		// 3 6 2
+		total += h.N2
+		total += h.N3
+		total += h.N6
+		total += h.N23 * 4
+		total += h.N26 * 4
+		total += h.N36 * 4
+		total += h.N11 * 5
+		return total, 3, 6, 2
+	case 103:
+		// 3 6 4
+		total += h.N3
+		total += h.N4
+		total += h.N6
+		total += h.N34 * 4
+		total += h.N36 * 4
+		total += h.N46 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 3, 6, 4
+	case 104:
+		// 3 6 5
+		total += h.N3
+		total += h.N5
+		total += h.N6
+		total += h.N35 * 4
+		total += h.N36 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 3, 6, 5
+	case 105:
+		// 3 6 6
+		total += h.N3
+		total += h.N6 * 2
+		total += h.N36 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High6 * 3
+		return total, 3, 6, 6
+	case 106:
+		// 4 1 1
+		total += h.N1 * 2
+		total += h.N4
+		total += h.N14 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low4 * 3
+		return total, 4, 1, 1
+	case 107:
+		// 4 1 2
+		total += h.N1
+		total += h.N2
+		total += h.N4
+		total += h.N12 * 4
+		total += h.N14 * 4
+		total += h.N24 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low4 * 3
+		return total, 4, 1, 2
+	case 108:
+		// 4 1 3
+		total += h.N1
+		total += h.N3
+		total += h.N4
+		total += h.N13 * 4
+		total += h.N14 * 4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 4, 1, 3
+	case 109:
+		// 4 1 4
+		total += h.N1
+		total += h.N4 * 2
+		total += h.N14 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low4 * 3
+		return total, 4, 1, 4
+	case 110:
+		// 4 1 5
+		total += h.N1
+		total += h.N4
+		total += h.N5
+		total += h.N14 * 4
+		total += h.N15 * 4
+		total += h.N45 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low4 * 3
+		total += h.Low5 * 3
+		return total, 4, 1, 5
+	case 111:
+		// 4 1 6
+		total += h.N1
+		total += h.N4
+		total += h.N6
+		total += h.N14 * 4
+		total += h.N16 * 4
+		total += h.N46 * 4
+		total += h.N11 * 5
+		return total, 4, 1, 6
+	case 112:
+		// 4 2 1
+		total += h.N1
+		total += h.N2
+		total += h.N4
+		total += h.N12 * 4
+		total += h.N14 * 4
+		total += h.N24 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low4 * 3
+		return total, 4, 2, 1
+	case 113:
+		// 4 2 2
+		total += h.N2 * 2
+		total += h.N4
+		total += h.N24 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low4 * 3
+		return total, 4, 2, 2
+	case 114:
+		// 4 2 3
+		total += h.N2
+		total += h.N3
+		total += h.N4
+		total += h.N23 * 4
+		total += h.N24 * 4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 4, 2, 3
+	case 115:
+		// 4 2 4
+		total += h.N2
+		total += h.N4 * 2
+		total += h.N24 * 4
+		total += h.Low
+		total += h.Low4 * 3
+		return total, 2, 4, 4
+	case 116:
+		// 4 2 5
+		total += h.N2
+		total += h.N4
+		total += h.N5
+		total += h.N24 * 4
+		total += h.N25 * 4
+		total += h.N45 * 4
+		total += h.N11 * 5
+		return total, 2, 4, 5
+	case 117:
+		// 4 2 6
+		total += h.N2
+		total += h.N4
+		total += h.N6
+		total += h.N24 * 4
+		total += h.N26 * 4
+		total += h.N46 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 4, 2, 6
+	case 118:
+		// 4 3 1
+		total += h.N1
+		total += h.N3
+		total += h.N4
+		total += h.N13 * 4
+		total += h.N14 * 4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 4, 3, 1
+	case 119:
+		// 4 3 2
+		total += h.N2
+		total += h.N3
+		total += h.N4
+		total += h.N23 * 4
+		total += h.N24 * 4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 4, 3, 2
+	case 120:
+		// 4 3 3
+		total += h.N3 * 2
+		total += h.N4
+		total += h.N34 * 4
+		total += h.Low
+		total += h.Low3 * 3
+		total += h.Low4 * 3
+		return total, 4, 3, 3
+	case 121:
+		// 4 3 4
+		total += h.N3
+		total += h.N4 * 2
+		total += h.N34 * 4
+		total += h.N11
+		return total, 4, 3, 4
+	case 122:
+		// 4 3 5
+		total += h.N3
+		total += h.N4
+		total += h.N5
+		total += h.N34 * 4
+		total += h.N35 * 4
+		total += h.N45 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High4 * 3
+		total += h.High5 * 3
+		return total, 4, 3, 5
+	case 123:
+		// 4 3 6
+		total += h.N3
+		total += h.N4
+		total += h.N6
+		total += h.N34 * 4
+		total += h.N36 * 4
+		total += h.N46 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 4, 3, 6
+	case 124:
+		// 4 4 1
+		total += h.N1
+		total += h.N4 * 2
+		total += h.N14 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low4 * 3
+		return total, 4, 4, 1
+	case 125:
+		// 4 4 2
+		total += h.N2
+		total += h.N4 * 2
+		total += h.N24 * 4
+		total += h.Low
+		total += h.Low4 * 3
+		return total, 4, 4, 2
+	case 126:
+		// 4 4 3
+		total += h.N3
+		total += h.N4 * 2
+		total += h.N34 * 4
+		total += h.N11
+		return total, 4, 4, 3
+	case 127:
+		// 4 4 4
+		total += h.N4 * 3
+		total += h.High
+		total += h.High4 * 3
+		return total, 4, 4, 4
+	case 128:
+		// 4 4 5
+		total += h.N4 * 2
+		total += h.N5
+		total += h.N45 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High5 * 3
+		return total, 4, 4, 5
+	case 129:
+		// 4 4 6
+		total += h.N4 * 2
+		total += h.N6
+		total += h.N46 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 4, 4, 6
+	case 130:
+		// 4 5 1
+		total += h.N1
+		total += h.N4
+		total += h.N5
+		total += h.N14 * 4
+		total += h.N15 * 4
+		total += h.N45 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low4 * 3
+		total += h.Low5 * 3
+		return total, 4, 5, 1
+	case 131:
+		// 4 5 2
+		total += h.N2
+		total += h.N4
+		total += h.N5
+		total += h.N24 * 4
+		total += h.N25 * 4
+		total += h.N45 * 4
+		total += h.N11 * 5
+		return total, 4, 5, 2
+	case 132:
+		// 4 5 3
+		total += h.N3
+		total += h.N4
+		total += h.N5
+		total += h.N34 * 4
+		total += h.N35 * 4
+		total += h.N45 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High4 * 3
+		total += h.High5 * 3
+		return total, 4, 5, 3
+	case 133:
+		// 4 5 4
+		total += h.N4 * 2
+		total += h.N5
+		total += h.N45 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High5 * 3
+		return total, 4, 5, 4
+	case 134:
+		// 4 5 5
+		total += h.N4
+		total += h.N5 * 2
+		total += h.N45 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High5 * 3
+		return total, 4, 5, 5
+	case 135:
+		// 4 5 6
+		total += h.N4
+		total += h.N5
+		total += h.N6
+		total += h.N45 * 4
+		total += h.N46 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 4, 5, 6
+	case 136:
+		// 4 6 1
+		total += h.N1
+		total += h.N4
+		total += h.N6
+		total += h.N14 * 4
+		total += h.N16 * 4
+		total += h.N46 * 4
+		total += h.N11 * 5
+		return total, 4, 6, 1
+	case 137:
+		// 4 6 2
+		total += h.N2
+		total += h.N4
+		total += h.N6
+		total += h.N24 * 4
+		total += h.N26 * 4
+		total += h.N46 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 4, 6, 2
+	case 138:
+		// 4 6 3
+		total += h.N3
+		total += h.N4
+		total += h.N6
+		total += h.N34 * 4
+		total += h.N36 * 4
+		total += h.N46 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 4, 6, 3
+	case 139:
+		// 4 6 4
+		total += h.N4 * 2
+		total += h.N6
+		total += h.N46 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 4, 6, 4
+	case 140:
+		// 4 6 5
+		total += h.N4
+		total += h.N5
+		total += h.N6
+		total += h.N45 * 4
+		total += h.N46 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 4, 6, 5
+	case 141:
+		// 4 6 6
+		total += h.N4
+		total += h.N6 * 2
+		total += h.N46 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 4, 6, 6
+	case 142:
+		// 5 1 1
+		total += h.N1 * 2
+		total += h.N5
+		total += h.N15 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low5 * 3
+		return total, 5, 1, 1
+	case 143:
+		// 5 1 2
+		total += h.N1
+		total += h.N2
+		total += h.N5
+		total += h.N12 * 4
+		total += h.N15 * 4
+		total += h.N25 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low5 * 3
+		return total, 5, 1, 2
+	case 144:
+		// 5 1 3
+		total += h.N1
+		total += h.N3
+		total += h.N5
+		total += h.N13 * 4
+		total += h.N15 * 4
+		total += h.N35 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low5 * 3
+		return total, 5, 1, 3
+	case 145:
+		// 5 1 4
+		total += h.N1
+		total += h.N4
+		total += h.N5
+		total += h.N14 * 4
+		total += h.N15 * 4
+		total += h.N45 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low4 * 3
+		total += h.Low5 * 3
+		return total, 5, 1, 4
+	case 146:
+		// 5 1 5
+		total += h.N1
+		total += h.N5 * 2
+		total += h.N15 * 4
+		total += h.N11 * 5
+		return total, 5, 1, 5
+	case 147:
+		// 5 1 6
+		total += h.N1
+		total += h.N5
+		total += h.N6
+		total += h.N15 * 4
+		total += h.N16 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High1 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 5, 1, 6
+	case 148:
+		// 5 2 1
+		total += h.N1
+		total += h.N2
+		total += h.N5
+		total += h.N12 * 4
+		total += h.N15 * 4
+		total += h.N25 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low5 * 3
+		return total, 5, 2, 1
+	case 149:
+		// 5 2 2
+		total += h.N2 * 2
+		total += h.N5
+		total += h.N25 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low5 * 3
+		return total, 5, 2, 2
+	case 150:
+		// 5 2 3
+		total += h.N2
+		total += h.N3
+		total += h.N5
+		total += h.N23 * 4
+		total += h.N25 * 4
+		total += h.N35 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		total += h.Low5 * 3
+		return total, 5, 2, 3
+	case 151:
+		// 5 2 4
+		total += h.N2
+		total += h.N4
+		total += h.N5
+		total += h.N24 * 4
+		total += h.N25 * 4
+		total += h.N45 * 4
+		total += h.N11 * 5
+		return total, 5, 2, 4
+	case 152:
+		// 5 2 5
+		total += h.N2
+		total += h.N5 * 2
+		total += h.N25 * 4
+		total += h.High
+		total += h.High2 * 3
+		return total, 5, 2, 5
+	case 153:
+		// 5 2 6
+		total += h.N2
+		total += h.N5
+		total += h.N6
+		total += h.N25 * 4
+		total += h.N26 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 5, 2, 6
+	case 154:
+		// 5 3 1
+		total += h.N1
+		total += h.N3
+		total += h.N5
+		total += h.N13 * 4
+		total += h.N15 * 4
+		total += h.N35 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low5 * 3
+		return total, 5, 3, 1
+	case 155:
+		// 5 3 2
+		total += h.N2
+		total += h.N3
+		total += h.N5
+		total += h.N23 * 4
+		total += h.N25 * 4
+		total += h.N35 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low3 * 3
+		total += h.Low5 * 3
+		return total, 5, 3, 2
+	case 156:
+		// 5 3 3
+		total += h.N3 * 2
+		total += h.N5
+		total += h.N35 * 4
+		total += h.N11
+		return total, 5, 3, 3
+	case 157:
+		// 5 3 4
+		total += h.N3
+		total += h.N4
+		total += h.N5
+		total += h.N34 * 4
+		total += h.N35 * 4
+		total += h.N45 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High4 * 3
+		total += h.High5 * 3
+		return total, 5, 3, 4
+	case 158:
+		// 5 3 5
+		total += h.N3
+		total += h.N5 * 2
+		total += h.N35 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High5 * 3
+		return total, 5, 3, 5
+	case 159:
+		// 5 3 6
+		total += h.N3
+		total += h.N5
+		total += h.N6
+		total += h.N35 * 4
+		total += h.N36 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 5, 3, 6
+	case 160:
+		// 5 4 1
+		total += h.N1
+		total += h.N4
+		total += h.N5
+		total += h.N14 * 4
+		total += h.N15 * 4
+		total += h.N45 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low4 * 3
+		total += h.Low5 * 3
+		return total, 5, 4, 1
+	case 161:
+		// 5 4 2
+		total += h.N2
+		total += h.N4
+		total += h.N5
+		total += h.N24 * 4
+		total += h.N25 * 4
+		total += h.N45 * 4
+		total += h.N11 * 5
+		return total, 5, 4, 2
+	case 162:
+		// 5 4 3
+		total += h.N3
+		total += h.N4
+		total += h.N5
+		total += h.N34 * 4
+		total += h.N35 * 4
+		total += h.N45 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High4 * 3
+		total += h.High5 * 3
+		return total, 5, 4, 3
+	case 163:
+		// 5 4 4
+		total += h.N4 * 2
+		total += h.N5
+		total += h.N45 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High5 * 3
+		return total, 5, 4, 4
+	case 164:
+		// 5 4 5
+		total += h.N4
+		total += h.N5 * 2
+		total += h.N45 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High5 * 3
+		return total, 5, 4, 5
+	case 165:
+		// 5 4 6
+		total += h.N4
+		total += h.N5
+		total += h.N6
+		total += h.N45 * 4
+		total += h.N46 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 5, 4, 6
+	case 166:
+		// 5 5 1
+		total += h.N1
+		total += h.N5 * 2
+		total += h.N15 * 4
+		total += h.N11 * 5
+		return total, 5, 5, 1
+	case 167:
+		// 5 5 2
+		total += h.N2
+		total += h.N5 * 2
+		total += h.N25 * 4
+		total += h.High
+		total += h.High2 * 3
+		return total, 5, 5, 2
+	case 168:
+		// 5 5 3
+		total += h.N3
+		total += h.N5 * 2
+		total += h.N35 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High5 * 3
+		return total, 5, 5, 3
+	case 169:
+		// 5 5 4
+		total += h.N4
+		total += h.N5 * 2
+		total += h.N45 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High5 * 3
+		return total, 5, 5, 4
+	case 170:
+		// 5 5 5
+		total += h.N5 * 3
+		total += h.High
+		total += h.High5 * 3
+		return total, 5, 5, 5
+	case 171:
+		// 5 5 6
+		total += h.N5 * 2
+		total += h.N6
+		total += h.N56 * 4
+		total += h.High
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 5, 5, 6
+	case 172:
+		// 5 6 1
+		total += h.N1
+		total += h.N5
+		total += h.N6
+		total += h.N15 * 4
+		total += h.N16 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High1 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 5, 6, 1
+	case 173:
+		// 5 6 2
+		total += h.N2
+		total += h.N5
+		total += h.N6
+		total += h.N25 * 4
+		total += h.N26 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 5, 6, 2
+	case 174:
+		// 5 6 3
+		total += h.N3
+		total += h.N5
+		total += h.N6
+		total += h.N35 * 4
+		total += h.N36 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 5, 6, 3
+	case 175:
+		// 5 6 4
+		total += h.N4
+		total += h.N5
+		total += h.N6
+		total += h.N45 * 4
+		total += h.N46 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 5, 6, 4
+	case 176:
+		// 5 6 5
+		total += h.N5 * 2
+		total += h.N6
+		total += h.N56 * 4
+		total += h.High
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 5, 6, 5
+	case 177:
+		// 5 6 6
+		total += h.N5
+		total += h.N6 * 2
+		total += h.N56 * 4
+		total += h.High
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 5, 6, 6
+	case 178:
+		// 6 1 1
+		total += h.N1 * 2
+		total += h.N6
+		total += h.N16 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low6 * 3
+		return total, 6, 1, 1
+	case 179:
+		// 6 1 2
+		total += h.N1
+		total += h.N2
+		total += h.N6
+		total += h.N12 * 4
+		total += h.N16 * 4
+		total += h.N26 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low6 * 3
+		return total, 6, 1, 2
+	case 180:
+		// 6 1 3
+		total += h.N1
+		total += h.N3
+		total += h.N6
+		total += h.N13 * 4
+		total += h.N16 * 4
+		total += h.N36 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low6 * 3
+		return total, 6, 1, 3
+	case 181:
+		// 6 1 4
+		total += h.N1
+		total += h.N4
+		total += h.N6
+		total += h.N14 * 4
+		total += h.N16 * 4
+		total += h.N46 * 4
+		total += h.N11 * 5
+		return total, 6, 1, 4
+	case 182:
+		// 6 1 5
+		total += h.N1
+		total += h.N5
+		total += h.N6
+		total += h.N15 * 4
+		total += h.N16 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High1 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 6, 1, 5
+	case 183:
+		// 6 1 6
+		total += h.N1
+		total += h.N6 * 2
+		total += h.N16 * 4
+		total += h.High
+		total += h.High1 * 3
+		total += h.High6 * 3
+		return total, 6, 1, 6
+	case 184:
+		// 6 2 1
+		total += h.N1
+		total += h.N2
+		total += h.N6
+		total += h.N12 * 4
+		total += h.N16 * 4
+		total += h.N26 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low2 * 3
+		total += h.Low6 * 3
+		return total, 6, 2, 1
+	case 185:
+		// 6 2 2
+		total += h.N2 * 2
+		total += h.N6
+		total += h.N26 * 4
+		total += h.Low
+		total += h.Low2 * 3
+		total += h.Low6 * 3
+		return total, 6, 2, 2
+	case 186:
+		// 6 2 3
+		total += h.N2
+		total += h.N3
+		total += h.N6
+		total += h.N23 * 4
+		total += h.N26 * 4
+		total += h.N36 * 4
+		total += h.N11 * 5
+		return total, 6, 2, 3
+	case 187:
+		// 6 2 4
+		total += h.N2
+		total += h.N4
+		total += h.N6
+		total += h.N24 * 4
+		total += h.N26 * 4
+		total += h.N46 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 6, 2, 4
+	case 188:
+		// 6 2 5
+		total += h.N2
+		total += h.N5
+		total += h.N6
+		total += h.N25 * 4
+		total += h.N26 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 6, 2, 5
+	case 189:
+		// 6 2 6
+		total += h.N2
+		total += h.N6 * 2
+		total += h.N26 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High6 * 3
+		return total, 6, 2, 6
+	case 190:
+		// 6 3 1
+		total += h.N1
+		total += h.N3
+		total += h.N6
+		total += h.N13 * 4
+		total += h.N16 * 4
+		total += h.N36 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		total += h.Low6 * 3
+		return total, 6, 3, 1
+	case 191:
+		// 6 3 2
+		total += h.N2
+		total += h.N3
+		total += h.N6
+		total += h.N23 * 4
+		total += h.N26 * 4
+		total += h.N36 * 4
+		total += h.N11 * 5
+		return total, 6, 3, 2
+	case 192:
+		// 6 3 3
+		total += h.N3 * 2
+		total += h.N6
+		total += h.N36 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High6 * 3
+		return total, 6, 3, 3
+	case 193:
+		// 6 3 4
+		total += h.N3
+		total += h.N4
+		total += h.N6
+		total += h.N34 * 4
+		total += h.N36 * 4
+		total += h.N46 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 6, 3, 4
+	case 194:
+		// 6 3 5
+		total += h.N3
+		total += h.N5
+		total += h.N6
+		total += h.N35 * 4
+		total += h.N36 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 6, 3, 5
+	case 195:
+		// 6 3 6
+		total += h.N3
+		total += h.N6 * 2
+		total += h.N36 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High6 * 3
+		return total, 6, 3, 6
+	case 196:
+		// 6 4 1
+		total += h.N1
+		total += h.N4
+		total += h.N6
+		total += h.N14 * 4
+		total += h.N16 * 4
+		total += h.N46 * 4
+		total += h.N11 * 5
+		return total, 6, 4, 1
+	case 197:
+		// 6 4 2
+		total += h.N2
+		total += h.N4
+		total += h.N6
+		total += h.N24 * 4
+		total += h.N26 * 4
+		total += h.N46 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 6, 4, 2
+	case 198:
+		// 6 4 3
+		total += h.N3
+		total += h.N4
+		total += h.N6
+		total += h.N34 * 4
+		total += h.N36 * 4
+		total += h.N46 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 6, 4, 3
+	case 199:
+		// 6 4 4
+		total += h.N4 * 2
+		total += h.N6
+		total += h.N46 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 6, 4, 4
+	case 200:
+		// 6 4 5
+		total += h.N4
+		total += h.N5
+		total += h.N6
+		total += h.N45 * 4
+		total += h.N46 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 6, 4, 5
+	case 201:
+		// 6 4 6
+		total += h.N4
+		total += h.N6 * 2
+		total += h.N46 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 6, 4, 6
+	case 202:
+		// 6 5 1
+		total += h.N1
+		total += h.N5
+		total += h.N6
+		total += h.N15 * 4
+		total += h.N16 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High1 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 6, 5, 1
+	case 203:
+		// 6 5 2
+		total += h.N2
+		total += h.N5
+		total += h.N6
+		total += h.N25 * 4
+		total += h.N26 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 6, 5, 2
+	case 204:
+		// 6 5 3
+		total += h.N3
+		total += h.N5
+		total += h.N6
+		total += h.N35 * 4
+		total += h.N36 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 6, 5, 3
+	case 205:
+		// 6 5 4
+		total += h.N4
+		total += h.N5
+		total += h.N6
+		total += h.N45 * 4
+		total += h.N46 * 4
+		total += h.N56 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 6, 5, 4
+	case 206:
+		// 6 5 5
+		total += h.N5 * 2
+		total += h.N6
+		total += h.N56 * 4
+		total += h.High
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 6, 5, 5
+	case 207:
+		// 6 5 6
+		total += h.N5
+		total += h.N6 * 2
+		total += h.N56 * 4
+		total += h.High
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 6, 5, 6
+	case 208:
+		// 6 6 1
+		total += h.N1
+		total += h.N6 * 2
+		total += h.N16 * 4
+		total += h.High
+		total += h.High1 * 3
+		total += h.High6 * 3
+		return total, 6, 6, 1
+	case 209:
+		// 6 6 2
+		total += h.N2
+		total += h.N6 * 2
+		total += h.N26 * 4
+		total += h.High
+		total += h.High2 * 3
+		total += h.High6 * 3
+		return total, 6, 6, 2
+	case 210:
+		// 6 6 3
+		total += h.N3
+		total += h.N6 * 2
+		total += h.N36 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High6 * 3
+		return total, 6, 6, 3
+	case 211:
+		// 6 6 4
+		total += h.N4
+		total += h.N6 * 2
+		total += h.N46 * 4
+		total += h.High
+		total += h.High4 * 3
+		total += h.High6 * 3
+		return total, 6, 6, 4
+	case 212:
+		// 6 6 5
+		total += h.N5
+		total += h.N6 * 2
+		total += h.N56 * 4
+		total += h.High
+		total += h.High5 * 3
+		total += h.High6 * 3
+		return total, 6, 6, 5
+	case 213:
+		// 6 6 6
+		total += h.N6 * 3
+		total += h.High
+		total += h.High6 * 3
+		return total, 6, 6, 6
+	case 214:
+		// 3 3 1
+		total += h.N1
+		total += h.N3 * 2
+		total += h.N13 * 4
+		total += h.Low
+		total += h.Low1 * 3
+		total += h.Low3 * 3
+		return total, 3, 3, 1
+	case 215:
+		// 3 5 3
+		total += h.N3 * 2
+		total += h.N5
+		total += h.N35 * 4
+		total += h.N11
+		return total, 3, 5, 3
+	case 216:
+		// 3 6 3
+		// 3 3 6
+		total += h.N3 * 2
+		total += h.N6
+		total += h.N36 * 4
+		total += h.High
+		total += h.High3 * 3
+		total += h.High6 * 3
+		return total, 3, 6, 3
+	}
+
+	log.Println("ERROR")
+	return 0, 0, 0, 0
 }

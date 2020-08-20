@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"log"
 	"time"
 
 	"github.com/workdestiny/convbox"
@@ -83,6 +84,38 @@ func GetLiveHighlow(q Queryer, id string) (entity.HighlowBet, error) {
 	hl.Low4 = convbox.ShortNumber(l4)
 	hl.Low5 = convbox.ShortNumber(l5)
 	hl.Low6 = convbox.ShortNumber(l6)
+
+	return hl, nil
+}
+
+//GetHighlowLink input price
+func GetHighlowLink(q Queryer, id string) (entity.HighlowLinkBet, error) {
+
+	var hl entity.HighlowLinkBet
+	err := q.QueryRow(`
+		SELECT id, high, low, n11, n1,
+				n2, n3, n4, n5,
+				n6, n12, n13, n14,
+				n15, n16, n23, n24,
+				n25, n26, n34, n35,
+				n36, n45, n46, n56,
+				high_1, high_2, high_3, high_4,
+				high_5, high_6, low_1, low_2,
+				low_3, low_4, low_5, low_6
+		  FROM high_low
+		 WHERE id = $1;`, id).Scan(&hl.ID, &hl.High, &hl.Low, &hl.N11, &hl.N1,
+		&hl.N2, &hl.N3, &hl.N4, &hl.N5,
+		&hl.N6, &hl.N12, &hl.N13, &hl.N14,
+		&hl.N15, &hl.N16, &hl.N23, &hl.N24,
+		&hl.N25, &hl.N26, &hl.N34, &hl.N35,
+		&hl.N36, &hl.N45, &hl.N46, &hl.N56,
+		&hl.High1, &hl.High2, &hl.High3, &hl.High4,
+		&hl.High5, &hl.High6, &hl.Low1, &hl.Low2,
+		&hl.Low3, &hl.Low4, &hl.Low5, &hl.Low6)
+	log.Println(err)
+	if err != nil {
+		return hl, err
+	}
 
 	return hl, nil
 }

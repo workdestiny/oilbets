@@ -19,8 +19,10 @@ var (
 const (
 	//FrontbackWinrate is Win Rate 30% (game Frontback)
 	FrontbackWinrate = 40
+	//HighlowWinrate is Win Rate 50% (game Hilo)
+	HighlowWinrate = 50
 	//HighlowCountdown is duration time countdown
-	HighlowCountdown = 300
+	HighlowCountdown = 180
 	//LimitDiscover limit post
 	LimitDiscover = 12
 	//LimitPublic limit post
