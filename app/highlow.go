@@ -632,6 +632,14 @@ func RandomRoll(highlowID string, postgre *sql.DB) (int, int, int) {
 			r2 = s2
 			r3 = s3
 		}
+		if cost == total {
+			if rand.Intn(100)+1 >= config.HighlowRandomRoll {
+				r1 = s1
+				r2 = s2
+				r3 = s3
+			}
+		}
+
 	}
 	return r1, r2, r3
 }
