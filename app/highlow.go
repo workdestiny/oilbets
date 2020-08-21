@@ -52,7 +52,7 @@ func getHighlowBetGetHandler(ctx *hime.Context) error {
 	must(err)
 
 	//รายการของฉัน
-	listMyBet, err := repository.ListHighlowMyBet(db, highlow.ID, getUserID(ctx), 20)
+	listMyBet, err := repository.ListHighlowMyBet(db, highlow.ID, getUserID(ctx), 100)
 	must(err)
 
 	//เช็คจำนวนเงินในระบบ hl
@@ -196,7 +196,7 @@ func ajaxHighlowBetUpdatePostHandler(ctx *hime.Context) error {
 	must(err)
 
 	//รายการเล่น
-	listMyBet, err := repository.ListHighlowMyBet(db, highlow.ID, user.ID, 20)
+	listMyBet, err := repository.ListHighlowMyBet(db, highlow.ID, user.ID, 100)
 	must(err)
 
 	//เช็คจำนวนเงินในระบบ hl
@@ -633,13 +633,14 @@ func RandomRoll(highlowID string, postgre *sql.DB) (int, int, int) {
 			r3 = s3
 		}
 		if cost == total {
-			if rand.Intn(100)+1 >= config.HighlowRandomRoll {
+			rand.Seed(time.Now().UnixNano())
+			r22 := rand.Intn(100) + 1
+			if r22 >= config.HighlowRandomRoll {
 				r1 = s1
 				r2 = s2
 				r3 = s3
 			}
 		}
-
 	}
 	return r1, r2, r3
 }

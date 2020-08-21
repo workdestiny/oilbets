@@ -22,7 +22,7 @@ const (
 	//HighlowWinrate is Win Rate 50% (game Hilo)
 	HighlowWinrate = 100
 	//HighlowRandomRoll is Rate 50%
-	HighlowRandomRoll = 50
+	HighlowRandomRoll = 95
 	//HighlowCountdown is duration time countdown
 	HighlowCountdown = 45
 	//LimitDiscover limit post
