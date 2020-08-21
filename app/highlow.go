@@ -1594,7 +1594,7 @@ func TotalRollCase(i int, h *entity.HighlowLinkBet) (int, int, int, int) {
 		total += h.N3 * 2
 		total += h.N5
 		total += h.N35 * 4
-		total += h.N11
+		total += h.N11 * 5
 		return total, 3, 3, 5
 	case 89:
 		// 3 3 6
@@ -1645,7 +1645,7 @@ func TotalRollCase(i int, h *entity.HighlowLinkBet) (int, int, int, int) {
 		total += h.N3
 		total += h.N4 * 2
 		total += h.N34 * 4
-		total += h.N11
+		total += h.N11 * 5
 		return total, 3, 4, 4
 	case 94:
 		// 3 4 5
@@ -1965,7 +1965,7 @@ func TotalRollCase(i int, h *entity.HighlowLinkBet) (int, int, int, int) {
 		total += h.N3
 		total += h.N4 * 2
 		total += h.N34 * 4
-		total += h.N11
+		total += h.N11 * 5
 		return total, 4, 3, 4
 	case 122:
 		// 4 3 5
@@ -2015,7 +2015,7 @@ func TotalRollCase(i int, h *entity.HighlowLinkBet) (int, int, int, int) {
 		total += h.N3
 		total += h.N4 * 2
 		total += h.N34 * 4
-		total += h.N11
+		total += h.N11 * 5
 		return total, 4, 4, 3
 	case 127:
 		// 4 4 4
@@ -2340,7 +2340,7 @@ func TotalRollCase(i int, h *entity.HighlowLinkBet) (int, int, int, int) {
 		total += h.N3 * 2
 		total += h.N5
 		total += h.N35 * 4
-		total += h.N11
+		total += h.N11 * 5
 		return total, 5, 3, 3
 	case 157:
 		// 5 3 4
@@ -2965,11 +2965,10 @@ func TotalRollCase(i int, h *entity.HighlowLinkBet) (int, int, int, int) {
 		total += h.N3 * 2
 		total += h.N5
 		total += h.N35 * 4
-		total += h.N11
+		total += h.N11 * 5
 		return total, 3, 5, 3
 	case 216:
 		// 3 6 3
-		// 3 3 6
 		total += h.N3 * 2
 		total += h.N6
 		total += h.N36 * 4

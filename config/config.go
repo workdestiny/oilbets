@@ -24,7 +24,7 @@ const (
 	//HighlowRandomRoll is Rate 50%
 	HighlowRandomRoll = 50
 	//HighlowCountdown is duration time countdown
-	HighlowCountdown = 180
+	HighlowCountdown = 45
 	//LimitDiscover limit post
 	LimitDiscover = 12
 	//LimitPublic limit post
