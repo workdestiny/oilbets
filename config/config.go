@@ -20,7 +20,7 @@ const (
 	//FrontbackWinrate is Win Rate 30% (game Frontback)
 	FrontbackWinrate = 40
 	//HighlowWinrate is Win Rate 50% (game Hilo)
-	HighlowWinrate = 60
+	HighlowWinrate = 50
 	//HighlowRandomRoll is Rate 50%
 	HighlowRandomRoll = 95
 	//HighlowCountdown is duration time countdown
