@@ -162,9 +162,9 @@ func ajaxYingchobBetPostHandler(ctx *hime.Context) error {
 		return ctx.Status(http.StatusOK).JSON(&res)
 	}
 
-	//set random
+	//set random Time.
 	rand.Seed(time.Now().UnixNano())
-	// set win rate
+	// set win rate Yingchob
 	winRate := config.YingchobWinrate
 	drawRate := config.YingchobDrawrate
 	if req.Number == 2 {
