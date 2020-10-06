@@ -68,6 +68,7 @@ func (app *App) Handler() http.Handler {
 	m.Get(app.Hime.Route("index"), isPublic(hime.Handler(discoverGetHandler)))
 	m.Get(app.Hime.Route("discover"), hime.Handler(discoverGetHandler))
 	m.Get(app.Hime.Route("front.back"), isUser(hime.Handler(frontbackBetGetHandler)))
+	m.Get(app.Hime.Route("yingchob"), isUser(hime.Handler(yingChobGetHandler)))
 	m.Get(app.Hime.Route("notfound"), hime.Handler(notFoundHandler))
 	m.Get(app.Hime.Route("account"), isUser(hime.Handler(userGetHandler)))
 	m.Post(app.Hime.Route("account"), isUser(hime.Handler(userPostHandler)))
@@ -79,6 +80,7 @@ func (app *App) Handler() http.Handler {
 	m.Post(app.Hime.Route("ajax.highlow.bet"), isUser(hime.Handler(ajaxHighlowBetPostHandler)))
 	m.Post(app.Hime.Route("ajax.highlow.bet.update"), isUser(hime.Handler(ajaxHighlowBetUpdatePostHandler)))
 	m.Post(app.Hime.Route("ajax.highlow.withdraw"), isUser(hime.Handler(ajaxHighlowBetWithdrawPostHandler)))
+	m.Post(app.Hime.Route("ajax.yingchob.bet"), isUser(hime.Handler(ajaxYingchobBetPostHandler)))
 
 	admin := httprouter.New()
 	admin.HandleMethodNotAllowed = false

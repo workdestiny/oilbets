@@ -1,0 +1,199 @@
+{{define "page.title"}}Richboxclub{{end}}
+
+{{define "app-body"}}
+
+
+<div class="container _mgt-20-md" id="app">
+	<div class="betwin alert alert-success fade _pst-f _l-0 _r-0 _mg-at _tal-ct fs-20" role="alert">
+			<strong>คุณชนะ!</strong> <strong class="textwin"></strong>
+			<button type="button" class="close" @click="closeAlertbet()">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="refill alert alert-warning fade _pst-f _l-0 _r-0 _mg-at _tal-ct fs-20" role="alert">
+			<strong>เงินไม่เพียงพอ กรุณาเติมเงิน</strong>
+			<button type="button" class="close" @click="closeAlertbet()">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+
+	<div class="row">
+		{{template "modal-select-money"}}
+		{{template "modal-how-to-play"}}
+		<div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 bg-yingchob">
+			<div class="row _fdrt-cl  _bdrd-2px _cl-gray-11 _pdbt-30">
+
+				<div class="col-12 _pdt-20 _pdl-0 _pdr-0 _tal-ct">
+					<div class="_dp-f">
+
+						<div v-cloak v-if="addx3" class="col-4 _pd-5">
+							<div class="phow2 ying-chob-1">
+								<div class="_tal-ct">
+									<button v-cloak v-if="buttonChange === 1" class="coin20 btn-x3 _mgt-5" ></button>
+									<button v-cloak v-if="buttonChange === 2" class="coin20 btn-x10 _mgt-5" ></button>
+								</div>
+								<img v-cloak v-if="yingchobBot2 === 3" class="img-fluid _mgt--20" width="169px" height="169px" src="https://storage.googleapis.com/powerwork-bucket/yingchob/coin/Gift-center-169x169-300%25.gif">
+								<img v-cloak v-if="yingchobBot2 === 0" class="img-fluid _mgt--20" width="169px" height="169px" src="https://storage.googleapis.com/powerwork-bucket/yingchob/khon.png">
+								<img v-cloak v-if="yingchobBot2 === 1" class="img-fluid _mgt--20" width="169px" height="169px" src="https://storage.googleapis.com/powerwork-bucket/yingchob/kankai.png">
+								<img v-cloak v-if="yingchobBot2 === 2" class="img-fluid _mgt--20" width="169px" height="169px" src="https://storage.googleapis.com/powerwork-bucket/yingchob/paper.png">
+								<div class="">
+									<div class="_tal-l _pd-0 respon-button">
+										<div @click="selectYingchob3('hammer')" class="btn-hammer _pd-0 _bdw-0"
+										:class="{'active': choosephow2 === 0}">
+
+										</div>
+									</div>
+									<div class="row respon-paper">
+										<div class="_pd-0">
+											<div @click="selectYingchob3('scissors')" class="btn-scissors _pd-0 _bdw-0"
+											:class="{'active': choosephow2 === 1}">
+
+											</div>
+										</div>
+										<div class="_pd-0">
+											<div @click="selectYingchob3('paper')" class="btn-paper _pd-0 _bdw-0"
+											:class="{'active': choosephow2 === 2}">
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div v-cloak v-if="!addx3" @click="openX(3)" class="col-4 _pd-5 _cs-pt">
+								<div class="open-double">
+
+								</div>
+						</div>
+
+						<div v-cloak class="col-4 _pd-5">
+							<div class="phow1 ying-chob-1">
+								<div class="_tal-ct">
+									<button v-cloak v-if="buttonChange === 1" class="coin20 btn-x3 _mgt-5" ></button>
+									<button v-cloak v-if="buttonChange === 2" class="coin20 btn-x10 _mgt-5"></button>
+									<button v-cloak v-if="buttonChange === 0" class="coin20 btn-x1 _mgt-5" ></button>
+								</div>
+								<img v-cloak v-if="yingchobBot1 === 3" class="img-fluid _mgt--20" width="169px" height="169px" src="https://storage.googleapis.com/powerwork-bucket/yingchob/coin/Gift-center-169x169-300%25.gif">
+								<img v-cloak v-if="yingchobBot1 === 0" class="img-fluid _mgt--20" width="169px" height="169px" src="https://storage.googleapis.com/powerwork-bucket/yingchob/khon.png">
+								<img v-cloak v-if="yingchobBot1 === 1" class="img-fluid _mgt--20" width="169px" height="169px" src="https://storage.googleapis.com/powerwork-bucket/yingchob/kankai.png">
+								<img v-cloak v-if="yingchobBot1 === 2" class="img-fluid _mgt--20" width="169px" height="169px" src="https://storage.googleapis.com/powerwork-bucket/yingchob/paper.png">
+								<div class="">
+									<div class="_tal-l _pd-0 respon-button">
+											<!-- <img class="" src="https://storage.googleapis.com/powerwork-bucket/bet/frontback/headuser.png" height="70px" width="120px" alt="หัว"> -->
+											<div @click="selectYingchob1('hammer')" class="btn-hammer _pd-0 _bdw-0"
+											:class="{'active': choosephow1 === 0}">
+
+											</div>
+									</div>
+									<div class="row respon-paper">
+										<div class="_pd-0">
+											<div @click="selectYingchob1('scissors')" class="btn-scissors _pd-0 _bdw-0"
+											:class="{'active': choosephow1 === 1}">
+
+											</div>
+											<!-- <img class="" src="https://storage.googleapis.com/powerwork-bucket/bet/frontback/headuser.png" height="70px" width="120px" alt="หัว"> -->
+										</div>
+										<div class="_pd-0">
+											<div @click="selectYingchob1('paper')" class="btn-paper _pd-0 _bdw-0"
+											:class="{'active': choosephow1 === 2}">
+
+											</div>
+											<!-- <img class="" src="https://storage.googleapis.com/powerwork-bucket/bet/frontback/headuser.png" alt="หัว"> -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div v-cloak v-if="!addx10" @click="openX(10)" class="col-4 _pd-5 _cs-pt">
+							<div class="open-triple">
+
+							</div>
+						</div>
+
+						<div v-cloak v-if="addx10" class="col-4 _pd-5">
+							<div class="phow3 ying-chob-1">
+								<div class="_tal-ct">
+									<button class="coin20 btn-x10 _mgt-5" ></button>
+								</div>
+								<img v-cloak v-if="yingchobBot3 === 3" class="img-fluid _mgt--20" width="169px" height="169px" src="https://storage.googleapis.com/powerwork-bucket/yingchob/coin/Gift-center-169x169-300%25.gif">
+								<img v-cloak v-if="yingchobBot3 === 0" class="img-fluid _mgt--20" width="169px" height="169px" src="https://storage.googleapis.com/powerwork-bucket/yingchob/khon.png">
+								<img v-cloak v-if="yingchobBot3 === 1" class="img-fluid _mgt--20" width="169px" height="169px" src="https://storage.googleapis.com/powerwork-bucket/yingchob/kankai.png">
+								<img v-cloak v-if="yingchobBot3 === 2" class="img-fluid _mgt--20" width="169px" height="169px" src="https://storage.googleapis.com/powerwork-bucket/yingchob/paper.png">
+								<div class="">
+									<div class="_tal-l _pd-0 respon-button">
+											<div @click="selectYingchob10('hammer')" class="btn-hammer _pd-0 _bdw-0"
+											:class="{'active': choosephow3 === 0}">
+
+											</div>
+									</div>
+									<div class="row respon-paper">
+										<div class="_pd-0">
+											<div @click="selectYingchob10('scissors')" class="btn-scissors _pd-0 _bdw-0"
+											:class="{'active': choosephow3 === 1}">
+
+											</div>
+											<!-- <img class="" src="https://storage.googleapis.com/powerwork-bucket/bet/frontback/headuser.png" height="70px" width="120px" alt="หัว"> -->
+										</div>
+										<div class="_pd-0">
+											<div @click="selectYingchob10('paper')" class="btn-paper _pd-0 _bdw-0"
+											:class="{'active': choosephow3 === 2}">
+
+											</div>
+											<!-- <img class="" src="https://storage.googleapis.com/powerwork-bucket/bet/frontback/headuser.png" alt="หัว"> -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!-- <img width="300px" height="300px" src="../../resources/assets/image/coin-spin-Head.gif" alt=""> -->
+				</div>
+				<div class="col-12 row _mg-0 _mgt-10 _pd-0">
+					<div class="col-4 _cs-pt _tal-ct">
+							<div @click="openX(3)" class=" coin20 btn-double _mg-at _mgt-5" ></div>
+					</div>
+					<div class="col-4 _cs-pt _tal-ct">
+						<div @click="openX(1)" class=" coin20 btn-single _mg-at _mgt-5" ></div>
+					</div>
+					<div class="col-4 _cs-pt _tal-ct">
+						<div @click="openX(10)" class=" coin20 btn-triple _mg-at _mgt-5" ></div>
+					</div>
+				</div>
+
+				<div class="row _mgt-30">
+					<div class="col-6 _tal-r">
+						<div>
+							<button @click="openModal" class="btn btn-button-bank">
+								<span v-cloak class="fs-20 _fw-800">${coin}฿</span>
+							</button>
+						</div>
+
+						<div>
+							<button @click="openModalHowToPlay" class="btn btn-menu-ying-chob"></button>
+						</div>
+					</div>
+
+					<div class="col-6">
+						<button @click="playGame" class="btn btn-play" :disabled="isLoading"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{end}}
+
+{{define "main.style"}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.3/assets/owl.carousel.min.css">
+
+{{end}}
+
+{{define "main.script"}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.3/owl.carousel.min.js"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
+{{end}}

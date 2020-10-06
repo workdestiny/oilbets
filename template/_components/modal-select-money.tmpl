@@ -1,0 +1,50 @@
+{{define "modal-select-money"}}
+<!-- Modal -->
+<div class="modal fade" id="modal-select-money" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content select-money-box _pdl-60 _pdr-50 _pdt-40 _pdbt-60">
+		<div class="modal-header">
+			<h5 class="modal-title fs-26 _fw-800 _cl-white" id="exampleModalLabel">เลือกเลข</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+
+			<h6 class="fs-26 _mgbt-0 _cl-white">ราคา</h6>
+			<div class="row">
+				<div class="col-4 _pd-5">
+					<button class="btn btn-light btn-block" @click="selectCoin(10)" :disabled="coin === 10">10</button>
+				</div>
+				<div class="col-4 _pd-5">
+					<button class="btn btn-light btn-block" @click="selectCoin(20)" :disabled="coin === 20">20</button>
+				</div>
+				<div class="col-4 _pd-5">
+					<button class="btn btn-light btn-block" @click="selectCoin(50)" :disabled="coin === 50">50</button>
+				</div>
+				<div class="col-4 _pd-5">
+					<button class="btn btn-light btn-block" @click="selectCoin(100)" :disabled="coin === 100">100</button>
+				</div>
+				<div class="col-4 _pd-5">
+					<button class="btn btn-light btn-block" @click="selectCoin(200)" :disabled="coin === 200">200</button>
+				</div>
+				<div class="col-4 _pd-5">
+					<button class="btn btn-light btn-block" @click="selectCoin(500)" :disabled="coin === 500">500</button>
+				</div>
+				<div class="col-4 _pd-5">
+						<!-- <button class="btn btn-light btn-block" @click="selectCoin(1000)" :disabled="coin === 1000">1000</button> -->
+					</div>
+				<div class="col-4 _pd-5">
+					<button class="btn btn-light btn-block" @click="selectCoin(1000)" :disabled="coin === 1000">1000</button>
+				</div>
+			</div>
+
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" @click="closeModal">ปิด</button>
+			<button type="button" class="btn btn-primary" @click="submitMoney">ตกลง</button>
+		</div>
+		</div>
+	</div>
+</div>
+{{end}}

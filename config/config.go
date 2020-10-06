@@ -19,6 +19,40 @@ var (
 const (
 	//FrontbackWinrate is Win Rate 30% (game Frontback)
 	FrontbackWinrate = 40
+	//YingchobWinrate is Win Rate 30% (game Yingchob)
+	YingchobWinrate = 30
+	//YingchobDrawrate is Win Rate 30% (game Yingchob)
+	YingchobDrawrate = 60
+
+	//YingchobWinrate21 is Win Rate 35% (game Yingchob)
+	YingchobWinrate21 = 40
+	//YingchobDrawrate21 is Win Rate 30% (game Yingchob)
+	YingchobDrawrate21 = 70
+	//YingchobWinrate22 is Win Rate 30% (game Yingchob)
+	YingchobWinrate22 = 35
+	//YingchobDrawrate22 is Win Rate 30% (game Yingchob)
+	YingchobDrawrate22 = 65
+
+	//YingchobWinrate31 is Win Rate 50% (game Yingchob)
+	YingchobWinrate31 = 50
+	//YingchobDrawrate31 is Win Rate 30% (game Yingchob)
+	YingchobDrawrate31 = 80
+	//YingchobWinrate32 is Win Rate 40% (game Yingchob)
+	YingchobWinrate32 = 40
+	//YingchobDrawrate32 is Win Rate 30% (game Yingchob)
+	YingchobDrawrate32 = 70
+	//YingchobWinrate33 is Win Rate 30% (game Yingchob)
+	YingchobWinrate33 = 25
+	//YingchobDrawrate33 is Win Rate 25% (game Yingchob)
+	YingchobDrawrate33 = 55
+	//YingchobLimitWin is Win Rate 30% (game Yingchob)
+
+	YingchobLimitWin = 40
+	//YingchobMuti2 muti roll
+	YingchobMuti2 = 3
+	//YingchobMuti3 muti roll
+	YingchobMuti3 = 10
+
 	//HighlowWinrate is Win Rate 50% (game Hilo)
 	HighlowWinrate = 30
 	//HighlowRandomRoll is Rate 50%

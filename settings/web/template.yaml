@@ -11,6 +11,12 @@ preload:
   - _components/footer-menu.tmpl
 
 list:
+  app/yingchob:
+  - _layout/app.tmpl
+  - _components/modal-select-money.tmpl
+  - _components/modal-how-to-play.tmpl
+  - app/ying-chob/ying-chob.tmpl
+  - app/ying-chob/script.tmpl
   app/highlow:
   - _layout/app.tmpl
   - _components/modal-hilo.tmpl

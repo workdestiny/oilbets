@@ -1,0 +1,10 @@
+func frontbackBetGetHandler(ctx *hime.Context) error {
+
+	usersBet, err := repository.ListFrontbackUserBet(db, 20)
+	must(err)
+
+	p := page(ctx)
+	p["UsersBet"] = AddTextFrontback(usersBet)
+
+	return ctx.View("app/frontback", p)
+}

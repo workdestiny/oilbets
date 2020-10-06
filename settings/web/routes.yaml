@@ -26,6 +26,7 @@ routes:
   # app
   discover: /discover
   front.back: /game/headtails
+  yingchob: /game/yingchob
   highlow: /game/hilo
   highlow.get: /game/hilo/
   follow: /follow
@@ -96,6 +97,7 @@ routes:
   ajax.gap.revenue.register: /ajax/gap/revenue/register
   ajax.topic.list: /ajax/topic/list
   ajax.frontback.bet: /ajax/frontback/bet
+  ajax.yingchob.bet: /ajax/yingchob/bet
   ajax.highlow.bet: /ajax/highlow/bet
   ajax.highlow.bet.update: /ajax/highlow/bet/update
   ajax.highlow.withdraw: /ajax/highlow/withdraw

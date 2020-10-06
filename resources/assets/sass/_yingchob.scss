@@ -1,0 +1,318 @@
+ .select-money-box {
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/bg/BG-botton.png');
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: 100% 100%;
+	border: 0;
+ }
+
+.ying-chob-1 {
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/button/BGGame249x371.jpg');
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: 100% 100%;
+}
+
+.ying-chob-win {
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/bg/BGGame-win3.gif');
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: 100% 100%;
+}
+.ying-chob-lose {
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/bg/BGGame-lose.jpg');
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: 100% 100%;
+}
+.open-double {
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/Double-249x371-300%25.png');
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: 100% 100%;
+	max-height: 368px;
+	height: 100%;
+	width: 100%;
+}
+.open-triple {
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/Triple-249x371-300%25.png');
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: 100% 100%;
+	max-height: 368px;
+	height: 100%;
+	width: 100%;
+}
+.btn-hammer{
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/coin/Kon.png') no-repeat center;
+	// background: black;
+	background-size: cover;
+	height: 76px;
+	width: 76px;
+	transition: opacity .5s ease-out;
+	cursor: pointer;
+	border-radius: 50% !important;
+}
+
+.btn-scissors{
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/coin/kankai-76x76-300%25.png') no-repeat center;
+	// background: black;
+	background-size: cover;
+	height: 76px;
+	width: 76px;
+	transition: opacity .5s ease-out;
+	cursor: pointer;
+	border-radius: 50% !important;
+}
+
+.btn-paper{
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/coin/kadas.png') no-repeat center;
+	// background: black;
+	background-size: cover;
+	height: 76px;
+	width: 76px;
+	transition: opacity .5s ease-out;
+	cursor: pointer;
+	border-radius: 50% !important;
+}
+
+.btn-hammer.active{
+	opacity: .5;
+}
+.btn-scissors.active{
+	opacity: .5;
+}
+.btn-paper.active{
+	opacity: .5;
+}
+
+
+._mgt--20{
+	margin-top: -20px;
+}
+
+.bg-yingchob {
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/Gift%20BG.gif');
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	min-height: 700px;
+	background-size: 100% 100%;
+}
+
+.btn-single{
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/button/Single%20230x61%20300%25.png') no-repeat center;
+	background-size: cover;
+	width: 230px;
+	height: 61px;
+	border: 0;
+	background-size: 100% 100%;
+}
+.btn-double{
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/button/Double.png') no-repeat center;
+	background-size: cover;
+	width: 230px;
+	height: 61px;
+	border: 0;
+	background-size: 100% 100%;
+}
+
+.btn-triple{
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/button/Triple.png') no-repeat center;
+	background-size: cover;
+	width: 230px;
+	height: 61px;
+	border: 0;
+	background-size: 100% 100%;
+}
+
+.btn-play {
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/button/PlayBotton-223x223-300%25.png') no-repeat center;
+	// background: black;
+	background-size: cover;
+	height: 223px;
+	width: 223px;
+	border-radius: 50% !important;
+	border: 0;
+}
+.btn-menu-ying-chob {
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/button/How-to-play-1.png') no-repeat center;
+	// background: black;
+	background-size: cover;
+	height: 65px;
+	width: 65px;
+	border-radius: 50% !important;
+	border: 0;
+}
+
+.btn-button-bank {
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/button/BankBotton-113x113-300%25.png') no-repeat center;
+	// background: black;
+	background-size: cover;
+	height: 113px;
+	width: 113px;
+	border-radius: 50% !important;
+	border: 0;
+}
+
+.btn-x1{
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/button/x2-1.png') no-repeat center;
+	background-size: 100% 100%;
+	width: 230px;
+	height: 86px;
+	border: 0;
+}
+.btn-x3{
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/button/x5-1.png') no-repeat center;
+	background-size: 100% 100%;
+	width: 230px;
+	height: 86px;
+	border: 0;
+}
+.btn-x10{
+	background: url('https://storage.googleapis.com/powerwork-bucket/yingchob/button/X10.png') no-repeat center;
+	background-size: 100% 100%;
+	width: 230px;
+	height: 86px;
+	border: 0;
+}
+
+
+.respon-button {
+	margin-left: 53px;
+	margin-top: -10px;
+}
+
+.respon-paper {
+	margin-top: -20px;
+	 margin-left: 14px;
+}
+
+@media (max-width: 1200px) {
+
+	.btn-x1{
+		width: 180px;
+		height: 66px;
+	}
+	.btn-x3{
+		width: 180px;
+		height: 66px;
+	}
+	.btn-x10{
+		width: 180px;
+		height: 66px;
+	}
+
+	.btn-single {
+		width: 180px;
+		height: 61px;
+	}
+	.btn-double {
+		width: 180px;
+		height: 61px;
+	}
+	.btn-triple {
+		width: 180px;
+		height: 61px;
+	}
+
+  }
+@media (max-width: 768px) {
+
+	.btn-x1{
+		width: 160px;
+		height: 66px;
+	}
+	.btn-x3{
+		width: 160px;
+		height: 66px;
+	}
+	.btn-x10{
+		width: 160px;
+		height: 66px;
+	}
+
+	.btn-single {
+		width: 150px;
+		height: 41px;
+	}
+	.btn-double {
+		width: 150px;
+		height: 41px;
+	}
+	.btn-triple {
+		width: 150px;
+		height: 41px;
+	}
+
+  }
+@media (max-width: 568px) {
+	.btn-x1{
+		width: 100px;
+		height: 66px;
+	}
+	.btn-x3{
+		width: 100px;
+		height: 66px;
+	}
+	.btn-x10{
+		width: 100px;
+		height: 66px;
+	}
+
+	.btn-single {
+		width: 100px;
+		height: 31px;
+	}
+	.btn-double {
+		width: 100px;
+		height: 31px;
+	}
+	.btn-triple {
+		width: 100px;
+		height: 31px;
+	}
+
+	.respon-button {
+		margin-left: 37px;
+		margin-top: 0;
+		margin-bottom: 5px;
+	}
+
+	.btn-hammer{
+		margin-bottom: 10px;
+		height: 46px;
+		width: 46px;
+	}
+	.btn-scissors{
+		height: 46px;
+		width: 46px;
+	}
+
+	.btn-paper{
+		height: 46px;
+		width: 46px;
+	}
+
+	.btn-play {
+		height: 150px;
+		width: 150px;
+	}
+	.btn-menu-ying-chob {
+		height: 65px;
+		width: 65px;
+	}
+
+	.btn-button-bank {
+		height: 80px;
+		width: 80px;
+	}
+
+
+  }

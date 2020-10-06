@@ -66,7 +66,7 @@ func ajaxFrontbackBetPostHandler(ctx *hime.Context) error {
 			res.Status = true
 		}
 
-		wallet, bonus := WalletAndBonus(req.Price, user.Wallet, user.Bonus, cb.Status)
+		wallet, bonus := WalletAndBonus(req.Price, user.Wallet, user.Bonus, cb.Status, 1)
 		res.Wallet = wallet
 		res.Bonus = bonus
 
@@ -116,7 +116,7 @@ func ajaxFrontbackBetPostHandler(ctx *hime.Context) error {
 			res.Status = true
 		}
 
-		wallet, bonus := WalletAndBonus(req.Price, user.Wallet, user.Bonus, cb.Status)
+		wallet, bonus := WalletAndBonus(req.Price, user.Wallet, user.Bonus, cb.Status, 1)
 		res.Wallet = wallet
 		res.Bonus = bonus
 
@@ -152,7 +152,7 @@ func ajaxFrontbackBetPostHandler(ctx *hime.Context) error {
 		cb.Frontback = req.Frontback
 		cb.Price = req.Price
 
-		wallet, bonus := WalletAndBonus(req.Price, user.Wallet, user.Bonus, false)
+		wallet, bonus := WalletAndBonus(req.Price, user.Wallet, user.Bonus, false, 1)
 		res.Wallet = wallet
 		res.Bonus = bonus
 
@@ -196,7 +196,7 @@ func ajaxFrontbackBetPostHandler(ctx *hime.Context) error {
 
 	}
 
-	wallet, bonus := WalletAndBonus(req.Price, user.Wallet, user.Bonus, cb.Status)
+	wallet, bonus := WalletAndBonus(req.Price, user.Wallet, user.Bonus, cb.Status, 1)
 	res.Wallet = wallet
 	res.Bonus = bonus
 
@@ -226,10 +226,10 @@ func ajaxFrontbackBetPostHandler(ctx *hime.Context) error {
 }
 
 //WalletAndBonus sum wallet and bonus (Return Wallet, Bonus)
-func WalletAndBonus(price, wallet, bonus int64, status bool) (int64, int64) {
+func WalletAndBonus(price, wallet, bonus int64, status bool, multi int64) (int64, int64) {
 
 	if status {
-		return wallet + price, bonus
+		return wallet + (price * multi), bonus
 	}
 
 	sum := bonus - price

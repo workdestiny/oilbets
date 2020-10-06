@@ -126,7 +126,7 @@ func ajaxHighlowBetPostHandler(ctx *hime.Context) error {
 		go BotAlgorithmHighlowBet(req.HighlowID)
 	}
 
-	wallet, bonus := WalletAndBonus(req.Price, user.Wallet, user.Bonus, false)
+	wallet, bonus := WalletAndBonus(req.Price, user.Wallet, user.Bonus, false, 1)
 	res.Wallet = wallet
 	res.Bonus = bonus
 
