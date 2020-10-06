@@ -64,13 +64,13 @@ new Vue({
 							//checkphow 3
 							if(this.phow3 === true) {
 								if(this.choosephow3 < 3) {
-									console.log('ส่งสามเป้า')
+
 									this.ajaxYingchob(3)
 								} else if(this.choosephow3 === 3) {
 									alert('กรุณาเลือกเป้าที่สาม')
 								}
 							} else {
-								console.log('ส่งสองเป้า')
+
 								this.ajaxYingchob(2)
 							}
 						} else if(this.choosephow2 === 3) {
@@ -118,7 +118,6 @@ new Vue({
 			price: this.coin,
 			number: this.yingchob
 			}, { withCredentials: true }).then(res => {
-				console.log(res.data)
 				if(res.status === 200) {
 					if (res.data.noMoney) {
 						$('.refill').addClass('show')
@@ -168,7 +167,7 @@ new Vue({
 									$('.wallet').text(res.data.wallet +" THB")
 									$('.bonus').text(res.data.bonus +" THB")
 								}
-							},index * 1500)
+							},(index+1) * 780)
 						})
 					}
 				}
@@ -195,7 +194,6 @@ new Vue({
 					frontback: finalfrontback,
 					price: this.coin
 					}, { withCredentials: true }).then(res => {
-						console.log(res.data.noMoney)
 						if (res.data.noMoney) {
 							$('.refill').addClass('show')
 							this.coin = 0
